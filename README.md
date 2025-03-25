@@ -1,14 +1,32 @@
-# Flutter Flag Selector
+# Flutter Flag Selector 🚩
 
-A simple and customizable Flutter package to select a country flag and change the app locale. Perfect for multilingual apps.
+A beautiful country flag selector with locale management.
 
 ## Features
-- Select a country flag from a list.
-<!-- - Automatically update the app locale based on the selected country.
-- Easy to integrate and customize. -->
+- 🌍 200+ countries preconfigured
+- 🎨 Fully customizable UI
+- 🌐 Built-in locale change callbacks
+- 📱 Mobile & web support
 
 ## Installation
-Add the following to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  flutter_flag_selector: ^0.0.1
+  flutter_flag_selector: ^1.0.0
+```
+
+## Basic Usage
+```dart
+FlagSelector(
+  onCountryChanged: (country) {
+    print('Selected ${country.name}');
+  },
+)
+```
+
+## Screenshots
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![Light](screenshots/light.png) | ![Dark](screenshots/dark.png) |
+
+## License
+MIT
