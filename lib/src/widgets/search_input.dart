@@ -1,51 +1,30 @@
 import 'package:flutter/material.dart';
 
-/// A customizable search input field with built-in styling defaults
-///
-/// This widget provides a ready-to-use search input with optional customization
-/// for all visual aspects. It includes default search icon and styling that
-/// matches Material Design guidelines while allowing full customization.
 class SearchInput extends StatefulWidget {
-  /// Controller for the search text field
   final TextEditingController? controller;
-
-  /// Decoration for the input field (overrides other styling parameters)
   final InputDecoration? decoration;
-
-  /// Text style for the input text
   final TextStyle? textStyle;
-
-  /// Hint text displayed when the input is empty
   final String hintText;
-
-  /// Callback when the text changes
   final ValueChanged<String>? onChanged;
-
-  /// Whether the field should autofocus when displayed
   final bool autofocus;
-
-  /// Focus node for controlling focus programmatically
   final FocusNode? focusNode;
-
-  /// Padding around the search field
+  
+  // Container styling
   final EdgeInsetsGeometry? padding;
-
-  /// Background fill color
+  final Color? containerColor;
+  final BorderRadius? containerBorderRadius;
+  final BoxBorder? containerBorder;
+  final List<BoxShadow>? containerShadow;
+  final EdgeInsetsGeometry? margin;
+  
+  // Input field styling
   final Color? fillColor;
-
-  /// Border radius for the input field
   final double? borderRadius;
-
-  /// Widget to display before the input (defaults to search icon)
   final Widget? prefixIcon;
-
-  /// Widget to display after the input
   final Widget? suffixIcon;
-
-  /// Padding around the input content
   final EdgeInsetsGeometry? contentPadding;
+  final EdgeInsetsGeometry? inputPadding;
 
-  /// Creates a search input field
   const SearchInput({
     super.key,
     this.controller,
@@ -56,11 +35,17 @@ class SearchInput extends StatefulWidget {
     this.autofocus = false,
     this.focusNode,
     this.padding,
+    this.containerColor,
+    this.containerBorderRadius,
+    this.containerBorder,
+    this.containerShadow,
+    this.margin,
     this.fillColor,
     this.borderRadius,
     this.prefixIcon,
     this.suffixIcon,
     this.contentPadding,
+    this.inputPadding,
   });
 
   @override
@@ -78,7 +63,6 @@ class _SearchInputState extends State<SearchInput> {
 
   @override
   void dispose() {
-    // Only dispose the controller if we created it ourselves
     if (widget.controller == null) {
       _controller.dispose();
     }
@@ -88,19 +72,28 @@ class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: widget.padding ?? EdgeInsets.zero,
-      child: TextField(
-        controller: _controller,
-        focusNode: widget.focusNode,
-        autofocus: widget.autofocus,
-        style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
-        decoration: widget.decoration ?? _defaultDecoration(context),
-        onChanged: widget.onChanged,
+      margin: widget.margin,
+      padding: widget.inputPadding,
+      decoration: BoxDecoration(
+        color: widget.containerColor,
+        borderRadius: widget.containerBorderRadius,
+        border: widget.containerBorder,
+        boxShadow: widget.containerShadow,
+      ),
+      child: Padding(
+        padding: widget.padding ?? EdgeInsets.zero,
+        child: TextField(
+          controller: _controller,
+          focusNode: widget.focusNode,
+          autofocus: widget.autofocus,
+          style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+          decoration: widget.decoration ?? _defaultDecoration(context),
+          onChanged: widget.onChanged,
+        ),
       ),
     );
   }
 
-  /// Creates the default input decoration with fallback to theme values
   InputDecoration _defaultDecoration(BuildContext context) {
     return InputDecoration(
       hintText: widget.hintText,
@@ -108,16 +101,22 @@ class _SearchInputState extends State<SearchInput> {
       suffixIcon: widget.suffixIcon,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        borderSide: BorderSide(
-          color: Theme.of(context).dividerColor,
-        ),
+        borderSide: BorderSide(color: Theme.of(context).dividerColor),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+        borderSide: BorderSide(color: Theme.of(context).dividerColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+        borderSide: BorderSide(color: Theme.of(context).primaryColor),
       ),
       filled: true,
-      fillColor: widget.fillColor ?? Theme.of(context).inputDecorationTheme.fillColor,
-      contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(
-        horizontal: 16, 
-        vertical: 12,
-      ),
+      fillColor: widget.fillColor ??
+          Theme.of(context).inputDecorationTheme.fillColor ??
+          Theme.of(context).colorScheme.surface,
+      contentPadding: widget.contentPadding ??
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     );
   }
 }

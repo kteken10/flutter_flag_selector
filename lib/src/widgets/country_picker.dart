@@ -1,37 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../../flutter_flag_selector.dart';
 import 'search_input.dart';
 
-/// Style configuration for the country picker modal
-///
-/// This class allows customization of the modal's appearance including
-/// background color, border radius, title style, and dimensions.
 class CountryPickerStyle {
-  /// Background color of the modal
   final Color? backgroundColor;
-
-  /// Border radius of the modal
   final BorderRadius? borderRadius;
-
-  /// Text style for the modal title
   final TextStyle? titleStyle;
-
-  /// Height factor of the modal (0.0 to 1.0 relative to screen height)
   final double? modalHeight;
-
-  /// Padding around the modal content
   final EdgeInsetsGeometry? padding;
-
-  /// Padding around the modal title
   final EdgeInsetsGeometry? titlePadding;
-
-  /// Color of dividers between country items
   final Color? dividerColor;
-
-  /// Thickness of dividers between country items
   final double? dividerThickness;
+  
+  // Search container styling
+  final Color? searchContainerColor;
+  final BorderRadius? searchContainerBorderRadius;
+  final BoxBorder? searchContainerBorder;
+  final List<BoxShadow>? searchContainerShadow;
+  final EdgeInsetsGeometry? searchContainerMargin;
+  final EdgeInsetsGeometry? searchContainerPadding;
+  final EdgeInsetsGeometry? searchInputPadding;
 
-  /// Creates a style for the country picker modal
   const CountryPickerStyle({
     this.backgroundColor,
     this.borderRadius,
@@ -41,71 +32,37 @@ class CountryPickerStyle {
     this.titlePadding,
     this.dividerColor,
     this.dividerThickness,
+    this.searchContainerColor,
+    this.searchContainerBorderRadius,
+    this.searchContainerBorder,
+    this.searchContainerShadow,
+    this.searchContainerMargin,
+    this.searchContainerPadding,
+    this.searchInputPadding,
   });
 }
 
-/// A customizable modal country picker with search functionality
-///
-/// This widget displays a scrollable list of countries in a modal bottom sheet,
-/// with optional search functionality. It's typically used in conjunction with
-/// [FlagSelector].
-class CountryPicker extends StatelessWidget {
-  /// List of countries to display in the picker
+class CountryPicker extends StatefulWidget {
   final List<Country> countries;
-
-  /// Callback when a country is selected
   final ValueChanged<Country> onSelected;
-
-  /// Style configuration for the picker modal
   final CountryPickerStyle style;
-
-  /// Whether to show the title at the top of the modal
   final bool showTitle;
-
-  /// Title text to display at the top of the modal
   final String? title;
-
-  /// Padding around the title
   final EdgeInsetsGeometry? titlePadding;
-
-  // Country list customization
-  
-  /// Builder for custom country list items
   final Widget Function(BuildContext, Country)? countryItemBuilder;
-
-  /// Padding for each country list item
   final EdgeInsetsGeometry? countryItemPadding;
-
-  /// Fixed height for country list items
   final double? countryItemHeight;
-
-  /// Background color for country items
   final Color? countryItemColor;
-
-  /// Background color for the selected country item
   final Color? selectedCountryItemColor;
-
-  // Search customization
-  
-  /// Builder for custom search input widget
   final SearchInputBuilder? searchBuilder;
-
-  /// Decoration for the default search input field
   final InputDecoration? searchDecoration;
-
-  /// Text style for the search input
   final TextStyle? searchTextStyle;
-
-  /// Hint text for the search input
   final String? searchHintText;
-
-  /// Padding around the search input
   final EdgeInsetsGeometry? searchPadding;
-
-  /// Whether to show the search input field
   final bool showSearch;
+  final Duration? searchDebounceDuration;
+  final Country? initiallySelectedCountry;
 
-  /// Creates a country picker widget
   const CountryPicker({
     super.key,
     required this.countries,
@@ -125,48 +82,127 @@ class CountryPicker extends StatelessWidget {
     this.searchHintText,
     this.searchPadding,
     this.showSearch = true,
+    this.searchDebounceDuration,
+    this.initiallySelectedCountry,
   });
+
+  @override
+  State<CountryPicker> createState() => _CountryPickerState();
+}
+
+class _CountryPickerState extends State<CountryPicker> {
+  late final ValueNotifier<String> _searchNotifier;
+  late final TextEditingController _searchController;
+  Timer? _debounceTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchNotifier = ValueNotifier('');
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchNotifier.dispose();
+    _searchController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String value) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(
+      widget.searchDebounceDuration ?? const Duration(milliseconds: 300),
+      () => _searchNotifier.value = value,
+    );
+  }
+
+  List<Country> _filterCountries(String searchValue) {
+    if (searchValue.isEmpty) return widget.countries;
+    return widget.countries
+        .where((country) =>
+            country.name.toLowerCase().contains(searchValue.toLowerCase()) ||
+            country.code.toLowerCase().contains(searchValue.toLowerCase()))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * (style.modalHeight ?? 0.7),
+        maxHeight: MediaQuery.of(context).size.height * (widget.style.modalHeight ?? 0.7),
       ),
       decoration: BoxDecoration(
-        color: style.backgroundColor ?? Theme.of(context).canvasColor,
-        borderRadius: style.borderRadius ?? const BorderRadius.vertical(
-          top: Radius.circular(20)),
+        color: widget.style.backgroundColor ?? Theme.of(context).canvasColor,
+        borderRadius: widget.style.borderRadius ??
+            const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      padding: style.padding ?? const EdgeInsets.all(16),
+      padding: widget.style.padding ?? const EdgeInsets.all(16),
       child: Column(
         children: [
-          if (showTitle && title != null)
+          if (widget.showTitle && widget.title != null)
             Padding(
-              padding: titlePadding ?? style.titlePadding ?? const EdgeInsets.only(bottom: 16),
+              padding: widget.titlePadding ??
+                  widget.style.titlePadding ??
+                  const EdgeInsets.only(bottom: 16),
               child: Text(
-                title!,
-                style: style.titleStyle ?? Theme.of(context).textTheme.titleMedium,
+                widget.title!,
+                style: widget.style.titleStyle ??
+                    Theme.of(context).textTheme.titleMedium,
               ),
             ),
-          if (showSearch)
+          if (widget.showSearch)
             Padding(
-              padding: searchPadding ?? EdgeInsets.zero,
-              child: searchBuilder?.call(context) ?? SearchInput(
-                decoration: searchDecoration,
-                textStyle: searchTextStyle,
-                hintText: searchHintText ?? 'Search countries...',
-                autofocus: true,
-              ),
+              padding: widget.searchPadding ?? EdgeInsets.zero,
+              child: widget.searchBuilder?.call(context, _searchController) ??
+                  SearchInput(
+                    controller: _searchController,
+                    decoration: widget.searchDecoration,
+                    textStyle: widget.searchTextStyle,
+                    hintText: widget.searchHintText ?? 'Search countries...',
+                    autofocus: true,
+                    onChanged: _onSearchChanged,
+                    suffixIcon: _searchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              _searchNotifier.value = '';
+                            },
+                          )
+                        : null,
+                    containerColor: widget.style.searchContainerColor,
+                    containerBorderRadius: widget.style.searchContainerBorderRadius,
+                    containerBorder: widget.style.searchContainerBorder,
+                    containerShadow: widget.style.searchContainerShadow,
+                    margin: widget.style.searchContainerMargin,
+                    padding: widget.style.searchContainerPadding,
+                    inputPadding: widget.style.searchInputPadding,
+                  ),
             ),
-          if (showSearch) const SizedBox(height: 16),
+          if (widget.showSearch) const SizedBox(height: 16),
           Expanded(
-            child: ListView.builder(
-              itemCount: countries.length,
-              itemBuilder: (context, index) {
-                final country = countries[index];
-                return countryItemBuilder?.call(context, country) ?? 
-                    _buildDefaultCountryItem(context, country);
+            child: ValueListenableBuilder<String>(
+              valueListenable: _searchNotifier,
+              builder: (context, searchValue, _) {
+                final filteredCountries = _filterCountries(searchValue);
+                return filteredCountries.isEmpty
+                    ? _buildEmptyState()
+                    : ListView.builder(
+                        itemCount: filteredCountries.length,
+                        itemBuilder: (context, index) {
+                          final country = filteredCountries[index];
+                          final isSelected = widget.initiallySelectedCountry != null &&
+                              widget.initiallySelectedCountry!.code == country.code;
+                          return widget.countryItemBuilder?.call(context, country) ??
+                              _buildDefaultCountryItem(
+                                context,
+                                country,
+                                isSelected: isSelected,
+                              );
+                        },
+                      );
               },
             ),
           ),
@@ -175,25 +211,63 @@ class CountryPicker extends StatelessWidget {
     );
   }
 
-  /// Builds the default country list item widget
-  Widget _buildDefaultCountryItem(BuildContext context, Country country) {
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.search_off, size: 48),
+          const SizedBox(height: 16),
+          Text(
+            'No countries found',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Try a different search',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDefaultCountryItem(
+    BuildContext context,
+    Country country, {
+    bool isSelected = false,
+  }) {
     return Container(
-      height: countryItemHeight,
-      color: countryItemColor,
+      height: widget.countryItemHeight,
+      color: isSelected
+          ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
+          : widget.countryItemColor,
       child: ListTile(
-        contentPadding: countryItemPadding,
+        contentPadding: widget.countryItemPadding,
         leading: Image.asset(
           'packages/flutter_flag_selector/assets/images/${country.code}.png',
           width: 30,
           height: 20,
-          errorBuilder: (_, __, ___) => const Icon(Icons.flag),
+          errorBuilder: (_, __, ___) => Container(
+            width: 30,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              border: Border.all(color: Colors.grey),
+            ),
+            child: const Icon(Icons.flag, size: 16),
+          ),
         ),
         title: Text(country.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
         onTap: () {
-          onSelected(country);
+          widget.onSelected(country);
           Navigator.pop(context);
         },
       ),
     );
   }
 }
+
+typedef SearchInputBuilder = Widget Function(
+    BuildContext context, TextEditingController controller);

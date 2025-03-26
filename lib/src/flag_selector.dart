@@ -2,135 +2,73 @@ import 'package:flutter/material.dart';
 import 'models/country_model.dart';
 import 'widgets/country_picker.dart';
 
-
-/// Signature for building custom search input widgets
-typedef SearchInputBuilder = Widget Function(BuildContext context);
-
-/// Signature for building custom country list items
+typedef SearchInputBuilder = Widget Function(BuildContext context, TextEditingController controller);
 typedef CountryItemBuilder = Widget Function(BuildContext context, Country country);
-
-/// Signature for building completely custom modal pickers
 typedef ModalPickerBuilder = Widget Function(
   BuildContext context,
   List<Country> countries,
   ValueChanged<Country> onSelected,
 );
 
-/// A customizable country flag selector with modal picker.
-///
-/// This widget provides a compact way to select countries with flags,
-/// and opens a modal picker when tapped. Every aspect of the UI can be customized.
 class FlagSelector extends StatefulWidget {
-  /// List of available countries to select from
   final List<Country> countries;
-
-  /// Initially selected country (by country code)
   final String? initialCountry;
-
-  /// Callback when country selection changes
   final ValueChanged<Country>? onCountryChanged;
-
+  
   // Main selector styling
-  /// Padding around the selector content
   final EdgeInsetsGeometry? padding;
-
-  /// Decoration for the selector container
   final BoxDecoration? decoration;
-
-  /// Space between flag, text and icon
   final double gap;
-
-  /// Fixed width for the selector
   final double? width;
-
-  /// Fixed height for the selector
   final double? height;
-
+  
   // Flag styling
-  /// Width of the flag image
   final double flagWidth;
-
-  /// Height of the flag image
   final double flagHeight;
-
-  /// Custom builder for flag widget
   final Widget Function(BuildContext, Country)? flagBuilder;
-
+  
   // Text styling
-  /// Style for the country name text
   final TextStyle? textStyle;
-
-  /// Custom country name formatter
   final String Function(Country)? countryNameBuilder;
-
+  
   // Dropdown icon
-  /// Custom dropdown icon widget
   final Widget? dropdownIcon;
-
-  /// Size of the dropdown icon
   final double iconSize;
-
-  /// Color of the dropdown icon
   final Color? iconColor;
-
+  
   // Modal customization
-  /// Completely custom modal builder
   final ModalPickerBuilder? modalBuilder;
-
-  /// Style configuration for the default modal
   final CountryPickerStyle? pickerStyle;
-
-  /// Whether to show title in modal
   final bool showModalTitle;
-
-  /// Title text for the modal
   final String? modalTitle;
-
-  /// Style for the modal title
   final TextStyle? modalTitleStyle;
-
-  /// Padding around the modal title
   final EdgeInsetsGeometry? modalTitlePadding;
-
-  /// Height factor for the modal (0.0 to 1.0)
   final double modalHeightFactor;
-
+  
   // Country list customization
-  /// Custom builder for country list items
   final CountryItemBuilder? countryItemBuilder;
-
-  /// Padding for country list items
   final EdgeInsetsGeometry? countryItemPadding;
-
-  /// Fixed height for country list items
   final double? countryItemHeight;
-
-  /// Background color for country items
   final Color? countryItemColor;
-
-  /// Background color for selected country item
   final Color? selectedCountryItemColor;
-
+  
   // Search customization
-  /// Custom search input builder
   final SearchInputBuilder? searchBuilder;
-
-  /// Decoration for the search input field
   final InputDecoration? searchDecoration;
-
-  /// Text style for the search input
   final TextStyle? searchTextStyle;
-
-  /// Hint text for the search input
   final String? searchHintText;
-
-  /// Padding around the search input
   final EdgeInsetsGeometry? searchPadding;
-
-  /// Whether to show search input in modal
   final bool showSearch;
+  
+  // Search container styling
+  final Color? searchContainerColor;
+  final BorderRadius? searchContainerBorderRadius;
+  final BoxBorder? searchContainerBorder;
+  final List<BoxShadow>? searchContainerShadow;
+  final EdgeInsetsGeometry? searchContainerMargin;
+  final EdgeInsetsGeometry? searchContainerPadding;
+  final EdgeInsetsGeometry? searchInputPadding;
 
-  /// Creates a flag selector widget
   const FlagSelector({
     super.key,
     this.countries = defaultCountries,
@@ -167,6 +105,13 @@ class FlagSelector extends StatefulWidget {
     this.searchHintText = 'Search countries...',
     this.searchPadding,
     this.showSearch = true,
+    this.searchContainerColor,
+    this.searchContainerBorderRadius,
+    this.searchContainerBorder,
+    this.searchContainerShadow,
+    this.searchContainerMargin,
+    this.searchContainerPadding,
+    this.searchInputPadding,
   });
 
   @override
@@ -182,7 +127,6 @@ class _FlagSelectorState extends State<FlagSelector> {
     _selectedCountry = _findInitialCountry();
   }
 
-  /// Finds the initial country based on initialCountry code
   Country _findInitialCountry() {
     if (widget.initialCountry != null) {
       return widget.countries.firstWhere(
@@ -193,7 +137,6 @@ class _FlagSelectorState extends State<FlagSelector> {
     return widget.countries.first;
   }
 
-  /// Opens the country picker modal
   void _openCountryPicker(BuildContext context) {
     if (widget.modalBuilder != null) {
       showModalBottomSheet(
@@ -219,6 +162,13 @@ class _FlagSelectorState extends State<FlagSelector> {
             titleStyle: widget.modalTitleStyle ?? Theme.of(context).textTheme.titleMedium,
             modalHeight: widget.modalHeightFactor,
             padding: const EdgeInsets.all(16),
+            searchContainerColor: widget.searchContainerColor,
+            searchContainerBorderRadius: widget.searchContainerBorderRadius,
+            searchContainerBorder: widget.searchContainerBorder,
+            searchContainerShadow: widget.searchContainerShadow,
+            searchContainerMargin: widget.searchContainerMargin,
+            searchContainerPadding: widget.searchContainerPadding,
+            searchInputPadding: widget.searchInputPadding,
           ),
           showTitle: widget.showModalTitle,
           title: widget.modalTitle,
