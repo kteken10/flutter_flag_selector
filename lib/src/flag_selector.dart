@@ -68,6 +68,9 @@ class FlagSelector extends StatefulWidget {
   final EdgeInsetsGeometry? searchContainerMargin;
   final EdgeInsetsGeometry? searchContainerPadding;
   final EdgeInsetsGeometry? searchInputPadding;
+  final double? searchContainerWidth;
+  final double? searchContainerHeight;
+  final BoxConstraints? searchContainerConstraints;
 
   const FlagSelector({
     super.key,
@@ -112,6 +115,9 @@ class FlagSelector extends StatefulWidget {
     this.searchContainerMargin,
     this.searchContainerPadding,
     this.searchInputPadding,
+    this.searchContainerWidth,
+    this.searchContainerHeight,
+    this.searchContainerConstraints,
   });
 
   @override
@@ -169,6 +175,9 @@ class _FlagSelectorState extends State<FlagSelector> {
             searchContainerMargin: widget.searchContainerMargin,
             searchContainerPadding: widget.searchContainerPadding,
             searchInputPadding: widget.searchInputPadding,
+            searchContainerWidth: widget.searchContainerWidth,
+            searchContainerHeight: widget.searchContainerHeight,
+            searchContainerConstraints: widget.searchContainerConstraints,
           ),
           showTitle: widget.showModalTitle,
           title: widget.modalTitle,

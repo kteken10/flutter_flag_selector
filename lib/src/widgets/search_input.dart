@@ -16,6 +16,9 @@ class SearchInput extends StatefulWidget {
   final BoxBorder? containerBorder;
   final List<BoxShadow>? containerShadow;
   final EdgeInsetsGeometry? margin;
+  final double? width;
+  final double? height;
+  final BoxConstraints? constraints;
   
   // Input field styling
   final Color? fillColor;
@@ -40,6 +43,9 @@ class SearchInput extends StatefulWidget {
     this.containerBorder,
     this.containerShadow,
     this.margin,
+    this.width,
+    this.height,
+    this.constraints,
     this.fillColor,
     this.borderRadius,
     this.prefixIcon,
@@ -72,6 +78,9 @@ class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: widget.width,
+      height: widget.height,
+      constraints: widget.constraints,
       margin: widget.margin,
       padding: widget.inputPadding,
       decoration: BoxDecoration(

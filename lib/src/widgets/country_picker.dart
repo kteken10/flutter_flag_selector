@@ -22,6 +22,9 @@ class CountryPickerStyle {
   final EdgeInsetsGeometry? searchContainerMargin;
   final EdgeInsetsGeometry? searchContainerPadding;
   final EdgeInsetsGeometry? searchInputPadding;
+  final double? searchContainerWidth;
+  final double? searchContainerHeight;
+  final BoxConstraints? searchContainerConstraints;
 
   const CountryPickerStyle({
     this.backgroundColor,
@@ -39,6 +42,9 @@ class CountryPickerStyle {
     this.searchContainerMargin,
     this.searchContainerPadding,
     this.searchInputPadding,
+    this.searchContainerWidth,
+    this.searchContainerHeight,
+    this.searchContainerConstraints,
   });
 }
 
@@ -179,6 +185,9 @@ class _CountryPickerState extends State<CountryPicker> {
                     margin: widget.style.searchContainerMargin,
                     padding: widget.style.searchContainerPadding,
                     inputPadding: widget.style.searchInputPadding,
+                    width: widget.style.searchContainerWidth,
+                    height: widget.style.searchContainerHeight,
+                    constraints: widget.style.searchContainerConstraints,
                   ),
             ),
           if (widget.showSearch) const SizedBox(height: 16),
