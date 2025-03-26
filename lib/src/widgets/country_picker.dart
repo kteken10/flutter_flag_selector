@@ -242,40 +242,43 @@ class _CountryPickerState extends State<CountryPicker> {
   }
 
   Widget _buildDefaultCountryItem(
-    BuildContext context,
-    Country country, {
-    bool isSelected = false,
-  }) {
-    return Container(
-      height: widget.countryItemHeight,
-      color: isSelected
-          ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
-          : widget.countryItemColor,
-      child: ListTile(
-        contentPadding: widget.countryItemPadding,
-        leading: Image.asset(
-          'packages/flutter_flag_selector/assets/images/${country.code}.png',
-          width: 30,
-          height: 20,
-          errorBuilder: (_, __, ___) => Container(
-            width: 30,
-            height: 20,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: Colors.grey),
-            ),
-            child: const Icon(Icons.flag, size: 16),
+  BuildContext context,
+  Country country, {
+  bool isSelected = false,
+}) {
+  return Container(
+    height: widget.countryItemHeight,
+    color: isSelected
+        ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
+        : widget.countryItemColor,
+    child: ListTile(
+     contentPadding: widget.countryItemPadding ?? EdgeInsets.zero,
+      leading: Image.asset(
+        'packages/flutter_flag_selector/assets/images/${country.code}.png',
+        width: 50,
+        height: 50,
+        errorBuilder: (_, __, ___) => Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
           ),
+          child: const Icon(Icons.flag, size: 16),
         ),
-        title: Text(country.name),
-        trailing: isSelected ? const Icon(Icons.check) : null,
-        onTap: () {
-          widget.onSelected(country);
-          Navigator.pop(context);
-        },
       ),
-    );
-  }
+      title: Text(
+        '+${country.dialCode} ${country.name}', 
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: isSelected ? const Icon(Icons.check) : null,
+      onTap: () {
+        widget.onSelected(country);
+        Navigator.pop(context);
+      },
+    ),
+  );
+}
 }
 
 typedef SearchInputBuilder = Widget Function(
