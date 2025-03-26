@@ -1,46 +1,172 @@
 import 'package:flutter/material.dart';
 import 'models/country_model.dart';
+import 'widgets/country_picker.dart';
 
-/// A customizable flag selector widget for country selection
+
+/// Signature for building custom search input widgets
+typedef SearchInputBuilder = Widget Function(BuildContext context);
+
+/// Signature for building custom country list items
+typedef CountryItemBuilder = Widget Function(BuildContext context, Country country);
+
+/// Signature for building completely custom modal pickers
+typedef ModalPickerBuilder = Widget Function(
+  BuildContext context,
+  List<Country> countries,
+  ValueChanged<Country> onSelected,
+);
+
+/// A customizable country flag selector with modal picker.
+///
+/// This widget provides a compact way to select countries with flags,
+/// and opens a modal picker when tapped. Every aspect of the UI can be customized.
 class FlagSelector extends StatefulWidget {
-  /// Callback when country is selected
-  final ValueChanged<Country>? onCountryChanged;
+  /// List of available countries to select from
+  final List<Country> countries;
 
-  /// Initial selected country code
+  /// Initially selected country (by country code)
   final String? initialCountry;
 
-  /// List of available countries (defaults to predefined list)
-  final List<Country>? countries;
+  /// Callback when country selection changes
+  final ValueChanged<Country>? onCountryChanged;
 
+  // Main selector styling
+  /// Padding around the selector content
+  final EdgeInsetsGeometry? padding;
+
+  /// Decoration for the selector container
+  final BoxDecoration? decoration;
+
+  /// Space between flag, text and icon
+  final double gap;
+
+  /// Fixed width for the selector
+  final double? width;
+
+  /// Fixed height for the selector
+  final double? height;
+
+  // Flag styling
+  /// Width of the flag image
+  final double flagWidth;
+
+  /// Height of the flag image
+  final double flagHeight;
+
+  /// Custom builder for flag widget
+  final Widget Function(BuildContext, Country)? flagBuilder;
+
+  // Text styling
   /// Style for the country name text
   final TextStyle? textStyle;
 
-  /// Flag width (default: 30)
-  final double flagWidth;
+  /// Custom country name formatter
+  final String Function(Country)? countryNameBuilder;
 
-  /// Flag height (default: 20)
-  final double flagHeight;
+  // Dropdown icon
+  /// Custom dropdown icon widget
+  final Widget? dropdownIcon;
 
-  /// Dropdown icon
-  final Icon? dropdownIcon;
+  /// Size of the dropdown icon
+  final double iconSize;
 
-  /// Background color of the selector
-  final Color? backgroundColor;
+  /// Color of the dropdown icon
+  final Color? iconColor;
 
-  /// Border radius of the selector
-  final BorderRadius? borderRadius;
+  // Modal customization
+  /// Completely custom modal builder
+  final ModalPickerBuilder? modalBuilder;
 
+  /// Style configuration for the default modal
+  final CountryPickerStyle? pickerStyle;
+
+  /// Whether to show title in modal
+  final bool showModalTitle;
+
+  /// Title text for the modal
+  final String? modalTitle;
+
+  /// Style for the modal title
+  final TextStyle? modalTitleStyle;
+
+  /// Padding around the modal title
+  final EdgeInsetsGeometry? modalTitlePadding;
+
+  /// Height factor for the modal (0.0 to 1.0)
+  final double modalHeightFactor;
+
+  // Country list customization
+  /// Custom builder for country list items
+  final CountryItemBuilder? countryItemBuilder;
+
+  /// Padding for country list items
+  final EdgeInsetsGeometry? countryItemPadding;
+
+  /// Fixed height for country list items
+  final double? countryItemHeight;
+
+  /// Background color for country items
+  final Color? countryItemColor;
+
+  /// Background color for selected country item
+  final Color? selectedCountryItemColor;
+
+  // Search customization
+  /// Custom search input builder
+  final SearchInputBuilder? searchBuilder;
+
+  /// Decoration for the search input field
+  final InputDecoration? searchDecoration;
+
+  /// Text style for the search input
+  final TextStyle? searchTextStyle;
+
+  /// Hint text for the search input
+  final String? searchHintText;
+
+  /// Padding around the search input
+  final EdgeInsetsGeometry? searchPadding;
+
+  /// Whether to show search input in modal
+  final bool showSearch;
+
+  /// Creates a flag selector widget
   const FlagSelector({
     super.key,
-    this.onCountryChanged,
+    this.countries = defaultCountries,
     this.initialCountry,
-    this.countries,
-    this.textStyle,
+    this.onCountryChanged,
+    this.padding,
+    this.decoration,
+    this.gap = 8.0,
+    this.width,
+    this.height,
     this.flagWidth = 30,
     this.flagHeight = 20,
+    this.flagBuilder,
+    this.textStyle,
+    this.countryNameBuilder,
     this.dropdownIcon,
-    this.backgroundColor,
-    this.borderRadius,
+    this.iconSize = 24,
+    this.iconColor,
+    this.modalBuilder,
+    this.pickerStyle,
+    this.showModalTitle = true,
+    this.modalTitle = 'Select Country',
+    this.modalTitleStyle,
+    this.modalTitlePadding,
+    this.modalHeightFactor = 0.7,
+    this.countryItemBuilder,
+    this.countryItemPadding,
+    this.countryItemHeight,
+    this.countryItemColor,
+    this.selectedCountryItemColor,
+    this.searchBuilder,
+    this.searchDecoration,
+    this.searchTextStyle,
+    this.searchHintText = 'Search countries...',
+    this.searchPadding,
+    this.showSearch = true,
   });
 
   @override
@@ -56,30 +182,61 @@ class _FlagSelectorState extends State<FlagSelector> {
     _selectedCountry = _findInitialCountry();
   }
 
+  /// Finds the initial country based on initialCountry code
   Country _findInitialCountry() {
-    final availableCountries = widget.countries ?? defaultCountries;
-    
     if (widget.initialCountry != null) {
-      return availableCountries.firstWhere(
+      return widget.countries.firstWhere(
         (c) => c.code == widget.initialCountry,
-        orElse: () => availableCountries.first,
+        orElse: () => widget.countries.first,
       );
     }
-    return availableCountries.first;
+    return widget.countries.first;
   }
 
+  /// Opens the country picker modal
   void _openCountryPicker(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _CountryPicker(
-        countries: widget.countries ?? defaultCountries,
-        onSelected: (country) {
+    if (widget.modalBuilder != null) {
+      showModalBottomSheet(
+        context: context,
+        builder: (ctx) => widget.modalBuilder!(ctx, widget.countries, (country) {
           widget.onCountryChanged?.call(country);
           setState(() => _selectedCountry = country);
-        },
-      ),
-    );
+        }),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (_) => CountryPicker(
+          countries: widget.countries,
+          onSelected: (country) {
+            widget.onCountryChanged?.call(country);
+            setState(() => _selectedCountry = country);
+          },
+          style: widget.pickerStyle ?? CountryPickerStyle(
+            backgroundColor: Theme.of(context).canvasColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            titleStyle: widget.modalTitleStyle ?? Theme.of(context).textTheme.titleMedium,
+            modalHeight: widget.modalHeightFactor,
+            padding: const EdgeInsets.all(16),
+          ),
+          showTitle: widget.showModalTitle,
+          title: widget.modalTitle,
+          titlePadding: widget.modalTitlePadding,
+          countryItemBuilder: widget.countryItemBuilder,
+          countryItemPadding: widget.countryItemPadding,
+          countryItemHeight: widget.countryItemHeight,
+          countryItemColor: widget.countryItemColor,
+          selectedCountryItemColor: widget.selectedCountryItemColor,
+          searchBuilder: widget.searchBuilder,
+          searchDecoration: widget.searchDecoration,
+          searchTextStyle: widget.searchTextStyle,
+          searchHintText: widget.searchHintText,
+          searchPadding: widget.searchPadding,
+          showSearch: widget.showSearch,
+        ),
+      );
+    }
   }
 
   @override
@@ -87,16 +244,18 @@ class _FlagSelectorState extends State<FlagSelector> {
     return GestureDetector(
       onTap: () => _openCountryPicker(context),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: widget.backgroundColor ?? Colors.white,
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey.shade300),
+        width: widget.width,
+        height: widget.height,
+        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: widget.decoration ?? BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Theme.of(context).dividerColor),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
+            widget.flagBuilder?.call(context, _selectedCountry) ?? Image.asset(
               'packages/flutter_flag_selector/assets/images/${_selectedCountry.code}.png',
               width: widget.flagWidth,
               height: widget.flagHeight,
@@ -106,72 +265,19 @@ class _FlagSelectorState extends State<FlagSelector> {
                 child: const Icon(Icons.flag),
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: widget.gap),
             Text(
-              _selectedCountry.name,
-              style: widget.textStyle ??
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              widget.countryNameBuilder?.call(_selectedCountry) ?? _selectedCountry.name,
+              style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
             ),
-            widget.dropdownIcon ?? const Icon(Icons.arrow_drop_down),
+            SizedBox(width: widget.gap),
+            widget.dropdownIcon ?? Icon(
+              Icons.arrow_drop_down,
+              size: widget.iconSize,
+              color: widget.iconColor ?? Theme.of(context).iconTheme.color,
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _CountryPicker extends StatelessWidget {
-  final List<Country> countries;
-  final ValueChanged<Country> onSelected;
-
-  const _CountryPicker({
-    required this.countries,
-    required this.onSelected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Text(
-              'Select Country',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: countries.length,
-              itemBuilder: (context, index) {
-                final country = countries[index];
-                return ListTile(
-                  leading: Image.asset(
-                    'packages/flutter_flag_selector/assets/images/${country.code}.png',
-                    width: 30,
-                    height: 20,
-                    errorBuilder: (_, __, ___) => const Icon(Icons.flag),
-                  ),
-                  title: Text(country.name),
-                  onTap: () {
-                    onSelected(country);
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
