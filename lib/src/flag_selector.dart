@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'models/country_model.dart';
+import 'models/country_modell.dart';
 import 'widgets/country_picker.dart';
 
 typedef SearchInputBuilder = Widget Function(BuildContext context, TextEditingController controller);

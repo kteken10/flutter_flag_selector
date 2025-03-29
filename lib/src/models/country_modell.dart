@@ -72,43 +72,8 @@ const List<Country> defaultCountries = [
       'ar': 'أندورا'
     },
   ),
-  Country(
-    code: 'ae',
-    name: 'United Arab Emirates',
-    dialCode: '+971',
-    iso3: 'ARE',
-    currency: 'AED',
-    currencyName: 'UAE Dirham',
-    emoji: '🇦🇪',
-    timezones: ['UTC+04:00'],
-    region: 'Asia',
-    translations: {
-      'en': 'United Arab Emirates',
-      'fr': 'Émirats Arabes Unis',
-      'es': 'Emiratos Árabes Unidos',
-      'de': 'Vereinigte Arabische Emirate',
-      'ar': 'الإمارات العربية المتحدة'
-    },
-  ),
-  Country(
-    code: 'af',
-    name: 'Afghanistan',
-    dialCode: '+93',
-    iso3: 'AFG',
-    currency: 'AFN',
-    currencyName: 'Afghan Afghani',
-    emoji: '🇦🇫',
-    timezones: ['UTC+04:30'],
-    region: 'Asia',
-    translations: {
-      'en': 'Afghanistan',
-      'fr': 'Afghanistan',
-      'es': 'Afganistán',
-      'de': 'Afghanistan',
-      'ar': 'أفغانستان',
-      'ps': 'افغانستان'
-    },
-  ),
+
+  
 ];
 
 class CountryService {

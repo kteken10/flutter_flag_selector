@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../../flutter_flag_selector.dart';
+import '../models/country_modell.dart';
 import 'search_input.dart';
 
 class CountryPickerStyle {
@@ -13,7 +13,7 @@ class CountryPickerStyle {
   final EdgeInsetsGeometry? titlePadding;
   final Color? dividerColor;
   final double? dividerThickness;
-  
+
   // Search container styling
   final Color? searchContainerColor;
   final BorderRadius? searchContainerBorderRadius;
@@ -126,11 +126,7 @@ class _CountryPickerState extends State<CountryPicker> {
 
   List<Country> _filterCountries(String searchValue) {
     if (searchValue.isEmpty) return widget.countries;
-    return widget.countries
-        .where((country) =>
-            country.name.toLowerCase().contains(searchValue.toLowerCase()) ||
-            country.code.toLowerCase().contains(searchValue.toLowerCase()))
-        .toList();
+    return CountryService.search(searchValue); // Utilisation de CountryService
   }
 
   @override
@@ -242,44 +238,41 @@ class _CountryPickerState extends State<CountryPicker> {
   }
 
   Widget _buildDefaultCountryItem(
-  BuildContext context,
-  Country country, {
-  bool isSelected = false,
-}) {
-  return Container(
-    height: widget.countryItemHeight,
-    color: isSelected
-        ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
-        : widget.countryItemColor,
-    child: ListTile(
-     contentPadding: widget.countryItemPadding ?? EdgeInsets.zero,
-      leading: Image.asset(
-        'packages/flutter_flag_selector/assets/images/${country.code}.png',
-        width: 50,
-        height: 50,
-        errorBuilder: (_, __, ___) => Container(
+    BuildContext context,
+    Country country, {
+    bool isSelected = false,
+  }) {
+    return Container(
+      height: widget.countryItemHeight,
+      color: isSelected
+          ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
+          : widget.countryItemColor,
+      child: ListTile(
+        contentPadding: widget.countryItemPadding ?? EdgeInsets.zero,
+        leading: Image.asset(
+          'packages/flutter_flag_selector/assets/images/${country.code}.png',
           width: 50,
           height: 50,
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
+          errorBuilder: (_, __, ___) => Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
+            ),
+            child: const Icon(Icons.flag, size: 16),
           ),
-          child: const Icon(Icons.flag, size: 16),
         ),
+        title: Text(
+          '${country.dialCode} ${country.name}',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          widget.onSelected(country);
+          Navigator.pop(context);
+        },
       ),
-      title: Text(
-        '${country.dialCode} ${country.name}', 
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      trailing: isSelected ? const Icon(Icons.check) : null,
-      onTap: () {
-        widget.onSelected(country);
-        Navigator.pop(context);
-      },
-    ),
-  );
+    );
+  }
 }
-}
-
-typedef SearchInputBuilder = Widget Function(
-    BuildContext context, TextEditingController controller);
