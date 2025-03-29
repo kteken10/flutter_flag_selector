@@ -268,7 +268,7 @@ class _CountryPickerState extends State<CountryPicker> {
         ),
       ),
       title: Text(
-        '+${country.dialCode} ${country.name}', 
+        '${country.dialCode} ${country.name}', 
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: isSelected ? const Icon(Icons.check) : null,
