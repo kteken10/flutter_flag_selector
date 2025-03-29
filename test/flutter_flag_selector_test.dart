@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flag_selector/src/flag_selector.dart';
-import 'package:flutter_flag_selector/src/models/country_model.dart';
+
+import 'package:flutter_flag_selector/src/models/country_modell.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
