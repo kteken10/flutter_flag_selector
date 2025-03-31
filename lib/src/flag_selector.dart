@@ -77,7 +77,7 @@ class FlagSelector extends StatefulWidget {
 
   const FlagSelector({
     super.key,
-     this.languageCode = 'fr', 
+     this.languageCode = 'es', 
     this.countries = defaultCountries,
     this.initialCountry,
     this.onCountryChanged,
