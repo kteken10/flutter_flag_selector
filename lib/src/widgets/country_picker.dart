@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../flutter_flag_selector.dart';
 import '../models/country_modell.dart';
 import 'search_input.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 class CountryPickerStyle {
   final Color? backgroundColor;
   final BorderRadius? borderRadius;
@@ -49,6 +49,7 @@ class CountryPickerStyle {
 }
 
 class CountryPicker extends StatefulWidget {
+  final String languageCode; // 'fr', 'en', 'es', etc.
   final List<Country> countries;
   final ValueChanged<Country> onSelected;
   final CountryPickerStyle style;
@@ -73,6 +74,7 @@ class CountryPicker extends StatefulWidget {
     super.key,
     required this.countries,
     required this.onSelected,
+     this.languageCode = 'en', // Par défaut en anglais
     this.style = const CountryPickerStyle(),
     this.showTitle = true,
     this.title = 'Select Country',
@@ -124,10 +126,10 @@ class _CountryPickerState extends State<CountryPicker> {
     );
   }
 
-  List<Country> _filterCountries(String searchValue) {
-    if (searchValue.isEmpty) return widget.countries;
-    return CountryService.search(searchValue); // Utilisation de CountryService
-  }
+ List<Country> _filterCountries(String searchValue) {
+  if (searchValue.isEmpty) return widget.countries;
+  return CountryService.search(searchValue, languageCode: widget.languageCode);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -247,15 +249,15 @@ class _CountryPickerState extends State<CountryPicker> {
       color: isSelected
           ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
           : widget.countryItemColor,
-      child: ListTile(
+          child: ListTile(
         contentPadding: widget.countryItemPadding ?? EdgeInsets.zero,
-        leading: Image.asset(
-          'packages/flutter_flag_selector/assets/images/${country.code}.png',
-          width: 50,
-          height: 50,
-          errorBuilder: (_, __, ___) => Container(
-            width: 50,
-            height: 50,
+        leading: SvgPicture.asset(
+          'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
+          width: 30,
+          height: 30,
+          placeholderBuilder: (context) => Container(
+            width: 30,
+            height: 30,
             decoration: BoxDecoration(
               color: Colors.grey[200],
               border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
@@ -263,10 +265,10 @@ class _CountryPickerState extends State<CountryPicker> {
             child: const Icon(Icons.flag, size: 16),
           ),
         ),
-        title: Text(
-          '${country.dialCode} ${country.name}',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
+       title: Text(
+  '${country.dialCode} ${country.getName(widget.languageCode)}',
+  style: Theme.of(context).textTheme.bodyMedium,
+),
         trailing: isSelected ? const Icon(Icons.check) : null,
         onTap: () {
           widget.onSelected(country);

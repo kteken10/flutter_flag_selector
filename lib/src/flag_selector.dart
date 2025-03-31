@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/country_modell.dart';
 import 'widgets/country_picker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 typedef SearchInputBuilder = Widget Function(BuildContext context, TextEditingController controller);
 typedef CountryItemBuilder = Widget Function(BuildContext context, Country country);
@@ -11,6 +12,7 @@ typedef ModalPickerBuilder = Widget Function(
 );
 
 class FlagSelector extends StatefulWidget {
+   final String languageCode;
   final List<Country> countries;
   final String? initialCountry;
   final ValueChanged<Country>? onCountryChanged;
@@ -45,6 +47,7 @@ class FlagSelector extends StatefulWidget {
   final EdgeInsetsGeometry? modalTitlePadding;
   final double modalHeightFactor;
   
+
   // Country list customization
   final CountryItemBuilder? countryItemBuilder;
   final EdgeInsetsGeometry? countryItemPadding;
@@ -74,6 +77,7 @@ class FlagSelector extends StatefulWidget {
 
   const FlagSelector({
     super.key,
+     this.languageCode = 'fr', 
     this.countries = defaultCountries,
     this.initialCountry,
     this.onCountryChanged,
@@ -101,7 +105,7 @@ class FlagSelector extends StatefulWidget {
     this.countryItemPadding,
     this.countryItemHeight,
     this.countryItemColor,
-    this.selectedCountryItemColor,
+    this.selectedCountryItemColor=Colors.blueAccent,
     this.searchBuilder,
     this.searchDecoration,
     this.searchTextStyle,
@@ -158,6 +162,7 @@ class _FlagSelectorState extends State<FlagSelector> {
         backgroundColor: Colors.transparent,
         builder: (_) => CountryPicker(
           countries: widget.countries,
+          languageCode: widget.languageCode,
           onSelected: (country) {
             widget.onCountryChanged?.call(country);
             setState(() => _selectedCountry = country);
@@ -213,22 +218,24 @@ class _FlagSelectorState extends State<FlagSelector> {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            widget.flagBuilder?.call(context, _selectedCountry) ?? Image.asset(
-              'packages/flutter_flag_selector/assets/images/${_selectedCountry.code}.png',
-              width: widget.flagWidth,
-              height: widget.flagHeight,
-              errorBuilder: (_, __, ___) => SizedBox(
-                width: widget.flagWidth,
-                height: widget.flagHeight,
-                child: const Icon(Icons.flag),
-              ),
-            ),
+                   children: [
+            widget.flagBuilder?.call(context, _selectedCountry) ??
+                SvgPicture.asset(
+                 'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
+                  width: widget.flagWidth,
+                  height: widget.flagHeight,
+                  placeholderBuilder: (context) => SizedBox(
+                    width: widget.flagWidth,
+                    height: widget.flagHeight,
+                    child: const Icon(Icons.flag),
+                  ),
+                ),
             SizedBox(width: widget.gap),
-            Text(
-              widget.countryNameBuilder?.call(_selectedCountry) ?? _selectedCountry.name,
-              style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
-            ),
+           Text(
+  widget.countryNameBuilder?.call(_selectedCountry) ?? 
+  _selectedCountry.getName(widget.languageCode), 
+  style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+),
             SizedBox(width: widget.gap),
             widget.dropdownIcon ?? Icon(
               Icons.arrow_drop_down,

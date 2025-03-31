@@ -23,7 +23,7 @@ class Country {
     required this.translations,
   });
 
-  String getName([String languageCode = 'ua']) {
+  String getName([String languageCode = 'es']) {
     return translations[languageCode] ?? name;
   }
 
@@ -117,6 +117,40 @@ const List<Country> defaultCountries = [
       'ar': 'الإمارات العربية المتحدة',  // Arabic
     },
   ),
+  //ajoute la france
+  Country(
+    code: 'fr',
+    name: 'France',
+    dialCode: '+33',
+    iso3: 'FRA',
+    currency: 'EUR',
+    currencyName: 'Euro',
+    emoji: '🇫🇷',
+    timezones: ['UTC+01:00'],
+    region: 'Europe',
+    translations: {
+      'en': 'France',       // English
+      'ru': 'Франция',     // Russian
+      'pl': 'Francja',     // Polish
+      'ua': 'Франція',     // Ukrainian
+      'cz': 'Francie',     // Czech
+      'by': 'Францыя',     // Belarusian
+      'pt': 'França',      // Portuguese
+      'es': 'Francia',     // Spanish
+      'ro': 'Franța',      // Romanian
+      'bg': 'Франция',     // Bulgarian
+      'de': 'Frankreich',  // German
+      'fr': 'France',      // French
+      'nl': 'Frankrijk',   // Dutch
+      'it': 'Francia',     // Italian
+      'cn': '法国',        // Chinese
+      'ee': 'Prantsusmaa', // Estonian
+      'jp': 'フランス',     // Japanese
+      'he': 'צרפת',       // Hebrew
+      'tr': "Fransa",     // Turkish
+      'ar': "فرنسا",       // Arabic
+    },
+  ),
 ];
 
 // Le reste de votre code CountryService reste inchangé
@@ -145,16 +179,22 @@ class CountryService {
   static List<Country> byRegion(String region) => _byRegion[region.toLowerCase()] ?? [];
   static List<Country> byTimezone(String timezone) => _byTimezone[timezone.toLowerCase()] ?? [];
 
-  static List<Country> search(String query) {
-    final q = query.toLowerCase();
-    return defaultCountries.where((country) =>
-      country.code.toLowerCase().contains(q) ||
-      country.name.toLowerCase().contains(q) ||
+  static List<Country> search(String query, {String? languageCode}) {
+  final q = query.toLowerCase();
+  return defaultCountries.where((country) {
+    final nameToSearch = languageCode != null 
+      ? country.getName(languageCode).toLowerCase()
+      : country.name.toLowerCase();
+    
+    return country.code.toLowerCase().contains(q) ||
+      nameToSearch.contains(q) ||
       country.dialCode.contains(q) ||
       country.iso3.toLowerCase().contains(q) ||
-      country.translations.values.any((v) => v.toLowerCase().contains(q))
-    ).toList();
-  }
+      (languageCode == null 
+        ? country.translations.values.any((v) => v.toLowerCase().contains(q))
+        : country.translations[languageCode]?.toLowerCase().contains(q) ?? false);
+  }).toList();
+}
 
   static List<Country> advancedSearch({
     String? code,
