@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flag_selector/flutter_flag_selector.dart';
 
-import 'package:flutter_flag_selector/src/models/country_modell.dart';
+
 void main() {
   CountryService.initialize();
   runApp(const MyApp());

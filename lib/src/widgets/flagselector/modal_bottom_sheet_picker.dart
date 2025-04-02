@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/country_modell.dart';
+import '../../models/country_model.dart';
 import '../country_picker.dart';
 
 void showModalBottomSheetPicker({

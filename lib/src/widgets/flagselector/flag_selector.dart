@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/country_modell.dart';
+import '../../models/country_model.dart';
 import '../country_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import './types/flag_selector_types.dart';
