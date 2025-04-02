@@ -15,11 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Flag Selector Demo')),
-        body: const Center(
+        body: Center(
           child: FlagSelector(
-          
-           
-          
+            
           ),
         ),
       ),

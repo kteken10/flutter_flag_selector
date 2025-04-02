@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'models/country_modell.dart';
-import 'widgets/country_picker.dart';
+import '../../models/country_modell.dart';
+import '../country_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-// Custom builder typedefs
-typedef SearchInputBuilder = Widget Function(
-    BuildContext context, TextEditingController controller);
-typedef CountryItemBuilder = Widget Function(
-    BuildContext context, Country country);
-typedef ModalPickerBuilder = Widget Function(
-  BuildContext context,
-  List<Country> countries,
-  ValueChanged<Country> onSelected,
-);
+import './types/flag_selector_types.dart';
+import 'dialog_picker.dart';
+import 'modal_bottom_sheet_picker.dart';
+import 'popup_menu_picker.dart';
 
 class FlagSelector extends StatefulWidget {
   // ======================================================================= //
@@ -23,6 +16,7 @@ class FlagSelector extends StatefulWidget {
   final List<Country> flagSelectorCountries;
   final String? flagSelectorInitialCountry;
   final ValueChanged<Country>? onFlagSelectorCountryChanged;
+  final FlagSelectorOptionType flagSelectorOptionType;
 
   /// Main container styling
   final EdgeInsetsGeometry? flagSelectorPadding;
@@ -99,6 +93,7 @@ class FlagSelector extends StatefulWidget {
 
   const FlagSelector({
     super.key,
+    this.flagSelectorOptionType = FlagSelectorOptionType.modalBottomSheet,
     // [1] Main Selector Properties
     this.flagSelectorLanguageCode = 'es',
     this.flagSelectorCountries = defaultCountries,
@@ -137,7 +132,7 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorCountryItemPadding,
     this.flagSelectorCountryItemHeight,
     this.flagSelectorCountryItemColor,
-    this.flagSelectorSelectedCountryItemColor = Colors.blueAccent,
+    this.flagSelectorSelectedCountryItemColor,
 
     // [3] Search Properties
     this.flagSelectorSearchBuilder,
@@ -196,85 +191,83 @@ class _FlagSelectorState extends State<FlagSelector> {
       showModalBottomSheet(
         context: context,
         builder: (ctx) => widget.flagSelectorModalBuilder!(
-            ctx, widget.flagSelectorCountries, (country) {
-          widget.onFlagSelectorCountryChanged?.call(country);
-          setState(() => _selectedCountry = country);
-          print(_selectedCountry.dialCode);
-        }),
-      );
-    } else {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (_) => CountryPicker(
-          countryPickerCountryList: widget.flagSelectorCountries,
-          countryPickerLanguageCode: widget.flagSelectorLanguageCode,
-          onCountryPickerSelected: (country) {
+          ctx,
+          widget.flagSelectorCountries,
+          (country) {
             widget.onFlagSelectorCountryChanged?.call(country);
             setState(() => _selectedCountry = country);
           },
-          countryPickerStyle: widget.flagSelectorPickerStyle ??
-              CountryPickerStyle(
-                countryPickerBackgroundColor: Theme.of(context).canvasColor,
-                countryPickerBorderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(20)),
-                countryPickerTitleStyle: widget.flagSelectorModalTitleStyle ??
-                    Theme.of(context).textTheme.titleMedium,
-                countryPickerModalHeight: widget.flagSelectorModalHeightFactor,
-               
-                searchContainerBackgroundColor:
-                    widget.flagSelectorSearchContainerColor,
-                searchContainerBorderRadius:
-                    widget.flagSelectorSearchContainerBorderRadius,
-                searchContainerBorder: widget.flagSelectorSearchContainerBorder,
-                searchContainerShadow: widget.flagSelectorSearchContainerShadow,
-                searchContainerMargin: widget.flagSelectorSearchContainerMargin,
-                searchContainerPadding:
-                    widget.flagSelectorSearchContainerPadding,
-                searchInputPadding: widget.flagSelectorSearchInputPadding,
-                searchContainerWidth: widget.flagSelectorSearchContainerWidth,
-                searchContainerHeight: widget.flagSelectorSearchContainerHeight,
-                searchContainerConstraints:
-                    widget.flagSelectorSearchContainerConstraints,
-              ),
-          countryPickerShowTitle: widget.flagSelectorShowModalTitle,
-          countryPickerTitle: widget.flagSelectorModalTitle,
-          countryPickerTitlePadding: widget.flagSelectorModalTitlePadding,
-          countryPickerItemBuilder: widget.flagSelectorCountryItemBuilder,
-          countryPickerItemPadding: widget.flagSelectorCountryItemPadding,
-          countryPickerItemHeight: widget.flagSelectorCountryItemHeight,
-          countryPickerItemColor: widget.flagSelectorCountryItemColor,
-          countryPickerSelectedItemColor:
-              widget.flagSelectorSelectedCountryItemColor,
-            
-              
-          searchBuilder: widget.flagSelectorSearchBuilder,
-          searchInputDecoration: widget.flagSelectorSearchDecoration,
-          searchTextStyle: widget.flagSelectorSearchTextStyle,
-          searchHintText: widget.flagSelectorSearchHintText,
-          searchInputPadding: widget.flagSelectorSearchPadding,
-          showSearchInput: widget.flagSelectorShowSearch,
-          searchIconColor:
-              widget.flagSelectorIconColor ?? Theme.of(context).iconTheme.color,
-          countryPickerInitiallySelectedCountry: _selectedCountry,
-countryPickerKey: widget.key,
-
-          onSearchEditingComplete: () => FocusScope.of(context).unfocus(),
-          onSearchSubmitted: () => FocusScope.of(context).unfocus(),
-          onSearchTap: () => FocusScope.of(context).unfocus(),
-          searchDebounceDuration: const Duration(milliseconds: 400),
-          searchTextInputAction: TextInputAction.search,
-          searchInputEnabledBorder:
-              widget.flagSelectorSearchDecoration?.enabledBorder,
-          searchInputFocusedBorder:
-              widget.flagSelectorSearchDecoration?.focusedBorder,
-          searchEnabled: widget.flagSearchEnabled ?? true,
-          searchFocusNode: widget.flagSelectorSearchBuilder != null
-              ? FocusNode()
-              : null,
-          key: widget.key,
         ),
       );
+    } else {
+      switch (widget.flagSelectorOptionType) {
+       case FlagSelectorOptionType.modalBottomSheet:
+  showModalBottomSheetPicker(
+    context: context,
+    countries: widget.flagSelectorCountries,
+    languageCode: widget.flagSelectorLanguageCode,
+    onSelected: (country) {
+      widget.onFlagSelectorCountryChanged?.call(country);
+      setState(() => _selectedCountry = country);
+    },
+    initiallySelectedCountry: _selectedCountry,
+    pickerStyle: widget.flagSelectorPickerStyle,
+    showModalTitle: widget.flagSelectorShowModalTitle,
+    modalTitle: widget.flagSelectorModalTitle,
+    modalTitleStyle: widget.flagSelectorModalTitleStyle,
+    modalTitlePadding: widget.flagSelectorModalTitlePadding,
+    modalHeightFactor: widget.flagSelectorModalHeightFactor,
+    countryItemBuilder: widget.flagSelectorCountryItemBuilder,
+    countryItemPadding: widget.flagSelectorCountryItemPadding,
+    countryItemHeight: widget.flagSelectorCountryItemHeight,
+    countryItemColor: widget.flagSelectorCountryItemColor,
+    selectedCountryItemColor: widget.flagSelectorSelectedCountryItemColor,
+    showSearchInput: widget.flagSelectorShowSearch,
+    searchDecoration: widget.flagSelectorSearchDecoration,
+    searchTextStyle: widget.flagSelectorSearchTextStyle,
+    searchHintText: widget.flagSelectorSearchHintText,
+    searchPadding: widget.flagSelectorSearchPadding,
+    searchContainerColor: widget.flagSelectorSearchContainerColor,
+    searchContainerBorderRadius: widget.flagSelectorSearchContainerBorderRadius,
+    searchContainerBorder: widget.flagSelectorSearchContainerBorder,
+    searchContainerShadow: widget.flagSelectorSearchContainerShadow,
+    searchContainerMargin: widget.flagSelectorSearchContainerMargin,
+    searchContainerPadding: widget.flagSelectorSearchContainerPadding,
+    searchInputPadding: widget.flagSelectorSearchInputPadding,
+    searchContainerWidth: widget.flagSelectorSearchContainerWidth,
+    searchContainerHeight: widget.flagSelectorSearchContainerHeight,
+    searchContainerConstraints: widget.flagSelectorSearchContainerConstraints,
+    searchEnabled: widget.flagSearchEnabled ?? true,
+    key: widget.key,
+  );
+  break;
+        case FlagSelectorOptionType.dialog:
+          showDialogPicker(
+            context: context,
+            countries: widget.flagSelectorCountries,
+            onSelected: (country) {
+              widget.onFlagSelectorCountryChanged?.call(country);
+              setState(() => _selectedCountry = country);
+            },
+          );
+          break;
+        case FlagSelectorOptionType.popupMenu:
+          final RenderBox renderBox = context.findRenderObject() as RenderBox;
+          final Offset offset = renderBox.localToGlobal(Offset.zero);
+          showPopupMenuPicker(
+            context: context,
+            offset: offset,
+            countries: widget.flagSelectorCountries,
+            onSelected: (country) {
+              widget.onFlagSelectorCountryChanged?.call(country);
+              setState(() => _selectedCountry = country);
+            },
+          );
+          break;
+        case FlagSelectorOptionType.draggableSheet:
+          // Implémentez une feuille redimensionnable si nécessaire
+          break;
+      }
     }
   }
 
@@ -300,30 +293,22 @@ countryPickerKey: widget.key,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Flag display
             if (widget.flagSelectorFlagBuilder != null)
               widget.flagSelectorFlagBuilder!(context, _selectedCountry)
             else
               SvgPicture.asset(
-                 'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
+                'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
                 width: widget.flagSelectorFlagWidth,
                 height: widget.flagSelectorFlagHeight,
-          
               ),
-
             SizedBox(width: widget.flagSelectorGap),
-
-            // Country name or custom text
             Text(
               widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ??
                   _selectedCountry.name,
               style: widget.flagSelectorTextStyle ??
                   Theme.of(context).textTheme.bodyMedium,
             ),
-
             SizedBox(width: widget.flagSelectorGap),
-
-            // Dropdown icon
             widget.flagSelectorDropdownIcon ??
                 Icon(
                   Icons.arrow_drop_down,
