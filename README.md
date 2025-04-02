@@ -21,6 +21,36 @@ A highly customizable country selector for Flutter, allowing users to easily cho
 - 🔄 **Fluid Interface** - Intuitive user experience with smooth animations
 - 📱 **Responsive Design** - Automatically adapts to different screen sizes
 - 💻 **Cross-Platform** - Compatible with Web, Android, iOS, macOS, Linux, and Windows
+
+
+## 🎌 Supported Languages 🎌
+
+The Flutter Flag Selector package supports the following languages for country name translations:
+
+| Code | Language    | Example       |
+|------|-------------|---------------|
+| en   | English     | Andorra       |
+| ru   | Russian     | Андорра       |
+| pl   | Polish      | Andora        |
+| ua   | Ukrainian   | Андорра       |
+| cz   | Czech       | Andorra       |
+| by   | Belarusian  | Андора        |
+| pt   | Portuguese  | Andorra       |
+| es   | Spanish     | Andorra       |
+| ro   | Romanian    | Andorra       |
+| bg   | Bulgarian   | Андора        |
+| de   | German      | Andorra       |
+| fr   | French      | Andorre       |
+| nl   | Dutch       | Andorra       |
+| it   | Italian     | Andorra       |
+| cn   | Chinese     | 安道尔         |
+| ee   | Estonian    | Andorra       |
+| jp   | Japanese    | アンドラ       |
+| he   | Hebrew      | אנדורה        |
+| tr   | Turkish     | Andorra       |
+| ar   | Arabic      | أندورا        |
+
+
 ## Installation
 
 Add `flutter_flag_selector` to your `pubspec.yaml` file:

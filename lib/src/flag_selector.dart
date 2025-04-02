@@ -158,7 +158,16 @@ class _FlagSelectorState extends State<FlagSelector> {
     _selectedCountry = _findInitialCountry();
   }
 
-  Country _findInitialCountry() {
+   @override
+  void didUpdateWidget(FlagSelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.flagSelectorInitialCountry != oldWidget.flagSelectorInitialCountry ||
+        widget.flagSelectorCountries != oldWidget.flagSelectorCountries) {
+      _selectedCountry = _findInitialCountry();
+    }
+  }
+
+   Country _findInitialCountry() {
     if (widget.flagSelectorInitialCountry != null) {
       return widget.flagSelectorCountries.firstWhere(
         (c) => c.code == widget.flagSelectorInitialCountry,
@@ -230,7 +239,8 @@ class _FlagSelectorState extends State<FlagSelector> {
           showSearchInput: widget.flagSelectorShowSearch,
           searchIconColor:
               widget.flagSelectorIconColor ?? Theme.of(context).iconTheme.color,
-          countryPickerInitiallySelectedCountry: _findInitialCountry(),
+          countryPickerInitiallySelectedCountry: _selectedCountry,
+          
           onSearchEditingComplete: () => FocusScope.of(context).unfocus(),
           onSearchSubmitted: () => FocusScope.of(context).unfocus(),
           onSearchTap: () => FocusScope.of(context).unfocus(),

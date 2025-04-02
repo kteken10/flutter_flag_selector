@@ -128,13 +128,25 @@ class CountryPicker extends StatefulWidget {
 class _CountryPickerState extends State<CountryPicker> {
   late final ValueNotifier<String> _searchNotifier;
   late final TextEditingController _searchController;
+  Country? _selectedCountry;
   Timer? _debounceTimer;
   @override
   void initState() {
     super.initState();
     _searchNotifier = ValueNotifier('');
     _searchController = TextEditingController();
+      _selectedCountry = widget.countryPickerInitiallySelectedCountry;
   }
+
+  @override
+void didUpdateWidget(CountryPicker oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
+    setState(() {
+      _selectedCountry = widget.countryPickerInitiallySelectedCountry;
+    });
+  }
+}
 
 
   @override
@@ -295,41 +307,47 @@ class _CountryPickerState extends State<CountryPicker> {
   }
 
   Widget _buildDefaultCountryItem(
-    BuildContext context,
-    Country country, {
-    bool isSelected = false,
-  }) {
-    return Container(
-      height: widget.countryPickerItemHeight,
-      color: isSelected
-          ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
-          : widget.countryPickerItemColor,
-      child: ListTile(
-        contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
-        leading: SvgPicture.asset(
-          'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
+  BuildContext context,
+  Country country, {
+  bool isSelected = false,
+}) {
+  final isActuallySelected = _selectedCountry != null && 
+      _selectedCountry!.code == country.code;
+  
+  return Container(
+    height: widget.countryPickerItemHeight,
+    color: isActuallySelected
+        ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
+        : widget.countryPickerItemColor,
+    child: ListTile(
+      contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
+      leading: SvgPicture.asset(
+        'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
+        width: 30,
+        height: 30,
+        placeholderBuilder: (context) => Container(
           width: 30,
           height: 30,
-          placeholderBuilder: (context) => Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
-            ),
-            child: const Icon(Icons.flag, size: 16),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
           ),
+          child: const Icon(Icons.flag, size: 16),
         ),
-        title: Text(
-          '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        trailing: isSelected ? const Icon(Icons.check) : null,
-        onTap: () {
-          widget.onCountryPickerSelected(country);
-          Navigator.pop(context);
-        },
       ),
-    );
-  }
+      title: Text(
+        '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: isActuallySelected ? const Icon(Icons.check) : null,
+      onTap: () {
+        setState(() {
+          _selectedCountry = country; // Mettez à jour le pays sélectionné
+        });
+        widget.onCountryPickerSelected(country);
+        Navigator.pop(context);
+      },
+    ),
+  );
+}
 }
