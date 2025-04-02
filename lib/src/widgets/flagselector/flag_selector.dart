@@ -93,7 +93,7 @@ class FlagSelector extends StatefulWidget {
 
   const FlagSelector({
     super.key,
-    this.flagSelectorOptionType = FlagSelectorOptionType.popupMenu,
+    this.flagSelectorOptionType = FlagSelectorOptionType.modalBottomSheet,
     // [1] Main Selector Properties
     this.flagSelectorLanguageCode = 'en',
     this.flagSelectorCountries = defaultCountries,
