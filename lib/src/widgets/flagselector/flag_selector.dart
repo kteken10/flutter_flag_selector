@@ -93,9 +93,9 @@ class FlagSelector extends StatefulWidget {
 
   const FlagSelector({
     super.key,
-    this.flagSelectorOptionType = FlagSelectorOptionType.modalBottomSheet,
+    this.flagSelectorOptionType = FlagSelectorOptionType.popupMenu,
     // [1] Main Selector Properties
-    this.flagSelectorLanguageCode = 'es',
+    this.flagSelectorLanguageCode = 'en',
     this.flagSelectorCountries = defaultCountries,
     this.flagSelectorInitialCountry,
     this.onFlagSelectorCountryChanged,
@@ -245,6 +245,7 @@ class _FlagSelectorState extends State<FlagSelector> {
           showDialogPicker(
             context: context,
             countries: widget.flagSelectorCountries,
+
             onSelected: (country) {
               widget.onFlagSelectorCountryChanged?.call(country);
               setState(() => _selectedCountry = country);
@@ -257,6 +258,8 @@ class _FlagSelectorState extends State<FlagSelector> {
           showPopupMenuPicker(
             context: context,
             offset: offset,
+          
+            
             countries: widget.flagSelectorCountries,
             onSelected: (country) {
               widget.onFlagSelectorCountryChanged?.call(country);

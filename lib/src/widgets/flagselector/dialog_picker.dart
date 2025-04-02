@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../models/country_modell.dart';
 import '../country_picker.dart';
 
@@ -10,16 +9,19 @@ void showDialogPicker({
 }) {
   showDialog(
     context: context,
-    builder: (ctx) => AlertDialog(
-      
-      title: const Text('Select Country'),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: CountryPicker(
-          countryPickerCountryList: countries,
-          onCountryPickerSelected: onSelected,
-
-        ),
+    builder: (ctx) => Dialog(
+      insetPadding: const EdgeInsets.all(16), // Supprime les marges par défaut
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width, // Prend toute la largeur de l'écran
+            child: CountryPicker(
+              countryPickerCountryList: countries,
+              onCountryPickerSelected: onSelected,
+              
+            ),
+          );
+        },
       ),
     ),
   );
