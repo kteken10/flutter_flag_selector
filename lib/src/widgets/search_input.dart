@@ -1,57 +1,79 @@
 import 'package:flutter/material.dart';
 
 class SearchInput extends StatefulWidget {
-  final TextEditingController? controller;
-  final InputDecoration? decoration;
-  final TextStyle? textStyle;
-  final String hintText;
-  final ValueChanged<String>? onChanged;
-  final bool autofocus;
-  final FocusNode? focusNode;
-  
+  // Core input properties
+  final TextEditingController? searchController;
+  final InputDecoration? searchInputDecoration;
+  final TextStyle? searchTextStyle;
+  final String searchHintText;
+  final ValueChanged<String>? onSearchTextChanged;
+  final ValueChanged<String>? onSearchTextSubmitted;
+  final VoidCallback? onSearchEditingComplete;
+  final VoidCallback? onSearchTap;
+  final bool searchAutofocus;
+  final bool isSearchEnabled;
+  final FocusNode? searchFocusNode;
+  final TextInputAction? searchTextInputAction;
+
   // Container styling
-  final EdgeInsetsGeometry? padding;
-  final Color? containerColor;
-  final BorderRadius? containerBorderRadius;
-  final BoxBorder? containerBorder;
-  final List<BoxShadow>? containerShadow;
-  final EdgeInsetsGeometry? margin;
-  final double? width;
-  final double? height;
-  final BoxConstraints? constraints;
-  
+  final EdgeInsetsGeometry? searchContainerMargin;
+  final EdgeInsetsGeometry? searchContainerPadding;
+  final Color? searchContainerColor;
+  final BorderRadius? searchContainerBorderRadius;
+  final BoxBorder? searchContainerBorder;
+  final List<BoxShadow>? searchContainerShadow;
+  final double? searchContainerWidth;
+  final double? searchContainerHeight;
+  final BoxConstraints? searchContainerConstraints;
+
   // Input field styling
-  final Color? fillColor;
-  final double? borderRadius;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
-  final EdgeInsetsGeometry? contentPadding;
-  final EdgeInsetsGeometry? inputPadding;
+  final EdgeInsetsGeometry? searchInputPadding;
+  final Color? searchInputBackgroundColor;
+  final double? searchInputBorderRadius;
+  final InputBorder? searchInputEnabledBorder;
+  final InputBorder? searchInputFocusedBorder;
+  final Widget? searchPrefixIcon;
+  final Widget? searchSuffixIcon;
+  final Color? searchIconColor;
+  final EdgeInsetsGeometry? searchContentPadding;
 
   const SearchInput({
     super.key,
-    this.controller,
-    this.decoration,
-    this.textStyle,
-    this.hintText = 'Search...',
-    this.onChanged,
-    this.autofocus = false,
-    this.focusNode,
-    this.padding,
-    this.containerColor,
-    this.containerBorderRadius,
-    this.containerBorder,
-    this.containerShadow,
-    this.margin,
-    this.width,
-    this.height,
-    this.constraints,
-    this.fillColor,
-    this.borderRadius,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.contentPadding,
-    this.inputPadding,
+    // Core input properties
+    this.searchController,
+    this.searchInputDecoration,
+    this.searchTextStyle,
+    this.searchHintText = 'Search...',
+    this.onSearchTextChanged,
+    this.onSearchTextSubmitted,
+    this.onSearchEditingComplete,
+    this.onSearchTap,
+    this.searchAutofocus = false,
+    this.isSearchEnabled = true,
+    this.searchFocusNode,
+    this.searchTextInputAction,
+    
+    // Container styling
+    this.searchContainerMargin,
+    this.searchContainerPadding,
+    this.searchContainerColor,
+    this.searchContainerBorderRadius,
+    this.searchContainerBorder,
+    this.searchContainerShadow,
+    this.searchContainerWidth,
+    this.searchContainerHeight,
+    this.searchContainerConstraints,
+    
+    // Input field styling
+    this.searchInputPadding,
+    this.searchInputBackgroundColor,
+    this.searchInputBorderRadius,
+    this.searchInputEnabledBorder,
+    this.searchInputFocusedBorder,
+    this.searchPrefixIcon,
+    this.searchSuffixIcon,
+    this.searchIconColor,
+    this.searchContentPadding,
   });
 
   @override
@@ -59,18 +81,18 @@ class SearchInput extends StatefulWidget {
 }
 
 class _SearchInputState extends State<SearchInput> {
-  late TextEditingController _controller;
+  late TextEditingController _internalController;
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? TextEditingController();
+    _internalController = widget.searchController ?? TextEditingController();
   }
 
   @override
   void dispose() {
-    if (widget.controller == null) {
-      _controller.dispose();
+    if (widget.searchController == null) {
+      _internalController.dispose();
     }
     super.dispose();
   }
@@ -78,53 +100,62 @@ class _SearchInputState extends State<SearchInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
-      constraints: widget.constraints,
-      margin: widget.margin,
-      padding: widget.inputPadding,
+      width: widget.searchContainerWidth,
+      height: widget.searchContainerHeight,
+      constraints: widget.searchContainerConstraints,
+      margin: widget.searchContainerMargin,
+      padding: widget.searchInputPadding,
       decoration: BoxDecoration(
-        color: widget.containerColor,
-        borderRadius: widget.containerBorderRadius,
-        border: widget.containerBorder,
-        boxShadow: widget.containerShadow,
+        color: widget.searchContainerColor,
+        borderRadius: widget.searchContainerBorderRadius,
+        border: widget.searchContainerBorder,
+        boxShadow: widget.searchContainerShadow,
       ),
       child: Padding(
-        padding: widget.padding ?? EdgeInsets.zero,
+        padding: widget.searchContainerPadding ?? EdgeInsets.zero,
         child: TextField(
-          controller: _controller,
-          focusNode: widget.focusNode,
-          autofocus: widget.autofocus,
-          style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
-          decoration: widget.decoration ?? _defaultDecoration(context),
-          onChanged: widget.onChanged,
+          controller: _internalController,
+          focusNode: widget.searchFocusNode,
+          autofocus: widget.searchAutofocus,
+          enabled: widget.isSearchEnabled,
+          style: widget.searchTextStyle ?? Theme.of(context).textTheme.bodyMedium,
+          decoration: widget.searchInputDecoration ?? _buildDefaultSearchDecoration(context),
+          onChanged: widget.onSearchTextChanged,
+          onSubmitted: widget.onSearchTextSubmitted,
+          onEditingComplete: widget.onSearchEditingComplete,
+          onTap: widget.onSearchTap,
+          textInputAction: widget.searchTextInputAction,
         ),
       ),
     );
   }
 
-  InputDecoration _defaultDecoration(BuildContext context) {
+  InputDecoration _buildDefaultSearchDecoration(BuildContext context) {
     return InputDecoration(
-      hintText: widget.hintText,
-      prefixIcon: widget.prefixIcon ?? const Icon(Icons.search),
-      suffixIcon: widget.suffixIcon,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        borderSide: BorderSide(color: Theme.of(context).dividerColor),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        borderSide: BorderSide(color: Theme.of(context).dividerColor),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        borderSide: BorderSide(color: Theme.of(context).primaryColor),
-      ),
+      hintText: widget.searchHintText,
+      prefixIcon: widget.searchPrefixIcon ??
+          Icon(Icons.search, color: widget.searchIconColor ?? Theme.of(context).iconTheme.color),
+      suffixIcon: widget.searchSuffixIcon,
+      border: widget.searchInputEnabledBorder ??
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
+          ),
+      enabledBorder: widget.searchInputEnabledBorder ??
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
+          ),
+      focusedBorder: widget.searchInputFocusedBorder ??
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
       filled: true,
-      fillColor: widget.fillColor ??
+      fillColor: widget.searchInputBackgroundColor ??
           Theme.of(context).inputDecorationTheme.fillColor ??
           Theme.of(context).colorScheme.surface,
-      contentPadding: widget.contentPadding ??
+      contentPadding: widget.searchContentPadding ??
           const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     );
   }

@@ -4,18 +4,19 @@ import '../../flutter_flag_selector.dart';
 import '../models/country_modell.dart';
 import 'search_input.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-class CountryPickerStyle {
-  final Color? backgroundColor;
-  final BorderRadius? borderRadius;
-  final TextStyle? titleStyle;
-  final double? modalHeight;
-  final EdgeInsetsGeometry? padding;
-  final EdgeInsetsGeometry? titlePadding;
-  final Color? dividerColor;
-  final double? dividerThickness;
 
-  // Search container styling
-  final Color? searchContainerColor;
+class CountryPickerStyle {
+  final Color? countryPickerBackgroundColor;
+  final BorderRadius? countryPickerBorderRadius;
+  final TextStyle? countryPickerTitleStyle;
+  final double? countryPickerModalHeight;
+  final EdgeInsetsGeometry? countryPickerPadding;
+  final EdgeInsetsGeometry? countryPickerTitlePadding;
+  final Color? countryPickerDividerColor;
+  final double? countryPickerDividerThickness;
+
+  
+  final Color? searchContainerBackgroundColor;
   final BorderRadius? searchContainerBorderRadius;
   final BoxBorder? searchContainerBorder;
   final List<BoxShadow>? searchContainerShadow;
@@ -27,15 +28,15 @@ class CountryPickerStyle {
   final BoxConstraints? searchContainerConstraints;
 
   const CountryPickerStyle({
-    this.backgroundColor,
-    this.borderRadius,
-    this.titleStyle,
-    this.modalHeight = 0.7,
-    this.padding,
-    this.titlePadding,
-    this.dividerColor,
-    this.dividerThickness,
-    this.searchContainerColor,
+    this.countryPickerBackgroundColor,
+    this.countryPickerBorderRadius,
+    this.countryPickerTitleStyle,
+    this.countryPickerModalHeight = 0.7,
+    this.countryPickerPadding,
+    this.countryPickerTitlePadding,
+    this.countryPickerDividerColor,
+    this.countryPickerDividerThickness,
+    this.searchContainerBackgroundColor,
     this.searchContainerBorderRadius,
     this.searchContainerBorder,
     this.searchContainerShadow,
@@ -45,53 +46,79 @@ class CountryPickerStyle {
     this.searchContainerWidth,
     this.searchContainerHeight,
     this.searchContainerConstraints,
+
+    
+    
   });
 }
 
 class CountryPicker extends StatefulWidget {
-  final String languageCode; // 'fr', 'en', 'es', etc.
-  final List<Country> countries;
-  final ValueChanged<Country> onSelected;
-  final CountryPickerStyle style;
-  final bool showTitle;
-  final String? title;
-  final EdgeInsetsGeometry? titlePadding;
-  final Widget Function(BuildContext, Country)? countryItemBuilder;
-  final EdgeInsetsGeometry? countryItemPadding;
-  final double? countryItemHeight;
-  final Color? countryItemColor;
-  final Color? selectedCountryItemColor;
+  final String countryPickerLanguageCode;
+  final List<Country> countryPickerCountryList;
+  final ValueChanged<Country> onCountryPickerSelected;
+  final CountryPickerStyle countryPickerStyle;
+  final bool countryPickerShowTitle;
+  final String? countryPickerTitle;
+  final EdgeInsetsGeometry? countryPickerTitlePadding;
+  final Widget Function(BuildContext, Country)? countryPickerItemBuilder;
+  final EdgeInsetsGeometry? countryPickerItemPadding;
+  final double? countryPickerItemHeight;
+  final Color? countryPickerItemColor;
+  final Color? countryPickerSelectedItemColor;
+
+
+  // Search properties (conserve le préfixe search original)
   final SearchInputBuilder? searchBuilder;
-  final InputDecoration? searchDecoration;
+  final InputDecoration? searchInputDecoration;
+  final bool ? searchEnabled;
   final TextStyle? searchTextStyle;
   final String? searchHintText;
-  final EdgeInsetsGeometry? searchPadding;
-  final bool showSearch;
+  final EdgeInsetsGeometry? searchInputPadding;
+  final bool showSearchInput;
   final Duration? searchDebounceDuration;
-  final Country? initiallySelectedCountry;
+  final VoidCallback? onSearchSubmitted;
+  final VoidCallback? onSearchEditingComplete;
+  final VoidCallback? onSearchTap;
+  final TextInputAction? searchTextInputAction;
+  final InputBorder? searchInputEnabledBorder;
+  final InputBorder? searchInputFocusedBorder;
+  final Color? searchIconColor;
+  final Country? countryPickerInitiallySelectedCountry;
+  final FocusNode? searchFocusNode;
+  
 
   const CountryPicker({
     super.key,
-    required this.countries,
-    required this.onSelected,
-     this.languageCode = 'en', // Par défaut en anglais
-    this.style = const CountryPickerStyle(),
-    this.showTitle = true,
-    this.title = 'Select Country',
-    this.titlePadding,
-    this.countryItemBuilder,
-    this.countryItemPadding,
-    this.countryItemHeight,
-    this.countryItemColor,
-    this.selectedCountryItemColor,
+    required this.countryPickerCountryList,
+    required this.onCountryPickerSelected,
+    this.countryPickerLanguageCode = 'en',
+    this.searchEnabled ,
+
+    this.searchFocusNode,
+    this.countryPickerStyle = const CountryPickerStyle(),
+    this.countryPickerShowTitle = true,
+    this.countryPickerTitle = 'Select Country',
+    this.countryPickerTitlePadding,
+    this.countryPickerItemBuilder,
+    this.countryPickerItemPadding,
+    this.countryPickerItemHeight,
+    this.countryPickerItemColor,
+    this.countryPickerSelectedItemColor,
     this.searchBuilder,
-    this.searchDecoration,
+    this.searchInputDecoration,
     this.searchTextStyle,
     this.searchHintText,
-    this.searchPadding,
-    this.showSearch = true,
+    this.searchInputPadding,
+    this.showSearchInput = true,
     this.searchDebounceDuration,
-    this.initiallySelectedCountry,
+    this.onSearchSubmitted,
+    this.onSearchEditingComplete,
+    this.onSearchTap,
+    this.searchTextInputAction,
+    this.searchInputEnabledBorder,
+    this.searchInputFocusedBorder,
+    this.searchIconColor,
+    this.countryPickerInitiallySelectedCountry,
   });
 
   @override
@@ -102,13 +129,13 @@ class _CountryPickerState extends State<CountryPicker> {
   late final ValueNotifier<String> _searchNotifier;
   late final TextEditingController _searchController;
   Timer? _debounceTimer;
-
   @override
   void initState() {
     super.initState();
     _searchNotifier = ValueNotifier('');
     _searchController = TextEditingController();
   }
+
 
   @override
   void dispose() {
@@ -126,48 +153,58 @@ class _CountryPickerState extends State<CountryPicker> {
     );
   }
 
- List<Country> _filterCountries(String searchValue) {
-  if (searchValue.isEmpty) return widget.countries;
-  return CountryService.search(searchValue, languageCode: widget.languageCode);
-}
+  List<Country> _filterCountries(String searchValue) {
+    if (searchValue.isEmpty) return widget.countryPickerCountryList;
+    return CountryService.search(searchValue, languageCode: widget.countryPickerLanguageCode);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * (widget.style.modalHeight ?? 0.7),
+        maxHeight: MediaQuery.of(context).size.height * 
+            (widget.countryPickerStyle.countryPickerModalHeight ?? 0.7),
       ),
       decoration: BoxDecoration(
-        color: widget.style.backgroundColor ?? Theme.of(context).canvasColor,
-        borderRadius: widget.style.borderRadius ??
+        color: widget.countryPickerStyle.countryPickerBackgroundColor ?? 
+            Theme.of(context).canvasColor,
+        borderRadius: widget.countryPickerStyle.countryPickerBorderRadius ??
             const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      padding: widget.style.padding ?? const EdgeInsets.all(16),
+      padding: widget.countryPickerStyle.countryPickerPadding ?? 
+          const EdgeInsets.all(16),
       child: Column(
         children: [
-          if (widget.showTitle && widget.title != null)
+          if (widget.countryPickerShowTitle && widget.countryPickerTitle != null)
             Padding(
-              padding: widget.titlePadding ??
-                  widget.style.titlePadding ??
+              padding: widget.countryPickerTitlePadding ??
+                  widget.countryPickerStyle.countryPickerTitlePadding ??
                   const EdgeInsets.only(bottom: 16),
               child: Text(
-                widget.title!,
-                style: widget.style.titleStyle ??
+                widget.countryPickerTitle!,
+                style: widget.countryPickerStyle.countryPickerTitleStyle ??
                     Theme.of(context).textTheme.titleMedium,
               ),
             ),
-          if (widget.showSearch)
+          if (widget.showSearchInput)
             Padding(
-              padding: widget.searchPadding ?? EdgeInsets.zero,
+              padding: widget.searchInputPadding ?? EdgeInsets.zero,
               child: widget.searchBuilder?.call(context, _searchController) ??
                   SearchInput(
-                    controller: _searchController,
-                    decoration: widget.searchDecoration,
-                    textStyle: widget.searchTextStyle,
-                    hintText: widget.searchHintText ?? 'Search countries...',
-                    autofocus: true,
-                    onChanged: _onSearchChanged,
-                    suffixIcon: _searchController.text.isNotEmpty
+                    searchController: _searchController,
+                    searchInputDecoration: widget.searchInputDecoration,
+                    searchTextStyle: widget.searchTextStyle,
+                    searchHintText: widget.searchHintText ?? 'Search countries...',
+                    searchAutofocus: widget.countryPickerStyle.searchContainerBorderRadius != null,
+                    
+                    onSearchTextChanged: _onSearchChanged,
+                 
+                    onSearchTextSubmitted: (_) => widget.onSearchSubmitted?.call(),
+                    onSearchEditingComplete: widget.onSearchEditingComplete,
+                    onSearchTap: widget.onSearchTap,
+                    searchTextInputAction: widget.searchTextInputAction,
+               
+                      searchSuffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () {
@@ -175,20 +212,38 @@ class _CountryPickerState extends State<CountryPicker> {
                               _searchNotifier.value = '';
                             },
                           )
-                        : null,
-                    containerColor: widget.style.searchContainerColor,
-                    containerBorderRadius: widget.style.searchContainerBorderRadius,
-                    containerBorder: widget.style.searchContainerBorder,
-                    containerShadow: widget.style.searchContainerShadow,
-                    margin: widget.style.searchContainerMargin,
-                    padding: widget.style.searchContainerPadding,
-                    inputPadding: widget.style.searchInputPadding,
-                    width: widget.style.searchContainerWidth,
-                    height: widget.style.searchContainerHeight,
-                    constraints: widget.style.searchContainerConstraints,
+                        : widget.searchInputDecoration?.suffixIcon,
+                    searchContainerColor: widget.countryPickerStyle.searchContainerBackgroundColor,
+                    searchContainerBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius,
+                    searchContainerBorder: widget.countryPickerStyle.searchContainerBorder,
+                    searchContainerShadow: widget.countryPickerStyle.searchContainerShadow,
+                    searchContainerMargin: widget.countryPickerStyle.searchContainerMargin,
+                    searchContainerPadding: widget.countryPickerStyle.searchContainerPadding,
+                    searchInputPadding: widget.countryPickerStyle.searchInputPadding,
+                    searchContainerWidth: widget.countryPickerStyle.searchContainerWidth,
+                    searchContainerHeight: widget.countryPickerStyle.searchContainerHeight,
+                    searchContainerConstraints: widget.countryPickerStyle.searchContainerConstraints,
+                    searchInputEnabledBorder: widget.searchInputEnabledBorder,
+                    searchInputFocusedBorder: widget.searchInputFocusedBorder,
+                    searchIconColor: widget.searchIconColor,
+                    searchPrefixIcon: widget.searchInputDecoration?.prefixIcon ??
+                        Icon(Icons.search, color: widget.searchIconColor ?? Theme.of(context).iconTheme.color),
+                    isSearchEnabled: widget.searchEnabled ?? true,    
+                    key: const Key('country_picker_search_input_key'),
+                    searchContentPadding: widget.countryPickerStyle.searchInputPadding ??
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                 
+                    searchInputBackgroundColor: widget.countryPickerStyle.searchContainerBackgroundColor ??
+                        Theme.of(context).inputDecorationTheme.fillColor ??
+                        Theme.of(context).colorScheme.surface,
+                  searchFocusNode: widget.searchFocusNode,
+                  searchInputBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius?.topLeft.x ??
+                        12.0,
+
+                
                   ),
             ),
-          if (widget.showSearch) const SizedBox(height: 16),
+          if (widget.showSearchInput) const SizedBox(height: 16),
           Expanded(
             child: ValueListenableBuilder<String>(
               valueListenable: _searchNotifier,
@@ -200,9 +255,9 @@ class _CountryPickerState extends State<CountryPicker> {
                         itemCount: filteredCountries.length,
                         itemBuilder: (context, index) {
                           final country = filteredCountries[index];
-                          final isSelected = widget.initiallySelectedCountry != null &&
-                              widget.initiallySelectedCountry!.code == country.code;
-                          return widget.countryItemBuilder?.call(context, country) ??
+                          final isSelected = widget.countryPickerInitiallySelectedCountry != null &&
+                              widget.countryPickerInitiallySelectedCountry!.code == country.code;
+                          return widget.countryPickerItemBuilder?.call(context, country) ??
                               _buildDefaultCountryItem(
                                 context,
                                 country,
@@ -245,12 +300,12 @@ class _CountryPickerState extends State<CountryPicker> {
     bool isSelected = false,
   }) {
     return Container(
-      height: widget.countryItemHeight,
+      height: widget.countryPickerItemHeight,
       color: isSelected
-          ? widget.selectedCountryItemColor ?? Theme.of(context).highlightColor
-          : widget.countryItemColor,
-          child: ListTile(
-        contentPadding: widget.countryItemPadding ?? EdgeInsets.zero,
+          ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
+          : widget.countryPickerItemColor,
+      child: ListTile(
+        contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
         leading: SvgPicture.asset(
           'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
           width: 30,
@@ -265,13 +320,13 @@ class _CountryPickerState extends State<CountryPicker> {
             child: const Icon(Icons.flag, size: 16),
           ),
         ),
-       title: Text(
-  '${country.dialCode} ${country.getName(widget.languageCode)}',
-  style: Theme.of(context).textTheme.bodyMedium,
-),
+        title: Text(
+          '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
         trailing: isSelected ? const Icon(Icons.check) : null,
         onTap: () {
-          widget.onSelected(country);
+          widget.onCountryPickerSelected(country);
           Navigator.pop(context);
         },
       ),

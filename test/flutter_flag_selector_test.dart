@@ -9,7 +9,7 @@ void main() {
   testWidgets('FlagSelector displays initial country', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: FlagSelector(initialCountry: 'fr'),
+        home: FlagSelector(flagSelectorInitialCountry: 'fr'),
       ),
     );
 
@@ -23,7 +23,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: FlagSelector(
-            onCountryChanged: (country) => selectedCountry = country,
+            onFlagSelectorCountryChanged: (country) => selectedCountry = country,
           ),
         ),
       ),
