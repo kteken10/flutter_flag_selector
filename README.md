@@ -1,4 +1,4 @@
-Here's the complete Markdown code for your README.md in English:
+Here's the complete updated Markdown code for your README.md:
 
 ```markdown
 # Flutter Flag Selector
@@ -12,8 +12,6 @@ A highly customizable country selector for Flutter, allowing users to easily cho
 
 ## Features
 
-## Features
-
 - 🌍 **Multilingual** - Support for over 20 languages
 - 🔍 **Integrated Search** - Search by country name, code, or dial code
 - 🎨 **Highly Customizable** - Customize the complete appearance of the selector and modal
@@ -21,7 +19,6 @@ A highly customizable country selector for Flutter, allowing users to easily cho
 - 🔄 **Fluid Interface** - Intuitive user experience with smooth animations
 - 📱 **Responsive Design** - Automatically adapts to different screen sizes
 - 💻 **Cross-Platform** - Compatible with Web, Android, iOS, macOS, Linux, and Windows
-
 
 ## 🎌 Supported Languages 🎌
 
@@ -50,6 +47,14 @@ The Flutter Flag Selector package supports the following languages for country n
 | tr   | Turkish     | Andorra       |
 | ar   | Arabic      | أندورا        |
 
+You can set the display language using the `flagSelectorLanguageCode` property:
+
+```dart
+FlagSelector(
+  flagSelectorLanguageCode: 'fr',  // Display country names in French
+  // other properties...
+)
+```
 
 ## Installation
 
@@ -127,6 +132,25 @@ FlagSelector(
 )
 ```
 
+## Flag Assets
+
+The package includes SVG flags for all countries in the following path:
+
+```dart
+'assets/flags/${countryCode.toLowerCase()}.svg'
+```
+
+These assets are bundled with the package and accessed using:
+
+```dart
+SvgPicture.asset(
+  'assets/flags/${country.code.toLowerCase()}.svg',
+  package: 'flutter_flag_selector',
+)
+```
+
+If you want to use custom flag images, you can provide your own implementation using the `flagSelectorFlagBuilder` property.
+
 ## Using the Country Service
 
 The package also includes a service for working with country data:
@@ -162,11 +186,18 @@ List<Country> results = CountryService.advancedSearch(
 | `flagSelectorCountries` | List<Country> | Available countries list | defaultCountries |
 | `flagSelectorInitialCountry` | String? | Initially selected country code | null |
 | `onFlagSelectorCountryChanged` | ValueChanged<Country>? | Function called when a country is selected | null |
-| `flagSelectorPadding` | EdgeInsetsGeometry? | Internal padding of the selector | EdgeInsets.symmetric(horizontal: 12, vertical: 8) |
-| `flagSelectorDecoration` | BoxDecoration? | Decoration of the main container | Default decoration with border |
+| `flagSelectorPadding` | EdgeInsetsGeometry? | Internal padding of the selector | null |
+| `flagSelectorDecoration` | BoxDecoration? | Decoration of the main container | Default decoration with border radius |
+| `flagSelectorBackgroundColor` | Color? | Background color of the selector | null |
 | `flagSelectorGap` | double | Space between elements | 8.0 |
 | `flagSelectorWidth` | double? | Selector width | null (automatic) |
 | `flagSelectorHeight` | double? | Selector height | null (automatic) |
+| `flagSelectorClipBehavior` | Clip? | How to clip the selector's content | Clip.none |
+| `flagSelectorConstraints` | BoxConstraints? | Size constraints for the selector | null |
+| `flagSelectorForegroundDecoration` | Decoration? | Foreground decoration drawn on top of the selector | null |
+| `flagSelectorTransform` | Matrix4? | Transform to apply to the selector | null |
+| `flagSelectorTransformAlignment` | AlignmentGeometry? | Alignment of the transform operation | null |
+| `flagSelectorMargin` | EdgeInsetsGeometry? | External margin of the selector | null |
 | `flagSelectorFlagWidth` | double | Flag width | 30.0 |
 | `flagSelectorFlagHeight` | double | Flag height | 20.0 |
 | `flagSelectorFlagBuilder` | Widget Function(BuildContext, Country)? | Custom builder for the flag | null |
@@ -295,4 +326,7 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 5. Open a Pull Request
 ```
 
-This Markdown code can be directly copied and pasted into your README.md file.
+This updated README.md now includes:
+1. The supported languages section with a table
+2. The new flag assets section explaining how flags are included in the package
+3. Updated main selector properties table with all new properties from your implementation

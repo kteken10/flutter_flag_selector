@@ -14,8 +14,15 @@ class CountryPickerStyle {
   final EdgeInsetsGeometry? countryPickerTitlePadding;
   final Color? countryPickerDividerColor;
   final double? countryPickerDividerThickness;
+  final AlignmentGeometry? countryPickerAlignment;
+  final Clip? countryPickerClipBehavior;
+  final double? countryPickerHeight;
+  final Decoration? countryPickerForegroundDecoration;
+  final EdgeInsetsGeometry? countryPickerMargin;
+  final Matrix4? countryPickerTransform;
+  final AlignmentGeometry? countryPickerTransformAlignment;
+  final double? countryPickerWidth;
 
-  
   final Color? searchContainerBackgroundColor;
   final BorderRadius? searchContainerBorderRadius;
   final BoxBorder? searchContainerBorder;
@@ -36,6 +43,14 @@ class CountryPickerStyle {
     this.countryPickerTitlePadding,
     this.countryPickerDividerColor,
     this.countryPickerDividerThickness,
+    this.countryPickerAlignment,
+    this.countryPickerClipBehavior,
+    this.countryPickerHeight,
+    this.countryPickerForegroundDecoration,
+    this.countryPickerMargin,
+    this.countryPickerTransform,
+    this.countryPickerTransformAlignment,
+    this.countryPickerWidth,
     this.searchContainerBackgroundColor,
     this.searchContainerBorderRadius,
     this.searchContainerBorder,
@@ -46,9 +61,6 @@ class CountryPickerStyle {
     this.searchContainerWidth,
     this.searchContainerHeight,
     this.searchContainerConstraints,
-
-    
-    
   });
 }
 
@@ -66,11 +78,10 @@ class CountryPicker extends StatefulWidget {
   final Color? countryPickerItemColor;
   final Color? countryPickerSelectedItemColor;
 
-
-  // Search properties (conserve le préfixe search original)
+  // Search properties
   final SearchInputBuilder? searchBuilder;
   final InputDecoration? searchInputDecoration;
-  final bool ? searchEnabled;
+  final bool? searchEnabled;
   final TextStyle? searchTextStyle;
   final String? searchHintText;
   final EdgeInsetsGeometry? searchInputPadding;
@@ -85,15 +96,14 @@ class CountryPicker extends StatefulWidget {
   final Color? searchIconColor;
   final Country? countryPickerInitiallySelectedCountry;
   final FocusNode? searchFocusNode;
-  
+  final Key? countryPickerKey;
 
   const CountryPicker({
     super.key,
     required this.countryPickerCountryList,
     required this.onCountryPickerSelected,
     this.countryPickerLanguageCode = 'en',
-    this.searchEnabled ,
-
+    this.searchEnabled,
     this.searchFocusNode,
     this.countryPickerStyle = const CountryPickerStyle(),
     this.countryPickerShowTitle = true,
@@ -119,6 +129,7 @@ class CountryPicker extends StatefulWidget {
     this.searchInputFocusedBorder,
     this.searchIconColor,
     this.countryPickerInitiallySelectedCountry,
+    this.countryPickerKey,
   });
 
   @override
@@ -130,24 +141,24 @@ class _CountryPickerState extends State<CountryPicker> {
   late final TextEditingController _searchController;
   Country? _selectedCountry;
   Timer? _debounceTimer;
+
   @override
   void initState() {
     super.initState();
     _searchNotifier = ValueNotifier('');
     _searchController = TextEditingController();
-      _selectedCountry = widget.countryPickerInitiallySelectedCountry;
+    _selectedCountry = widget.countryPickerInitiallySelectedCountry;
   }
 
   @override
-void didUpdateWidget(CountryPicker oldWidget) {
-  super.didUpdateWidget(oldWidget);
-  if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
-    setState(() {
-      _selectedCountry = widget.countryPickerInitiallySelectedCountry;
-    });
+  void didUpdateWidget(CountryPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
+      setState(() {
+        _selectedCountry = widget.countryPickerInitiallySelectedCountry;
+      });
+    }
   }
-}
-
 
   @override
   void dispose() {
@@ -185,6 +196,15 @@ void didUpdateWidget(CountryPicker oldWidget) {
       ),
       padding: widget.countryPickerStyle.countryPickerPadding ?? 
           const EdgeInsets.all(16),
+      alignment: widget.countryPickerStyle.countryPickerAlignment,
+      clipBehavior: widget.countryPickerStyle.countryPickerClipBehavior ?? Clip.none,
+      height: widget.countryPickerStyle.countryPickerHeight,
+      foregroundDecoration: widget.countryPickerStyle.countryPickerForegroundDecoration,
+      margin: widget.countryPickerStyle.countryPickerMargin,
+      key: widget.countryPickerKey,
+      transform: widget.countryPickerStyle.countryPickerTransform,
+      transformAlignment: widget.countryPickerStyle.countryPickerTransformAlignment,
+      width: widget.countryPickerStyle.countryPickerWidth,
       child: Column(
         children: [
           if (widget.countryPickerShowTitle && widget.countryPickerTitle != null)
@@ -208,15 +228,12 @@ void didUpdateWidget(CountryPicker oldWidget) {
                     searchTextStyle: widget.searchTextStyle,
                     searchHintText: widget.searchHintText ?? 'Search countries...',
                     searchAutofocus: widget.countryPickerStyle.searchContainerBorderRadius != null,
-                    
                     onSearchTextChanged: _onSearchChanged,
-                 
                     onSearchTextSubmitted: (_) => widget.onSearchSubmitted?.call(),
                     onSearchEditingComplete: widget.onSearchEditingComplete,
                     onSearchTap: widget.onSearchTap,
                     searchTextInputAction: widget.searchTextInputAction,
-               
-                      searchSuffixIcon: _searchController.text.isNotEmpty
+                    searchSuffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () {
@@ -240,19 +257,16 @@ void didUpdateWidget(CountryPicker oldWidget) {
                     searchIconColor: widget.searchIconColor,
                     searchPrefixIcon: widget.searchInputDecoration?.prefixIcon ??
                         Icon(Icons.search, color: widget.searchIconColor ?? Theme.of(context).iconTheme.color),
-                    isSearchEnabled: widget.searchEnabled ?? true,    
+                    isSearchEnabled: widget.searchEnabled ?? true,
                     key: const Key('country_picker_search_input_key'),
                     searchContentPadding: widget.countryPickerStyle.searchInputPadding ??
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                 
                     searchInputBackgroundColor: widget.countryPickerStyle.searchContainerBackgroundColor ??
                         Theme.of(context).inputDecorationTheme.fillColor ??
                         Theme.of(context).colorScheme.surface,
-                  searchFocusNode: widget.searchFocusNode,
-                  searchInputBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius?.topLeft.x ??
+                    searchFocusNode: widget.searchFocusNode,
+                    searchInputBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius?.topLeft.x ??
                         12.0,
-
-                
                   ),
             ),
           if (widget.showSearchInput) const SizedBox(height: 16),
@@ -267,8 +281,8 @@ void didUpdateWidget(CountryPicker oldWidget) {
                         itemCount: filteredCountries.length,
                         itemBuilder: (context, index) {
                           final country = filteredCountries[index];
-                          final isSelected = widget.countryPickerInitiallySelectedCountry != null &&
-                              widget.countryPickerInitiallySelectedCountry!.code == country.code;
+                          final isSelected = _selectedCountry != null &&
+                              _selectedCountry!.code == country.code;
                           return widget.countryPickerItemBuilder?.call(context, country) ??
                               _buildDefaultCountryItem(
                                 context,
@@ -307,47 +321,44 @@ void didUpdateWidget(CountryPicker oldWidget) {
   }
 
   Widget _buildDefaultCountryItem(
-  BuildContext context,
-  Country country, {
-  bool isSelected = false,
-}) {
-  final isActuallySelected = _selectedCountry != null && 
-      _selectedCountry!.code == country.code;
-  
-  return Container(
-    height: widget.countryPickerItemHeight,
-    color: isActuallySelected
-        ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
-        : widget.countryPickerItemColor,
-    child: ListTile(
-      contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
-      leading: SvgPicture.asset(
-        'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
-        width: 30,
-        height: 30,
-        placeholderBuilder: (context) => Container(
+    BuildContext context,
+    Country country, {
+    bool isSelected = false,
+  }) {
+    return Container(
+      height: widget.countryPickerItemHeight,
+      alignment: Alignment.centerLeft,
+      color: isSelected
+          ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
+          : widget.countryPickerItemColor,
+      child: ListTile(
+        contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
+        leading: SvgPicture.asset(
+          'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
           width: 30,
           height: 30,
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
+          placeholderBuilder: (context) => Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
+            ),
+            child: const Icon(Icons.flag, size: 16),
           ),
-          child: const Icon(Icons.flag, size: 16),
         ),
+        title: Text(
+          '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        onTap: () {
+          setState(() {
+            _selectedCountry = country;
+          });
+          widget.onCountryPickerSelected(country);
+          Navigator.pop(context);
+        },
       ),
-      title: Text(
-        '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      // trailing: isActuallySelected ? const Icon(Icons.check) : null,
-      onTap: () {
-        setState(() {
-          _selectedCountry = country; // Mettez à jour le pays sélectionné
-        });
-        widget.onCountryPickerSelected(country);
-        Navigator.pop(context);
-      },
-    ),
-  );
-}
+    );
+  }
 }

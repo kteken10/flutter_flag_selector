@@ -31,6 +31,12 @@ class FlagSelector extends StatefulWidget {
   final double? flagSelectorWidth;
   final double? flagSelectorHeight;
   final Color? flagSelectorBackgroundColor;
+  final Clip? flagSelectorClipBehavior;
+  final BoxConstraints? flagSelectorConstraints;
+  final Decoration? flagSelectorForegroundDecoration;
+  final Matrix4? flagSelectorTransform;
+  final AlignmentGeometry? flagSelectorTransformAlignment;
+  final EdgeInsetsGeometry? flagSelectorMargin;
 
   /// Flag display properties
   final double flagSelectorFlagWidth;
@@ -103,6 +109,13 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorGap = 8.0,
     this.flagSelectorWidth,
     this.flagSelectorHeight,
+    this.flagSelectorBackgroundColor,
+    this.flagSelectorClipBehavior,
+    this.flagSelectorConstraints,
+    this.flagSelectorForegroundDecoration,
+    this.flagSelectorTransform,
+    this.flagSelectorTransformAlignment,
+    this.flagSelectorMargin,
     this.flagSelectorFlagWidth = 30,
     this.flagSelectorFlagHeight = 20,
     this.flagSelectorFlagBuilder,
@@ -111,7 +124,6 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorDropdownIcon,
     this.flagSelectorIconSize = 24,
     this.flagSelectorIconColor,
-    this.flagSelectorBackgroundColor,
 
     // [2] Modal Properties
     this.flagSelectorModalBuilder,
@@ -160,7 +172,7 @@ class _FlagSelectorState extends State<FlagSelector> {
     _selectedCountry = _findInitialCountry();
   }
 
-   @override
+  @override
   void didUpdateWidget(FlagSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.flagSelectorInitialCountry != oldWidget.flagSelectorInitialCountry ||
@@ -169,7 +181,7 @@ class _FlagSelectorState extends State<FlagSelector> {
     }
   }
 
-   Country _findInitialCountry() {
+  Country _findInitialCountry() {
     if (widget.flagSelectorInitialCountry != null) {
       return widget.flagSelectorCountries.firstWhere(
         (c) => c.code == widget.flagSelectorInitialCountry,
@@ -195,7 +207,6 @@ class _FlagSelectorState extends State<FlagSelector> {
         context: context,
         backgroundColor: Colors.transparent,
         builder: (_) => CountryPicker(
-
           countryPickerCountryList: widget.flagSelectorCountries,
           countryPickerLanguageCode: widget.flagSelectorLanguageCode,
           onCountryPickerSelected: (country) {
@@ -259,7 +270,7 @@ class _FlagSelectorState extends State<FlagSelector> {
           searchFocusNode: widget.flagSelectorSearchBuilder != null
               ? FocusNode()
               : null,
-        key:  widget.key,
+          key: widget.key,
         ),
       );
     }
@@ -272,44 +283,44 @@ class _FlagSelectorState extends State<FlagSelector> {
       child: Container(
         width: widget.flagSelectorWidth,
         height: widget.flagSelectorHeight,
-        padding: widget.flagSelectorPadding ??
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: widget.flagSelectorPadding,
         decoration: widget.flagSelectorDecoration ??
             BoxDecoration(
-              color: widget.flagSelectorBackgroundColor ??
-                  Theme.of(context).hoverColor,
-              borderRadius: widget.flagSelectorDecoration != null
-                  ? null
-                  : BorderRadius.circular(8),
-           
-              border: Border.all(color: Theme.of(context).dividerColor),
+              color: widget.flagSelectorBackgroundColor,
+              borderRadius: BorderRadius.circular(8),
             ),
+        clipBehavior: widget.flagSelectorClipBehavior ?? Clip.none,
+        constraints: widget.flagSelectorConstraints,
+        foregroundDecoration: widget.flagSelectorForegroundDecoration,
+        margin: widget.flagSelectorMargin,
+        transform: widget.flagSelectorTransform,
+        transformAlignment: widget.flagSelectorTransformAlignment,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Flag display
-            widget.flagSelectorFlagBuilder?.call(context, _selectedCountry) ??
-                SvgPicture.asset(
-                  'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
-                  width: widget.flagSelectorFlagWidth,
-                  height: widget.flagSelectorFlagHeight,
-                  placeholderBuilder: (context) => SizedBox(
-                    width: widget.flagSelectorFlagWidth,
-                    height: widget.flagSelectorFlagHeight,
-                    child: const Icon(Icons.flag),
-                  ),
-                ),
+            if (widget.flagSelectorFlagBuilder != null)
+              widget.flagSelectorFlagBuilder!(context, _selectedCountry)
+            else
+              SvgPicture.asset(
+                'assets/flags/${_selectedCountry.code.toLowerCase()}.svg',
+                width: widget.flagSelectorFlagWidth,
+                height: widget.flagSelectorFlagHeight,
+                package: 'flutter_flag_selector',
+              ),
+
             SizedBox(width: widget.flagSelectorGap),
-            
-            // Country name
+
+            // Country name or custom text
             Text(
               widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ??
-                  _selectedCountry.getName(widget.flagSelectorLanguageCode),
+                  _selectedCountry.name,
               style: widget.flagSelectorTextStyle ??
                   Theme.of(context).textTheme.bodyMedium,
             ),
+
             SizedBox(width: widget.flagSelectorGap),
-            
+
             // Dropdown icon
             widget.flagSelectorDropdownIcon ??
                 Icon(
