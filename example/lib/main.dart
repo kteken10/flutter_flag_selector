@@ -16,7 +16,11 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('Flag Selector Demo')),
         body: const Center(
-          child: FlagSelector(),
+          child: FlagSelector(
+          
+           
+          
+          ),
         ),
       ),
     );

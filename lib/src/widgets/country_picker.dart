@@ -339,7 +339,7 @@ void didUpdateWidget(CountryPicker oldWidget) {
         '${country.dialCode} ${country.getName(widget.countryPickerLanguageCode)}',
         style: Theme.of(context).textTheme.bodyMedium,
       ),
-      trailing: isActuallySelected ? const Icon(Icons.check) : null,
+      // trailing: isActuallySelected ? const Icon(Icons.check) : null,
       onTap: () {
         setState(() {
           _selectedCountry = country; // Mettez à jour le pays sélectionné

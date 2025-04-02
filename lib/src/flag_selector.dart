@@ -185,6 +185,7 @@ class _FlagSelectorState extends State<FlagSelector> {
             ctx, widget.flagSelectorCountries, (country) {
           widget.onFlagSelectorCountryChanged?.call(country);
           setState(() => _selectedCountry = country);
+          print(_selectedCountry.dialCode);
         }),
       );
     } else {
@@ -192,6 +193,7 @@ class _FlagSelectorState extends State<FlagSelector> {
         context: context,
         backgroundColor: Colors.transparent,
         builder: (_) => CountryPicker(
+
           countryPickerCountryList: widget.flagSelectorCountries,
           countryPickerLanguageCode: widget.flagSelectorLanguageCode,
           onCountryPickerSelected: (country) {
@@ -231,6 +233,7 @@ class _FlagSelectorState extends State<FlagSelector> {
           countryPickerItemColor: widget.flagSelectorCountryItemColor,
           countryPickerSelectedItemColor:
               widget.flagSelectorSelectedCountryItemColor,
+              
           searchBuilder: widget.flagSelectorSearchBuilder,
           searchInputDecoration: widget.flagSelectorSearchDecoration,
           searchTextStyle: widget.flagSelectorSearchTextStyle,
@@ -240,7 +243,7 @@ class _FlagSelectorState extends State<FlagSelector> {
           searchIconColor:
               widget.flagSelectorIconColor ?? Theme.of(context).iconTheme.color,
           countryPickerInitiallySelectedCountry: _selectedCountry,
-          
+
           onSearchEditingComplete: () => FocusScope.of(context).unfocus(),
           onSearchSubmitted: () => FocusScope.of(context).unfocus(),
           onSearchTap: () => FocusScope.of(context).unfocus(),
