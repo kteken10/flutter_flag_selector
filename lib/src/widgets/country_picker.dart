@@ -323,6 +323,7 @@ void didUpdateWidget(CountryPicker oldWidget) {
     );
   }
 
+
   Widget _buildDefaultCountryItem(
     BuildContext context,
     Country country, {
@@ -330,15 +331,14 @@ void didUpdateWidget(CountryPicker oldWidget) {
   }) {
     return Container(
       height: widget.countryPickerItemHeight,
-      
-
+    
       color: isSelected
           ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
           : widget.countryPickerItemColor,
       child: ListTile(
         contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
         leading: SvgPicture.asset(
-          'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
+         'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
           width: 30,
           height: 30,
           placeholderBuilder: (context) => Container(

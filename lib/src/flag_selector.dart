@@ -305,10 +305,10 @@ countryPickerKey: widget.key,
               widget.flagSelectorFlagBuilder!(context, _selectedCountry)
             else
               SvgPicture.asset(
-                'assets/flags/${_selectedCountry.code.toLowerCase()}.svg',
+                 'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
                 width: widget.flagSelectorFlagWidth,
                 height: widget.flagSelectorFlagHeight,
-                package: 'flutter_flag_selector',
+          
               ),
 
             SizedBox(width: widget.flagSelectorGap),

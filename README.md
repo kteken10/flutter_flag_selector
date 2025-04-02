@@ -1,6 +1,4 @@
-Here's the complete updated Markdown code for your README.md:
 
-```markdown
 # Flutter Flag Selector
 
 [![Pub Version](https://img.shields.io/pub/v/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
