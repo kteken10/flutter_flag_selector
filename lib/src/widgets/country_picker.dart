@@ -143,22 +143,25 @@ class _CountryPickerState extends State<CountryPicker> {
   Timer? _debounceTimer;
 
   @override
-  void initState() {
-    super.initState();
-    _searchNotifier = ValueNotifier('');
-    _searchController = TextEditingController();
-    _selectedCountry = widget.countryPickerInitiallySelectedCountry;
-  }
+void initState() {
+  super.initState();
+  _searchNotifier = ValueNotifier('');
+  _searchController = TextEditingController();
+  _selectedCountry = widget.countryPickerInitiallySelectedCountry ?? 
+      (widget.countryPickerCountryList.isNotEmpty ? widget.countryPickerCountryList.first : null);
+}
+
 
   @override
-  void didUpdateWidget(CountryPicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
-      setState(() {
-        _selectedCountry = widget.countryPickerInitiallySelectedCountry;
-      });
-    }
+void didUpdateWidget(CountryPicker oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
+    setState(() {
+      _selectedCountry = widget.countryPickerInitiallySelectedCountry ?? 
+          (widget.countryPickerCountryList.isNotEmpty ? widget.countryPickerCountryList.first : null);
+    });
   }
+}
 
   @override
   void dispose() {
@@ -327,7 +330,8 @@ class _CountryPickerState extends State<CountryPicker> {
   }) {
     return Container(
       height: widget.countryPickerItemHeight,
-      alignment: Alignment.centerLeft,
+      
+
       color: isSelected
           ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
           : widget.countryPickerItemColor,

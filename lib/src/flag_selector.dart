@@ -246,6 +246,7 @@ class _FlagSelectorState extends State<FlagSelector> {
           countryPickerItemColor: widget.flagSelectorCountryItemColor,
           countryPickerSelectedItemColor:
               widget.flagSelectorSelectedCountryItemColor,
+            
               
           searchBuilder: widget.flagSelectorSearchBuilder,
           searchInputDecoration: widget.flagSelectorSearchDecoration,
@@ -256,11 +257,12 @@ class _FlagSelectorState extends State<FlagSelector> {
           searchIconColor:
               widget.flagSelectorIconColor ?? Theme.of(context).iconTheme.color,
           countryPickerInitiallySelectedCountry: _selectedCountry,
+countryPickerKey: widget.key,
 
           onSearchEditingComplete: () => FocusScope.of(context).unfocus(),
           onSearchSubmitted: () => FocusScope.of(context).unfocus(),
           onSearchTap: () => FocusScope.of(context).unfocus(),
-          searchDebounceDuration: const Duration(milliseconds: 300),
+          searchDebounceDuration: const Duration(milliseconds: 400),
           searchTextInputAction: TextInputAction.search,
           searchInputEnabledBorder:
               widget.flagSelectorSearchDecoration?.enabledBorder,
