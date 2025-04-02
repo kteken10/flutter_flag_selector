@@ -30,6 +30,7 @@ class FlagSelector extends StatefulWidget {
   final double flagSelectorGap;
   final double? flagSelectorWidth;
   final double? flagSelectorHeight;
+  final Color? flagSelectorBackgroundColor;
 
   /// Flag display properties
   final double flagSelectorFlagWidth;
@@ -110,6 +111,7 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorDropdownIcon,
     this.flagSelectorIconSize = 24,
     this.flagSelectorIconColor,
+    this.flagSelectorBackgroundColor,
 
     // [2] Modal Properties
     this.flagSelectorModalBuilder,
@@ -274,8 +276,12 @@ class _FlagSelectorState extends State<FlagSelector> {
             const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: widget.flagSelectorDecoration ??
             BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(8),
+              color: widget.flagSelectorBackgroundColor ??
+                  Theme.of(context).hoverColor,
+              borderRadius: widget.flagSelectorDecoration != null
+                  ? null
+                  : BorderRadius.circular(8),
+           
               border: Border.all(color: Theme.of(context).dividerColor),
             ),
         child: Row(
