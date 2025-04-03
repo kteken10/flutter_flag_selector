@@ -54,12 +54,11 @@ FlagSelector(
 )
 ```
 
-
 ## 🎥 Demo
 
 | BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option |
 |:-------------------------------:|:--------------------:|:-------------------:|
-| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) |
+| <img src="https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b" width="288" height="420px" /> | <img src="https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b" width="300" height="100%" /> | <img src="https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159" width="300" height="100%" /> |
 ## Installation
 
 
