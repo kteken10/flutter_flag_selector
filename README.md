@@ -54,7 +54,20 @@ FlagSelector(
 )
 ```
 
+
+## 🎥 Demo
+
+### BottomSheet Country Modal Option
+![Basic Usage Demo](https://raw.githubusercontent.com/your-username/flutter_flag_selector/main/screenshots/basic_usage.gif)
+
+### Dialog Country Option
+![Customization Demo](https://raw.githubusercontent.com/your-username/flutter_flag_selector/main/screenshots/customization.gif)
+
+
+### PopUp Country  Option
+![Customization Demo](https://raw.githubusercontent.com/your-username/flutter_flag_selector/main/screenshots/customization.gif)
 ## Installation
+
 
 Add `flutter_flag_selector` to your `pubspec.yaml` file:
 
@@ -63,7 +76,7 @@ dependencies:
   flutter_flag_selector: ^latest_version
 ```
 
-Then run:
+ Then run :
 
 ```bash
 flutter pub get
