@@ -1,4 +1,7 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  errors:
+    unnecessary_non_null_assertion: error # Transforme le warning en erreur
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

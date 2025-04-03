@@ -21,7 +21,7 @@ void showPopupMenuPicker({
       PopupMenuItem<Country>(
         enabled: false, // Désactive la sélection directe de cet élément
         child: SizedBox(
-          width:   Overlay.of(context)!.context.size!.width, // Prend toute la largeur, // Définissez une largeur fixe pour le menu
+         width: MediaQuery.of(context).size.width,
           height: 400, // Définissez une hauteur fixe pour le menu
           child: CountryPicker(
             countryPickerCountryList: countries,
