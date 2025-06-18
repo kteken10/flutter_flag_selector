@@ -29,6 +29,7 @@ class FlagSelector extends StatefulWidget {
   // ======================================================================= //
   /// The language code used for displaying country names.
   /// 
+  final bool showCountryName;
   /// Supported codes include 'en', 'fr', 'es', 'de', etc.
   /// Default is 'en' (English).
   final String flagSelectorLanguageCode;
@@ -234,6 +235,8 @@ class FlagSelector extends StatefulWidget {
   /// Size constraints for the search container.
   final BoxConstraints? flagSelectorSearchContainerConstraints;
 
+  
+
   /// Creates a flag selector widget with customizable appearance and behavior.
   /// 
   /// The [flagSelectorLanguageCode] parameter determines the language used for
@@ -268,6 +271,7 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorDropdownIcon,
     this.flagSelectorIconSize = 24,
     this.flagSelectorIconColor,
+    this.showCountryName = true
 
     // [2] Modal Properties
     this.flagSelectorModalBuilder,
@@ -443,33 +447,39 @@ class _FlagSelectorState extends State<FlagSelector> {
         transform: widget.flagSelectorTransform,
         transformAlignment: widget.flagSelectorTransformAlignment,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.flagSelectorFlagBuilder != null)
-              widget.flagSelectorFlagBuilder!(context, _selectedCountry)
-            else
-              SvgPicture.asset(
-                'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
-                width: widget.flagSelectorFlagWidth,
-                height: widget.flagSelectorFlagHeight,
-              ),
-            SizedBox(width: widget.flagSelectorGap),
-            Text(
-              widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ??
-                  _selectedCountry.name,
-              style: widget.flagSelectorTextStyle ??
-                  Theme.of(context).textTheme.bodyMedium,
-            ),
-            SizedBox(width: widget.flagSelectorGap),
-            widget.flagSelectorDropdownIcon ??
-                Icon(
-                  Icons.arrow_drop_down,
-                  size: widget.flagSelectorIconSize,
-                  color: widget.flagSelectorIconColor ??
-                      Theme.of(context).iconTheme.color,
-                ),
-          ],
-        ),
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    // [1] Affichage du drapeau (custom ou SVG par défaut)
+    if (widget.flagSelectorFlagBuilder != null)
+      widget.flagSelectorFlagBuilder!(context, _selectedCountry)
+    else
+      SvgPicture.asset(
+        'packages/flutter_flag_selector/assets/images/${_selectedCountry.code.toUpperCase()}.svg',
+        width: widget.flagSelectorFlagWidth,
+        height: widget.flagSelectorFlagHeight,
+      ),
+
+    // [2] Espacement et nom du pays (conditionnel)
+    if (widget.showCountryName) 
+      SizedBox(width: widget.flagSelectorGap),
+    
+    if (widget.showCountryName)
+      Text(
+        widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ?? _selectedCountry.name,
+        style: widget.flagSelectorTextStyle ?? Theme.of(context).textTheme.bodyMedium,
+      ),
+
+    // [3] Espacement fixe avant l'icône
+    SizedBox(width: widget.flagSelectorGap),
+
+    // [4] Icône dropdown (custom ou par défaut)
+    widget.flagSelectorDropdownIcon ?? Icon(
+      Icons.arrow_drop_down,
+      size: widget.flagSelectorIconSize,
+      color: widget.flagSelectorIconColor ?? Theme.of(context).iconTheme.color,
+    ),
+  ],
+),
       ),
     );
   }
