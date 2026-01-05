@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import '../../models/country_model.dart';
 import '../country_picker.dart';
 
-/// Shows a popup menu-based country picker with full customization support.
+/// Shows a draggable scrollable sheet-based country picker with full customization support.
 ///
-/// This function displays a popup menu positioned relative to the widget that
-/// triggered it, containing a [CountryPicker] widget with all customization options.
-void showPopupMenuPicker({
+/// This function displays a draggable sheet that can be resized by dragging,
+/// containing a [CountryPicker] widget with all customization options.
+/// The sheet starts at [initialChildSize] and can be dragged between
+/// [minChildSize] and [maxChildSize].
+void showDraggableSheetPicker({
   required BuildContext context,
-  required Offset offset,
   required List<Country> countries,
   required String languageCode,
   required ValueChanged<Country> onSelected,
@@ -40,44 +41,39 @@ void showPopupMenuPicker({
   required double? searchContainerHeight,
   required BoxConstraints? searchContainerConstraints,
   required bool searchEnabled,
+  double minChildSize = 0.25,
+  double maxChildSize = 0.9,
+  double initialChildSize = 0.7,
   Key? key,
 }) {
-  final Size screenSize = MediaQuery.of(context).size;
-
-  // Calcule la position relative pour le popup menu
-  // Le menu apparaît sous le widget qui l'a déclenché
-  final double left = offset.dx;
-  final double top = offset.dy;
-  final double right = screenSize.width - offset.dx;
-  final double bottom = screenSize.height - offset.dy;
-
-  final double menuHeight = screenSize.height * modalHeightFactor;
-
-  showMenu<Country>(
+  showModalBottomSheet(
     context: context,
-    position: RelativeRect.fromLTRB(
-      left,
-      top,
-      right,
-      bottom,
-    ),
-    items: [
-      PopupMenuItem<Country>(
-        enabled: false, // Désactive la sélection directe de cet élément
-        child: SizedBox(
-          width: screenSize.width * 0.9,
-          height: menuHeight.clamp(200.0, screenSize.height * 0.8),
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (ctx) => DraggableScrollableSheet(
+      initialChildSize: initialChildSize,
+      minChildSize: minChildSize,
+      maxChildSize: maxChildSize,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: pickerStyle?.countryPickerBackgroundColor ??
+                Theme.of(context).canvasColor,
+            borderRadius: pickerStyle?.countryPickerBorderRadius ??
+                const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
           child: CountryPicker(
             countryPickerCountryList: countries,
             countryPickerLanguageCode: languageCode,
-            onCountryPickerSelected: (selectedCountry) {
-              onSelected(selectedCountry);
+            onCountryPickerSelected: (country) {
+              onSelected(country);
               // CountryPicker gère déjà la fermeture avec Navigator.pop(context)
             },
             countryPickerStyle: pickerStyle ??
                 CountryPickerStyle(
                   countryPickerBackgroundColor: Theme.of(context).canvasColor,
-                  countryPickerBorderRadius: BorderRadius.circular(12),
+                  countryPickerBorderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(20)),
                   countryPickerTitleStyle: modalTitleStyle ??
                       Theme.of(context).textTheme.titleMedium,
                   countryPickerModalHeight: modalHeightFactor,
@@ -109,8 +105,8 @@ void showPopupMenuPicker({
             countryPickerKey: key,
             searchEnabled: searchEnabled,
           ),
-        ),
-      ),
-    ],
+        );
+      },
+    ),
   );
 }

@@ -52,7 +52,7 @@ class SearchInput extends StatefulWidget {
     this.isSearchEnabled = true,
     this.searchFocusNode,
     this.searchTextInputAction,
-    
+
     // Container styling
     this.searchContainerMargin,
     this.searchContainerPadding,
@@ -63,7 +63,7 @@ class SearchInput extends StatefulWidget {
     this.searchContainerWidth,
     this.searchContainerHeight,
     this.searchContainerConstraints,
-    
+
     // Input field styling
     this.searchInputPadding,
     this.searchInputBackgroundColor,
@@ -118,8 +118,10 @@ class _SearchInputState extends State<SearchInput> {
           focusNode: widget.searchFocusNode,
           autofocus: widget.searchAutofocus,
           enabled: widget.isSearchEnabled,
-          style: widget.searchTextStyle ?? Theme.of(context).textTheme.bodyMedium,
-          decoration: widget.searchInputDecoration ?? _buildDefaultSearchDecoration(context),
+          style:
+              widget.searchTextStyle ?? Theme.of(context).textTheme.bodyMedium,
+          decoration: widget.searchInputDecoration ??
+              _buildDefaultSearchDecoration(context),
           onChanged: widget.onSearchTextChanged,
           onSubmitted: widget.onSearchTextSubmitted,
           onEditingComplete: widget.onSearchEditingComplete,
@@ -134,21 +136,26 @@ class _SearchInputState extends State<SearchInput> {
     return InputDecoration(
       hintText: widget.searchHintText,
       prefixIcon: widget.searchPrefixIcon ??
-          Icon(Icons.search, color: widget.searchIconColor ?? Theme.of(context).iconTheme.color),
+          Icon(Icons.search,
+              color:
+                  widget.searchIconColor ?? Theme.of(context).iconTheme.color),
       suffixIcon: widget.searchSuffixIcon,
       border: widget.searchInputEnabledBorder ??
           OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderRadius:
+                BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
             borderSide: BorderSide(color: Theme.of(context).dividerColor),
           ),
       enabledBorder: widget.searchInputEnabledBorder ??
           OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderRadius:
+                BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
             borderSide: BorderSide(color: Theme.of(context).dividerColor),
           ),
       focusedBorder: widget.searchInputFocusedBorder ??
           OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
+            borderRadius:
+                BorderRadius.circular(widget.searchInputBorderRadius ?? 12),
             borderSide: BorderSide(color: Theme.of(context).primaryColor),
           ),
       filled: true,

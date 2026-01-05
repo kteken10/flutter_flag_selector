@@ -49,8 +49,8 @@ void showModalBottomSheetPicker({
             countryPickerBackgroundColor: Theme.of(context).canvasColor,
             countryPickerBorderRadius:
                 const BorderRadius.vertical(top: Radius.circular(20)),
-            countryPickerTitleStyle: modalTitleStyle ??
-                Theme.of(context).textTheme.titleMedium,
+            countryPickerTitleStyle:
+                modalTitleStyle ?? Theme.of(context).textTheme.titleMedium,
             countryPickerModalHeight: modalHeightFactor,
             searchContainerBackgroundColor: searchContainerColor,
             searchContainerBorderRadius: searchContainerBorderRadius,

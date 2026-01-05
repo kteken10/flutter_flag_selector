@@ -20,7 +20,8 @@ void showPopupMenuPicker({
   required List<Country> countries,
   required ValueChanged<Country> onSelected,
 }) {
-  final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+  final RenderBox overlay =
+      Overlay.of(context).context.findRenderObject() as RenderBox;
   showMenu<Country>(
     context: context,
     position: RelativeRect.fromLTRB(
@@ -43,6 +44,3 @@ void showPopupMenuPicker({
     }
   });
 }
-
-
-

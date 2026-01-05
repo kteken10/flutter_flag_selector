@@ -17,6 +17,7 @@ A highly customizable country selector for Flutter, allowing users to easily cho
 - 🔄 **Fluid Interface** - Intuitive user experience with smooth animations
 - 📱 **Responsive Design** - Automatically adapts to different screen sizes
 - 💻 **Cross-Platform** - Compatible with Web, Android, iOS, macOS, Linux, and Windows
+- 🎯 **4 Display Modes** - Choose between modal bottom sheet, dialog, popup menu, or draggable sheet
 
 ## 🎌 Supported Languages 🎌
 
@@ -55,11 +56,29 @@ FlagSelector(
 ```
 
 
+## 🎯 Display Modes
+
+The package supports 4 different display modes for selecting countries:
+
+1. **Modal Bottom Sheet** (default) - A bottom sheet that slides up from the bottom
+2. **Dialog** - A centered dialog modal
+3. **Popup Menu** - A popup menu positioned relative to the selector
+4. **Draggable Sheet** - A resizable sheet that can be dragged up and down
+
+You can choose the display mode using the `flagSelectorOptionType` property:
+
+```dart
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.dialog, // or modalBottomSheet, popupMenu, draggableSheet
+  // other properties...
+)
+```
+
 ## 🎥 Demo
 
-| BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option |
-|:-------------------------------:|:--------------------:|:-------------------:|
-| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) |
+| BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option | Draggable Sheet Option |
+|:-------------------------------:|:--------------------:|:-------------------:|:---------------------:|
+| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) | *Coming soon* |
 ## Installation
 
 
@@ -96,6 +115,34 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+```
+
+### Using Different Display Modes
+
+```dart
+// Modal Bottom Sheet (default)
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.modalBottomSheet,
+  onFlagSelectorCountryChanged: (country) => print(country.name),
+)
+
+// Dialog
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.dialog,
+  onFlagSelectorCountryChanged: (country) => print(country.name),
+)
+
+// Popup Menu
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.popupMenu,
+  onFlagSelectorCountryChanged: (country) => print(country.name),
+)
+
+// Draggable Sheet
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.draggableSheet,
+  onFlagSelectorCountryChanged: (country) => print(country.name),
+)
 ```
 
 ## Advanced Customization
@@ -187,7 +234,8 @@ List<Country> results = CountryService.advancedSearch(
 
 | Property | Type | Description | Default Value |
 | --- | --- | --- | --- |
-| `flagSelectorLanguageCode` | String | Language code for country names | 'es' |
+| `flagSelectorLanguageCode` | String | Language code for country names | 'en' |
+| `flagSelectorOptionType` | FlagSelectorOptionType | Display mode (modalBottomSheet, dialog, popupMenu, draggableSheet) | modalBottomSheet |
 | `flagSelectorCountries` | List<Country> | Available countries list | defaultCountries |
 | `flagSelectorInitialCountry` | String? | Initially selected country code | null |
 | `onFlagSelectorCountryChanged` | ValueChanged<Country>? | Function called when a country is selected | null |
@@ -316,6 +364,20 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+## Recent Updates
+
+### Version 0.0.1+ (Latest)
+
+✅ **All 4 display modes now fully functional**
+- Fixed dialog mode with complete property propagation
+- Fixed popup menu mode with correct positioning
+- Implemented draggable sheet mode with resize capability
+- All modes now support full customization (30+ properties)
+- Improved error handling and edge case management
+- Automatic modal closure after country selection
+
+**Breaking Changes**: None - fully backward compatible
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -329,9 +391,3 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-```
-
-This updated README.md now includes:
-1. The supported languages section with a table
-2. The new flag assets section explaining how flags are included in the package
-3. Updated main selector properties table with all new properties from your implementation
