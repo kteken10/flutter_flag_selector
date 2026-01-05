@@ -422,7 +422,13 @@ const List<Country> defaultCountries = [
     currency: 'AUD',
     currencyName: 'Australian Dollar',
     emoji: '🇦🇺',
-    timezones: ['UTC+08:00', 'UTC+09:30', 'UTC+10:00', 'UTC+10:30', 'UTC+11:00'],
+    timezones: [
+      'UTC+08:00',
+      'UTC+09:30',
+      'UTC+10:00',
+      'UTC+10:30',
+      'UTC+11:00'
+    ],
     region: 'Oceania',
     translations: {
       'en': 'Australia',
@@ -1214,7 +1220,14 @@ const List<Country> defaultCountries = [
     currency: 'CAD',
     currencyName: 'Canadian Dollar',
     emoji: '🇨🇦',
-    timezones: ['UTC-08:00', 'UTC-07:00', 'UTC-06:00', 'UTC-05:00', 'UTC-04:00', 'UTC-03:30'],
+    timezones: [
+      'UTC-08:00',
+      'UTC-07:00',
+      'UTC-06:00',
+      'UTC-05:00',
+      'UTC-04:00',
+      'UTC-03:30'
+    ],
     region: 'Americas',
     translations: {
       'en': 'Canada',
@@ -1833,7 +1846,7 @@ const List<Country> defaultCountries = [
       'ar': 'جمهورية الدومينيكان',
     },
   ),
-   Country(
+  Country(
     code: 'ec',
     name: 'Ecuador',
     dialCode: '+593',
@@ -2097,214 +2110,214 @@ const List<Country> defaultCountries = [
       'ar': 'إثيوبيا',
     },
   ),
- // Faroe Islands
-Country(
-  code: 'fo',
-  name: 'Faroe Islands',
-  dialCode: '+298',
-  iso3: 'FRO',
-  currency: 'DKK',
-  currencyName: 'Danish Krone',
-  emoji: '🇫🇴',
-  timezones: ['UTC+00:00'],
-  region: 'Europe',
-  translations: {
-    'en': 'Faroe Islands',
-    'ru': 'Фарерские острова',
-    'pl': 'Wyspy Owcze',
-    'ua': 'Фарерські острови',
-    'cz': 'Faerské ostrovy',
-    'by': 'Фарэрскія астравы',
-    'pt': 'Ilhas Faroé',
-    'es': 'Islas Feroe',
-    'ro': 'Insulele Feroe',
-    'bg': 'Фарьорски острови',
-    'de': 'Färöer-Inseln',
-    'fr': 'Îles Féroé',
-    'nl': 'Faeröer',
-    'it': 'Isole Faroe',
-    'cn': '法罗群岛',
-    'ee': 'Fääri saared',
-    'jp': 'フェロー諸島',
-    'he': 'איי פארו',
-    'tr': 'Faroe Adaları',
-    'ar': 'جزر فارو',
-  },
-),
+  // Faroe Islands
+  Country(
+    code: 'fo',
+    name: 'Faroe Islands',
+    dialCode: '+298',
+    iso3: 'FRO',
+    currency: 'DKK',
+    currencyName: 'Danish Krone',
+    emoji: '🇫🇴',
+    timezones: ['UTC+00:00'],
+    region: 'Europe',
+    translations: {
+      'en': 'Faroe Islands',
+      'ru': 'Фарерские острова',
+      'pl': 'Wyspy Owcze',
+      'ua': 'Фарерські острови',
+      'cz': 'Faerské ostrovy',
+      'by': 'Фарэрскія астравы',
+      'pt': 'Ilhas Faroé',
+      'es': 'Islas Feroe',
+      'ro': 'Insulele Feroe',
+      'bg': 'Фарьорски острови',
+      'de': 'Färöer-Inseln',
+      'fr': 'Îles Féroé',
+      'nl': 'Faeröer',
+      'it': 'Isole Faroe',
+      'cn': '法罗群岛',
+      'ee': 'Fääri saared',
+      'jp': 'フェロー諸島',
+      'he': 'איי פארו',
+      'tr': 'Faroe Adaları',
+      'ar': 'جزر فارو',
+    },
+  ),
 
 // Fiji
-Country(
-  code: 'fj',
-  name: 'Fiji',
-  dialCode: '+679',
-  iso3: 'FJI',
-  currency: 'FJD',
-  currencyName: 'Fiji Dollar',
-  emoji: '🇫🇯',
-  timezones: ['UTC+12:00'],
-  region: 'Oceania',
-  translations: {
-    'en': 'Fiji',
-    'ru': 'Фиджи',
-    'pl': 'Fidżi',
-    'ua': 'Фіджі',
-    'cz': 'Fidži',
-    'by': 'Фіджы',
-    'pt': 'Fiji',
-    'es': 'Fiyi',
-    'ro': 'Fiji',
-    'bg': 'Фиджи',
-    'de': 'Fidschi',
-    'fr': 'Fidji',
-    'nl': 'Fiji',
-    'it': 'Figi',
-    'cn': '斐济',
-    'ee': 'Fidži',
-    'jp': 'フィジー',
-    'he': 'פיג׳י',
-    'tr': 'Fiji',
-    'ar': 'فيجي',
-  },
-),
+  Country(
+    code: 'fj',
+    name: 'Fiji',
+    dialCode: '+679',
+    iso3: 'FJI',
+    currency: 'FJD',
+    currencyName: 'Fiji Dollar',
+    emoji: '🇫🇯',
+    timezones: ['UTC+12:00'],
+    region: 'Oceania',
+    translations: {
+      'en': 'Fiji',
+      'ru': 'Фиджи',
+      'pl': 'Fidżi',
+      'ua': 'Фіджі',
+      'cz': 'Fidži',
+      'by': 'Фіджы',
+      'pt': 'Fiji',
+      'es': 'Fiyi',
+      'ro': 'Fiji',
+      'bg': 'Фиджи',
+      'de': 'Fidschi',
+      'fr': 'Fidji',
+      'nl': 'Fiji',
+      'it': 'Figi',
+      'cn': '斐济',
+      'ee': 'Fidži',
+      'jp': 'フィジー',
+      'he': 'פיג׳י',
+      'tr': 'Fiji',
+      'ar': 'فيجي',
+    },
+  ),
 
 // Finland
-Country(
-  code: 'fi',
-  name: 'Finland',
-  dialCode: '+358',
-  iso3: 'FIN',
-  currency: 'EUR',
-  currencyName: 'Euro',
-  emoji: '🇫🇮',
-  timezones: ['UTC+02:00'],
-  region: 'Europe',
-  translations: {
-    'en': 'Finland',
-    'ru': 'Финляндия',
-    'pl': 'Finlandia',
-    'ua': 'Фінляндія',
-    'cz': 'Finsko',
-    'by': 'Фінляндыя',
-    'pt': 'Finlândia',
-    'es': 'Finlandia',
-    'ro': 'Finlanda',
-    'bg': 'Финландия',
-    'de': 'Finnland',
-    'fr': 'Finlande',
-    'nl': 'Finland',
-    'it': 'Finlandia',
-    'cn': '芬兰',
-    'ee': 'Soome',
-    'jp': 'フィンランド',
-    'he': 'פינלנד',
-    'tr': 'Finlandiya',
-    'ar': 'فنلندا',
-  },
-),
+  Country(
+    code: 'fi',
+    name: 'Finland',
+    dialCode: '+358',
+    iso3: 'FIN',
+    currency: 'EUR',
+    currencyName: 'Euro',
+    emoji: '🇫🇮',
+    timezones: ['UTC+02:00'],
+    region: 'Europe',
+    translations: {
+      'en': 'Finland',
+      'ru': 'Финляндия',
+      'pl': 'Finlandia',
+      'ua': 'Фінляндія',
+      'cz': 'Finsko',
+      'by': 'Фінляндыя',
+      'pt': 'Finlândia',
+      'es': 'Finlandia',
+      'ro': 'Finlanda',
+      'bg': 'Финландия',
+      'de': 'Finnland',
+      'fr': 'Finlande',
+      'nl': 'Finland',
+      'it': 'Finlandia',
+      'cn': '芬兰',
+      'ee': 'Soome',
+      'jp': 'フィンランド',
+      'he': 'פינלנד',
+      'tr': 'Finlandiya',
+      'ar': 'فنلندا',
+    },
+  ),
 
 // France
-Country(
-  code: 'fr',
-  name: 'France',
-  dialCode: '+33',
-  iso3: 'FRA',
-  currency: 'EUR',
-  currencyName: 'Euro',
-  emoji: '🇫🇷',
-  timezones: ['UTC+01:00', 'UTC+02:00'],
-  region: 'Europe',
-  translations: {
-    'en': 'France',
-    'ru': 'Франция',
-    'pl': 'Francja',
-    'ua': 'Франція',
-    'cz': 'Francie',
-    'by': 'Францыя',
-    'pt': 'França',
-    'es': 'Francia',
-    'ro': 'Franța',
-    'bg': 'Франция',
-    'de': 'Frankreich',
-    'fr': 'France',
-    'nl': 'Frankrijk',
-    'it': 'Francia',
-    'cn': '法国',
-    'ee': 'Prantsusmaa',
-    'jp': 'フランス',
-    'he': 'צרפת',
-    'tr': 'Fransa',
-    'ar': 'فرنسا',
-  },
-),
+  Country(
+    code: 'fr',
+    name: 'France',
+    dialCode: '+33',
+    iso3: 'FRA',
+    currency: 'EUR',
+    currencyName: 'Euro',
+    emoji: '🇫🇷',
+    timezones: ['UTC+01:00', 'UTC+02:00'],
+    region: 'Europe',
+    translations: {
+      'en': 'France',
+      'ru': 'Франция',
+      'pl': 'Francja',
+      'ua': 'Франція',
+      'cz': 'Francie',
+      'by': 'Францыя',
+      'pt': 'França',
+      'es': 'Francia',
+      'ro': 'Franța',
+      'bg': 'Франция',
+      'de': 'Frankreich',
+      'fr': 'France',
+      'nl': 'Frankrijk',
+      'it': 'Francia',
+      'cn': '法国',
+      'ee': 'Prantsusmaa',
+      'jp': 'フランス',
+      'he': 'צרפת',
+      'tr': 'Fransa',
+      'ar': 'فرنسا',
+    },
+  ),
 
 // French Guiana
-Country(
-  code: 'gf',
-  name: 'French Guiana',
-  dialCode: '+594',
-  iso3: 'GUF',
-  currency: 'EUR',
-  currencyName: 'Euro',
-  emoji: '🇬🇫',
-  timezones: ['UTC-03:00'],
-  region: 'Americas',
-  translations: {
-    'en': 'French Guiana',
-    'ru': 'Французская Гвиана',
-    'pl': 'Gujana Francuska',
-    'ua': 'Французька Гвіана',
-    'cz': 'Francouzská Guyana',
-    'by': 'Французская Гвіяна',
-    'pt': 'Guiana Francesa',
-    'es': 'Guayana Francesa',
-    'ro': 'Guiana Franceză',
-    'bg': 'Френска Гвиана',
-    'de': 'Französisch-Guayana',
-    'fr': 'Guyane française',
-    'nl': 'Frans-Guyana',
-    'it': 'Guyana francese',
-    'cn': '法属圭亚那',
-    'ee': 'Prantsuse Guajaana',
-    'jp': 'フランス領ギアナ',
-    'he': 'גיאנה הצרפתית',
-    'tr': 'Fransız Guyanası',
-    'ar': 'غويانا الفرنسية',
-  },
-),
+  Country(
+    code: 'gf',
+    name: 'French Guiana',
+    dialCode: '+594',
+    iso3: 'GUF',
+    currency: 'EUR',
+    currencyName: 'Euro',
+    emoji: '🇬🇫',
+    timezones: ['UTC-03:00'],
+    region: 'Americas',
+    translations: {
+      'en': 'French Guiana',
+      'ru': 'Французская Гвиана',
+      'pl': 'Gujana Francuska',
+      'ua': 'Французька Гвіана',
+      'cz': 'Francouzská Guyana',
+      'by': 'Французская Гвіяна',
+      'pt': 'Guiana Francesa',
+      'es': 'Guayana Francesa',
+      'ro': 'Guiana Franceză',
+      'bg': 'Френска Гвиана',
+      'de': 'Französisch-Guayana',
+      'fr': 'Guyane française',
+      'nl': 'Frans-Guyana',
+      'it': 'Guyana francese',
+      'cn': '法属圭亚那',
+      'ee': 'Prantsuse Guajaana',
+      'jp': 'フランス領ギアナ',
+      'he': 'גיאנה הצרפתית',
+      'tr': 'Fransız Guyanası',
+      'ar': 'غويانا الفرنسية',
+    },
+  ),
 
-Country(
-  code: 'pf',
-  name: 'French Polynesia',
-  dialCode: '+689',
-  iso3: 'PYF',
-  currency: 'XPF',
-  currencyName: 'CFP Franc',
-  emoji: '🇵🇫',
-  timezones: ['UTC-10:00', 'UTC-09:30', 'UTC-09:00'],
-  region: 'Oceania',
-  translations: {
-    'en': 'French Polynesia',
-    'ru': 'Французская Полинезия',
-    'pl': 'Polinezja Francuska',
-    'ua': 'Французька Полінезія',
-    'cz': 'Francouzská Polynésie',
-    'by': 'Французская Палінезія',
-    'pt': 'Polinésia Francesa',
-    'es': 'Polinesia Francesa',
-    'ro': 'Polinezia Franceză',
-    'bg': 'Френска Полинезия',
-    'de': 'Französisch-Polynesien',
-    'fr': 'Polynésie française',
-    'nl': 'Frans-Polynesië',
-    'it': 'Polinesia Francese',
-    'cn': '法属波利尼西亚',
-    'ee': 'Prantsuse Polüneesia',
-    'jp': 'フランス領ポリネシア',
-    'he': 'פולינזיה הצרפתית',
-    'tr': 'Fransız Polinezyası',
-    'ar': 'بولينيزيا الفرنسية',
-  },
-),
+  Country(
+    code: 'pf',
+    name: 'French Polynesia',
+    dialCode: '+689',
+    iso3: 'PYF',
+    currency: 'XPF',
+    currencyName: 'CFP Franc',
+    emoji: '🇵🇫',
+    timezones: ['UTC-10:00', 'UTC-09:30', 'UTC-09:00'],
+    region: 'Oceania',
+    translations: {
+      'en': 'French Polynesia',
+      'ru': 'Французская Полинезия',
+      'pl': 'Polinezja Francuska',
+      'ua': 'Французька Полінезія',
+      'cz': 'Francouzská Polynésie',
+      'by': 'Французская Палінезія',
+      'pt': 'Polinésia Francesa',
+      'es': 'Polinesia Francesa',
+      'ro': 'Polinezia Franceză',
+      'bg': 'Френска Полинезия',
+      'de': 'Französisch-Polynesien',
+      'fr': 'Polynésie française',
+      'nl': 'Frans-Polynesië',
+      'it': 'Polinesia Francese',
+      'cn': '法属波利尼西亚',
+      'ee': 'Prantsuse Polüneesia',
+      'jp': 'フランス領ポリネシア',
+      'he': 'פולינזיה הצרפתית',
+      'tr': 'Fransız Polinezyası',
+      'ar': 'بولينيزيا الفرنسية',
+    },
+  ),
 
   Country(
     code: 'ga',
@@ -3560,7 +3573,7 @@ Country(
       'ar': 'لوكسمبورغ',
     },
   ),
-     Country(
+  Country(
     code: 'mg',
     name: 'Madagascar',
     dialCode: '+261',
@@ -4846,9 +4859,8 @@ Country(
       'tr': 'Portekiz',
       'ar': 'البرتغال',
     },
-  
   ),
-    Country(
+  Country(
     code: 'qa',
     name: 'Qatar',
     dialCode: '+974',
@@ -4922,7 +4934,19 @@ Country(
     currency: 'RUB',
     currencyName: 'Russian Ruble',
     emoji: '🇷🇺',
-    timezones: ['UTC+02:00', 'UTC+03:00', 'UTC+04:00', 'UTC+05:00', 'UTC+06:00', 'UTC+07:00', 'UTC+08:00', 'UTC+09:00', 'UTC+10:00', 'UTC+11:00', 'UTC+12:00'],
+    timezones: [
+      'UTC+02:00',
+      'UTC+03:00',
+      'UTC+04:00',
+      'UTC+05:00',
+      'UTC+06:00',
+      'UTC+07:00',
+      'UTC+08:00',
+      'UTC+09:00',
+      'UTC+10:00',
+      'UTC+11:00',
+      'UTC+12:00'
+    ],
     region: 'Europe',
     translations: {
       'en': 'Russia',
@@ -6235,9 +6259,6 @@ Country(
     },
   ),
 
-
-  
-
   Country(
     code: 'ug',
     name: 'Uganda',
@@ -6378,7 +6399,19 @@ Country(
     currency: 'USD',
     currencyName: 'US Dollar',
     emoji: '🇺🇸',
-    timezones: ['UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00', 'UTC-06:00', 'UTC-05:00', 'UTC-04:00', 'UTC+10:00', 'UTC+12:00'],
+    timezones: [
+      'UTC-12:00',
+      'UTC-11:00',
+      'UTC-10:00',
+      'UTC-09:00',
+      'UTC-08:00',
+      'UTC-07:00',
+      'UTC-06:00',
+      'UTC-05:00',
+      'UTC-04:00',
+      'UTC+10:00',
+      'UTC+12:00'
+    ],
     region: 'Americas',
     translations: {
       'en': 'United States',
@@ -6700,9 +6733,6 @@ Country(
       'ar': 'زيمبابوي',
     },
   ),
-
-
-
 ];
 
 // Le reste de votre code CountryService reste inchangé
@@ -6714,12 +6744,16 @@ class CountryService {
 
   static void initialize() {
     if (_byCode.isNotEmpty) return;
-    
+
     for (final country in defaultCountries) {
       _byCode[country.code.toLowerCase()] = country;
-      _byCurrency.putIfAbsent(country.currency.toUpperCase(), () => []).add(country);
-      _byRegion.putIfAbsent(country.region.toLowerCase(), () => []).add(country);
-      
+      _byCurrency
+          .putIfAbsent(country.currency.toUpperCase(), () => [])
+          .add(country);
+      _byRegion
+          .putIfAbsent(country.region.toLowerCase(), () => [])
+          .add(country);
+
       for (final tz in country.timezones) {
         _byTimezone.putIfAbsent(tz.toLowerCase(), () => []).add(country);
       }
@@ -6727,26 +6761,31 @@ class CountryService {
   }
 
   static Country? byCode(String code) => _byCode[code.toLowerCase()];
-  static List<Country> byCurrency(String currency) => _byCurrency[currency.toUpperCase()] ?? [];
-  static List<Country> byRegion(String region) => _byRegion[region.toLowerCase()] ?? [];
-  static List<Country> byTimezone(String timezone) => _byTimezone[timezone.toLowerCase()] ?? [];
+  static List<Country> byCurrency(String currency) =>
+      _byCurrency[currency.toUpperCase()] ?? [];
+  static List<Country> byRegion(String region) =>
+      _byRegion[region.toLowerCase()] ?? [];
+  static List<Country> byTimezone(String timezone) =>
+      _byTimezone[timezone.toLowerCase()] ?? [];
 
   static List<Country> search(String query, {String? languageCode}) {
-  final q = query.toLowerCase();
-  return defaultCountries.where((country) {
-    final nameToSearch = languageCode != null 
-      ? country.getName(languageCode).toLowerCase()
-      : country.name.toLowerCase();
-    
-    return country.code.toLowerCase().contains(q) ||
-      nameToSearch.contains(q) ||
-      country.dialCode.contains(q) ||
-      country.iso3.toLowerCase().contains(q) ||
-      (languageCode == null 
-        ? country.translations.values.any((v) => v.toLowerCase().contains(q))
-        : country.translations[languageCode]?.toLowerCase().contains(q) ?? false);
-  }).toList();
-}
+    final q = query.toLowerCase();
+    return defaultCountries.where((country) {
+      final nameToSearch = languageCode != null
+          ? country.getName(languageCode).toLowerCase()
+          : country.name.toLowerCase();
+
+      return country.code.toLowerCase().contains(q) ||
+          nameToSearch.contains(q) ||
+          country.dialCode.contains(q) ||
+          country.iso3.toLowerCase().contains(q) ||
+          (languageCode == null
+              ? country.translations.values
+                  .any((v) => v.toLowerCase().contains(q))
+              : country.translations[languageCode]?.toLowerCase().contains(q) ??
+                  false);
+    }).toList();
+  }
 
   static List<Country> advancedSearch({
     String? code,
@@ -6756,22 +6795,29 @@ class CountryService {
     String? query,
   }) {
     var results = defaultCountries;
-    
-    if (code != null) results = results.where((c) => c.code == code).toList();
-    if (currency != null) results = results.where((c) => c.currency == currency).toList();
-    if (region != null) results = results.where((c) => c.region == region).toList();
+
+    if (code != null) {
+      results = results.where((c) => c.code == code).toList();
+    }
+    if (currency != null) {
+      results = results.where((c) => c.currency == currency).toList();
+    }
+    if (region != null) {
+      results = results.where((c) => c.region == region).toList();
+    }
     if (timezone != null) {
       results = results.where((c) => c.timezones.contains(timezone)).toList();
     }
     if (query != null) {
       final q = query.toLowerCase();
-      results = results.where((c) =>
-        c.code.toLowerCase().contains(q) ||
-        c.name.toLowerCase().contains(q) ||
-        c.translations.values.any((v) => v.toLowerCase().contains(q))
-      ).toList();
+      results = results
+          .where((c) =>
+              c.code.toLowerCase().contains(q) ||
+              c.name.toLowerCase().contains(q) ||
+              c.translations.values.any((v) => v.toLowerCase().contains(q)))
+          .toList();
     }
-    
+
     return results;
   }
 }

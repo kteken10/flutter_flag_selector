@@ -1,0 +1,193 @@
+# Flutter Flag Selector - Cursor Rules
+
+## Project Overview
+This is a Flutter package for country selection with multiple display modes (modal bottom sheet, dialog, popup menu, draggable sheet). The package provides multilingual support, search functionality, and extensive customization options.
+
+## Package Structure
+- **Package Name**: flutter_flag_selector
+- **Main Widget**: FlagSelector
+- **Core Functionality**: Country selection with flags, names, dial codes, and translations
+- **Display Modes**: 
+  - modalBottomSheet (default)
+  - dialog
+  - popupMenu
+  - draggableSheet
+
+## Current Known Issues
+1. Not all display modes are fully implemented (dialog, popupMenu, draggableSheet may not work correctly)
+2. Some customization properties may not be properly passed through to the modal implementations
+3. Search functionality needs verification across all modes
+
+## Development Guidelines
+
+### Code Style
+- Use clear, descriptive variable names with the `flagSelector` prefix for all public properties
+- Follow Flutter/Dart naming conventions (camelCase for variables, PascalCase for classes)
+- Always add comprehensive documentation comments for public APIs
+- Group related properties with section comments (e.g., // MAIN SELECTOR PROPERTIES)
+
+### Widget Architecture
+- Main widget: FlagSelector (StatefulWidget)
+- Modal implementations: Separate files (dialog_picker.dart, modal_bottom_sheet_picker.dart, popup_menu_picker.dart)
+- Keep the main widget clean - delegate complex logic to helper methods or separate widgets
+
+### Property Naming Convention
+All properties must follow this pattern:
+- Main selector: `flagSelector[PropertyName]`
+- Modal-specific: `flagSelectorModal[PropertyName]`
+- Search-specific: `flagSelectorSearch[PropertyName]`
+- Country item-specific: `flagSelectorCountryItem[PropertyName]`
+
+### Implementation Priorities
+1. **Ensure all display modes work correctly**:
+   - Test modalBottomSheet thoroughly
+   - Implement missing functionality in dialog mode
+   - Fix popupMenu positioning and interaction
+   - Complete draggableSheet implementation
+
+2. **Verify property propagation**:
+   - Ensure ALL flagSelector properties are properly passed to their respective modal implementations
+   - Check that customization options actually affect the UI
+   - Validate that callbacks fire correctly
+
+3. **Search functionality**:
+   - Verify search works across all languages
+   - Ensure search filters by name, code, and dial code
+   - Check that search UI respects all customization properties
+
+4. **Flag assets**:
+   - Verify all flag SVGs load correctly
+   - Ensure proper fallback for missing flags
+   - Test custom flag builder functionality
+
+### Testing Requirements
+When implementing or fixing features:
+1. Test with different `flagSelectorOptionType` values
+2. Test with various language codes (en, fr, es, ar, cn, he, jp)
+3. Test with custom styling properties
+4. Test search functionality with different queries
+5. Test callback functions (onFlagSelectorCountryChanged)
+6. Test with RTL languages (Arabic, Hebrew)
+
+### Modal Implementation Guidelines
+Each modal type (dialog, bottom sheet, popup) should:
+1. Accept ALL relevant flagSelector properties
+2. Implement search if `flagSelectorShowSearch` is true
+3. Handle country selection and callback invocation
+4. Respect customization for title, items, and container
+5. Support initial country highlighting
+6. Handle edge cases (empty country list, no search results)
+
+### Common Patterns
+```dart
+// Pattern for showing a modal
+void _openCountryPicker(BuildContext context) {
+  if (widget.flagSelectorModalBuilder != null) {
+    // Use custom builder if provided
+  } else {
+    switch (widget.flagSelectorOptionType) {
+      case FlagSelectorOptionType.modalBottomSheet:
+        showModalBottomSheetPicker(/* pass all properties */);
+        break;
+      // ... other cases
+    }
+  }
+}
+
+// Pattern for handling country selection
+onSelected: (country) {
+  widget.onFlagSelectorCountryChanged?.call(country);
+  setState(() => _selectedCountry = country);
+}
+```
+
+### Property Pass-Through Checklist
+When working on modal implementations, ensure these properties are passed:
+- [ ] languageCode
+- [ ] countries list
+- [ ] initiallySelectedCountry
+- [ ] pickerStyle
+- [ ] showModalTitle
+- [ ] modalTitle
+- [ ] modalTitleStyle
+- [ ] modalTitlePadding
+- [ ] modalHeightFactor
+- [ ] countryItemBuilder
+- [ ] countryItemPadding
+- [ ] countryItemHeight
+- [ ] countryItemColor
+- [ ] selectedCountryItemColor
+- [ ] showSearchInput
+- [ ] searchDecoration
+- [ ] searchTextStyle
+- [ ] searchHintText
+- [ ] searchPadding
+- [ ] searchContainer* properties (all 10)
+- [ ] searchEnabled
+
+### Documentation Requirements
+- Every public property must have a doc comment
+- Include default values in comments
+- Provide usage examples for complex properties
+- Update README.md when adding new features
+- Keep language support table up to date
+
+### Error Handling
+- Provide sensible defaults for all nullable properties
+- Handle missing or invalid initial country codes gracefully
+- Don't crash on empty country lists
+- Validate flag asset paths before loading
+
+### Performance Considerations
+- Use `const` constructors where possible
+- Avoid rebuilding the entire list on search
+- Cache country lookups when appropriate
+- Optimize SVG rendering for large lists
+
+## When I Ask For Help
+
+### For Bug Fixes
+1. Identify which display mode is affected
+2. Check if properties are properly passed through
+3. Verify the modal implementation file
+4. Test the fix across all display modes
+5. Provide a minimal reproduction example
+
+### For New Features
+1. Follow existing naming conventions
+2. Add properties to all three sections if relevant
+3. Update modal implementations to support the feature
+4. Update README.md with the new property
+5. Provide usage examples
+
+### For Code Review
+1. Check property naming consistency
+2. Verify documentation completeness
+3. Ensure all display modes work
+4. Validate customization options
+5. Review for potential breaking changes
+
+## Package Goals
+- ✅ Multilingual support (20+ languages)
+- ⚠️ All display modes working correctly (NEEDS FIX)
+- ✅ Comprehensive customization options
+- ⚠️ Search functionality (NEEDS VERIFICATION)
+- ✅ High-quality SVG flags
+- ✅ Responsive design
+- ✅ Cross-platform compatibility
+
+## Priority Fixes Needed
+1. **CRITICAL**: Verify and fix dialog mode implementation
+2. **CRITICAL**: Verify and fix popupMenu mode implementation
+3. **CRITICAL**: Implement draggableSheet mode
+4. **HIGH**: Ensure all customization properties actually work
+5. **MEDIUM**: Add more comprehensive examples to README
+6. **MEDIUM**: Add unit and widget tests
+
+## Questions to Always Consider
+- Does this work in all display modes?
+- Are all properties properly passed through?
+- Is this properly documented?
+- Does this follow the naming convention?
+- Will this work with RTL languages?
+- Is there a sensible default?

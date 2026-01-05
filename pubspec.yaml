@@ -1,6 +1,6 @@
 name: flutter_flag_selector
 description: A Flutter package to easily select a country flag and change the app locale. Perfect for multilingual apps.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/kteken10/flutter_flag_selector
 repository: https://github.com/kteken10/flutter_flag_selector
 

@@ -5,6 +5,7 @@ import '../models/country_model.dart';
 import 'search_input.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets//flagselector//types/flag_selector_types.dart';
+
 class CountryPickerStyle {
   final Color? countryPickerBackgroundColor;
   final BorderRadius? countryPickerBorderRadius;
@@ -143,25 +144,29 @@ class _CountryPickerState extends State<CountryPicker> {
   Timer? _debounceTimer;
 
   @override
-void initState() {
-  super.initState();
-  _searchNotifier = ValueNotifier('');
-  _searchController = TextEditingController();
-  _selectedCountry = widget.countryPickerInitiallySelectedCountry ?? 
-      (widget.countryPickerCountryList.isNotEmpty ? widget.countryPickerCountryList.first : null);
-}
-
+  void initState() {
+    super.initState();
+    _searchNotifier = ValueNotifier('');
+    _searchController = TextEditingController();
+    _selectedCountry = widget.countryPickerInitiallySelectedCountry ??
+        (widget.countryPickerCountryList.isNotEmpty
+            ? widget.countryPickerCountryList.first
+            : null);
+  }
 
   @override
-void didUpdateWidget(CountryPicker oldWidget) {
-  super.didUpdateWidget(oldWidget);
-  if (widget.countryPickerInitiallySelectedCountry != oldWidget.countryPickerInitiallySelectedCountry) {
-    setState(() {
-      _selectedCountry = widget.countryPickerInitiallySelectedCountry ?? 
-          (widget.countryPickerCountryList.isNotEmpty ? widget.countryPickerCountryList.first : null);
-    });
+  void didUpdateWidget(CountryPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.countryPickerInitiallySelectedCountry !=
+        oldWidget.countryPickerInitiallySelectedCountry) {
+      setState(() {
+        _selectedCountry = widget.countryPickerInitiallySelectedCountry ??
+            (widget.countryPickerCountryList.isNotEmpty
+                ? widget.countryPickerCountryList.first
+                : null);
+      });
+    }
   }
-}
 
   @override
   void dispose() {
@@ -181,36 +186,41 @@ void didUpdateWidget(CountryPicker oldWidget) {
 
   List<Country> _filterCountries(String searchValue) {
     if (searchValue.isEmpty) return widget.countryPickerCountryList;
-    return CountryService.search(searchValue, languageCode: widget.countryPickerLanguageCode);
+    return CountryService.search(searchValue,
+        languageCode: widget.countryPickerLanguageCode);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 
+        maxHeight: MediaQuery.of(context).size.height *
             (widget.countryPickerStyle.countryPickerModalHeight ?? 0.7),
       ),
       decoration: BoxDecoration(
-        color: widget.countryPickerStyle.countryPickerBackgroundColor ?? 
+        color: widget.countryPickerStyle.countryPickerBackgroundColor ??
             Theme.of(context).canvasColor,
         borderRadius: widget.countryPickerStyle.countryPickerBorderRadius ??
             const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      padding: widget.countryPickerStyle.countryPickerPadding ?? 
+      padding: widget.countryPickerStyle.countryPickerPadding ??
           const EdgeInsets.all(16),
       alignment: widget.countryPickerStyle.countryPickerAlignment,
-      clipBehavior: widget.countryPickerStyle.countryPickerClipBehavior ?? Clip.none,
+      clipBehavior:
+          widget.countryPickerStyle.countryPickerClipBehavior ?? Clip.none,
       height: widget.countryPickerStyle.countryPickerHeight,
-      foregroundDecoration: widget.countryPickerStyle.countryPickerForegroundDecoration,
+      foregroundDecoration:
+          widget.countryPickerStyle.countryPickerForegroundDecoration,
       margin: widget.countryPickerStyle.countryPickerMargin,
       key: widget.countryPickerKey,
       transform: widget.countryPickerStyle.countryPickerTransform,
-      transformAlignment: widget.countryPickerStyle.countryPickerTransformAlignment,
+      transformAlignment:
+          widget.countryPickerStyle.countryPickerTransformAlignment,
       width: widget.countryPickerStyle.countryPickerWidth,
       child: Column(
         children: [
-          if (widget.countryPickerShowTitle && widget.countryPickerTitle != null)
+          if (widget.countryPickerShowTitle &&
+              widget.countryPickerTitle != null)
             Padding(
               padding: widget.countryPickerTitlePadding ??
                   widget.countryPickerStyle.countryPickerTitlePadding ??
@@ -229,10 +239,14 @@ void didUpdateWidget(CountryPicker oldWidget) {
                     searchController: _searchController,
                     searchInputDecoration: widget.searchInputDecoration,
                     searchTextStyle: widget.searchTextStyle,
-                    searchHintText: widget.searchHintText ?? 'Search countries...',
-                    searchAutofocus: widget.countryPickerStyle.searchContainerBorderRadius != null,
+                    searchHintText:
+                        widget.searchHintText ?? 'Search countries...',
+                    searchAutofocus:
+                        widget.countryPickerStyle.searchContainerBorderRadius !=
+                            null,
                     onSearchTextChanged: _onSearchChanged,
-                    onSearchTextSubmitted: (_) => widget.onSearchSubmitted?.call(),
+                    onSearchTextSubmitted: (_) =>
+                        widget.onSearchSubmitted?.call(),
                     onSearchEditingComplete: widget.onSearchEditingComplete,
                     onSearchTap: widget.onSearchTap,
                     searchTextInputAction: widget.searchTextInputAction,
@@ -245,30 +259,47 @@ void didUpdateWidget(CountryPicker oldWidget) {
                             },
                           )
                         : widget.searchInputDecoration?.suffixIcon,
-                    searchContainerColor: widget.countryPickerStyle.searchContainerBackgroundColor,
-                    searchContainerBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius,
-                    searchContainerBorder: widget.countryPickerStyle.searchContainerBorder,
-                    searchContainerShadow: widget.countryPickerStyle.searchContainerShadow,
-                    searchContainerMargin: widget.countryPickerStyle.searchContainerMargin,
-                    searchContainerPadding: widget.countryPickerStyle.searchContainerPadding,
-                    searchInputPadding: widget.countryPickerStyle.searchInputPadding,
-                    searchContainerWidth: widget.countryPickerStyle.searchContainerWidth,
-                    searchContainerHeight: widget.countryPickerStyle.searchContainerHeight,
-                    searchContainerConstraints: widget.countryPickerStyle.searchContainerConstraints,
+                    searchContainerColor: widget
+                        .countryPickerStyle.searchContainerBackgroundColor,
+                    searchContainerBorderRadius:
+                        widget.countryPickerStyle.searchContainerBorderRadius,
+                    searchContainerBorder:
+                        widget.countryPickerStyle.searchContainerBorder,
+                    searchContainerShadow:
+                        widget.countryPickerStyle.searchContainerShadow,
+                    searchContainerMargin:
+                        widget.countryPickerStyle.searchContainerMargin,
+                    searchContainerPadding:
+                        widget.countryPickerStyle.searchContainerPadding,
+                    searchInputPadding:
+                        widget.countryPickerStyle.searchInputPadding,
+                    searchContainerWidth:
+                        widget.countryPickerStyle.searchContainerWidth,
+                    searchContainerHeight:
+                        widget.countryPickerStyle.searchContainerHeight,
+                    searchContainerConstraints:
+                        widget.countryPickerStyle.searchContainerConstraints,
                     searchInputEnabledBorder: widget.searchInputEnabledBorder,
                     searchInputFocusedBorder: widget.searchInputFocusedBorder,
                     searchIconColor: widget.searchIconColor,
-                    searchPrefixIcon: widget.searchInputDecoration?.prefixIcon ??
-                        Icon(Icons.search, color: widget.searchIconColor ?? Theme.of(context).iconTheme.color),
+                    searchPrefixIcon:
+                        widget.searchInputDecoration?.prefixIcon ??
+                            Icon(Icons.search,
+                                color: widget.searchIconColor ??
+                                    Theme.of(context).iconTheme.color),
                     isSearchEnabled: widget.searchEnabled ?? true,
                     key: const Key('country_picker_search_input_key'),
-                    searchContentPadding: widget.countryPickerStyle.searchInputPadding ??
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    searchInputBackgroundColor: widget.countryPickerStyle.searchContainerBackgroundColor ??
+                    searchContentPadding:
+                        widget.countryPickerStyle.searchInputPadding ??
+                            const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                    searchInputBackgroundColor: widget.countryPickerStyle
+                            .searchContainerBackgroundColor ??
                         Theme.of(context).inputDecorationTheme.fillColor ??
                         Theme.of(context).colorScheme.surface,
                     searchFocusNode: widget.searchFocusNode,
-                    searchInputBorderRadius: widget.countryPickerStyle.searchContainerBorderRadius?.topLeft.x ??
+                    searchInputBorderRadius: widget.countryPickerStyle
+                            .searchContainerBorderRadius?.topLeft.x ??
                         12.0,
                   ),
             ),
@@ -286,7 +317,8 @@ void didUpdateWidget(CountryPicker oldWidget) {
                           final country = filteredCountries[index];
                           final isSelected = _selectedCountry != null &&
                               _selectedCountry!.code == country.code;
-                          return widget.countryPickerItemBuilder?.call(context, country) ??
+                          return widget.countryPickerItemBuilder
+                                  ?.call(context, country) ??
                               _buildDefaultCountryItem(
                                 context,
                                 country,
@@ -323,7 +355,6 @@ void didUpdateWidget(CountryPicker oldWidget) {
     );
   }
 
-
   Widget _buildDefaultCountryItem(
     BuildContext context,
     Country country, {
@@ -331,14 +362,14 @@ void didUpdateWidget(CountryPicker oldWidget) {
   }) {
     return Container(
       height: widget.countryPickerItemHeight,
-    
       color: isSelected
-          ? widget.countryPickerSelectedItemColor ?? Theme.of(context).highlightColor
+          ? widget.countryPickerSelectedItemColor ??
+              Theme.of(context).highlightColor
           : widget.countryPickerItemColor,
       child: ListTile(
         contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
         leading: SvgPicture.asset(
-         'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
+          'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',
           width: 30,
           height: 30,
           placeholderBuilder: (context) => Container(
@@ -346,7 +377,8 @@ void didUpdateWidget(CountryPicker oldWidget) {
             height: 30,
             decoration: BoxDecoration(
               color: Colors.grey[200],
-              border: Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
+              border:
+                  Border.all(color: const Color.fromARGB(255, 216, 214, 214)),
             ),
             child: const Icon(Icons.flag, size: 16),
           ),
