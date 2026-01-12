@@ -1,15 +1,64 @@
+/// Represents a country with comprehensive data including codes, dial codes, and translations.
+///
+/// This model is used by the [FlagSelector] widget to display country information
+/// in the country picker. It includes all necessary data for international phone number
+/// inputs, country selection forms, and multi-language applications.
+///
+/// Example:
+/// ```dart
+/// Country country = CountryService.byCode('us')!;
+/// print(country.name);        // United States
+/// print(country.dialCode);    // +1
+/// print(country.code);         // us
+/// print(country.getName('fr')); // États-Unis (French translation)
+/// ```
+///
+/// See also:
+/// - [FlagSelector] for the country picker widget
+/// - [CountryService] for country data operations
 class Country {
+  /// ISO 2-letter country code (e.g., 'us', 'fr', 'jp').
+  ///
+  /// This is the standard country code used for flag selection and country identification.
   final String code;
+
+  /// Country name in English.
+  ///
+  /// For localized names, use [getName] with a language code.
   final String name;
+
+  /// Phone dial code for the country (e.g., '+1', '+33', '+81').
+  ///
+  /// Perfect for international phone number inputs and country code selection.
   final String dialCode;
+
+  /// ISO 3-letter country code (e.g., 'USA', 'FRA', 'JPN').
   final String iso3;
+
+  /// Currency code (e.g., 'USD', 'EUR', 'JPY').
   final String currency;
+
+  /// Full currency name (e.g., 'US Dollar', 'Euro', 'Japanese Yen').
   final String currencyName;
+
+  /// Flag emoji representation (e.g., '🇺🇸', '🇫🇷', '🇯🇵').
   final String emoji;
+
+  /// List of timezones for the country (e.g., ['UTC-05:00', 'UTC-04:00']).
   final List<String> timezones;
+
+  /// Geographic region (e.g., 'Americas', 'Europe', 'Asia').
   final String region;
+
+  /// Map of country name translations in multiple languages.
+  ///
+  /// Keys are language codes (e.g., 'en', 'fr', 'es'), values are translated country names.
+  /// Supports 20+ languages for international applications.
   final Map<String, String> translations;
 
+  /// Creates a [Country] instance with all required data.
+  ///
+  /// All parameters are required to ensure complete country information.
   const Country({
     required this.code,
     required this.name,
@@ -23,6 +72,21 @@ class Country {
     required this.translations,
   });
 
+  /// Gets the country name in the specified language.
+  ///
+  /// Returns the translated country name if available, otherwise returns
+  /// the English name as fallback.
+  ///
+  /// Example:
+  /// ```dart
+  /// Country france = CountryService.byCode('fr')!;
+  /// print(france.getName('en')); // France
+  /// print(france.getName('fr')); // France
+  /// print(france.getName('es')); // Francia
+  /// ```
+  ///
+  /// [languageCode] The language code for the desired translation (default: 'es').
+  /// Returns the country name in the specified language.
   String getName([String languageCode = 'es']) {
     return translations[languageCode] ?? name;
   }

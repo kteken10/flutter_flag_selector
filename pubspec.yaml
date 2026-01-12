@@ -1,8 +1,24 @@
 name: flutter_flag_selector
-description: A Flutter package to easily select a country flag and change the app locale. Perfect for multilingual apps.
+description: A highly customizable Flutter country picker widget with 20+ languages, SVG flags, search functionality, and multiple display modes. Perfect for phone number inputs and international forms.
 version: 0.0.2
 homepage: https://github.com/kteken10/flutter_flag_selector
 repository: https://github.com/kteken10/flutter_flag_selector
+issue_tracker: https://github.com/kteken10/flutter_flag_selector/issues
+documentation: https://github.com/kteken10/flutter_flag_selector#readme
+
+topics:
+  - country-picker
+  - flag-selector
+  - country-selector
+  - phone-country-code
+  - language-selector
+  - internationalization
+  - localization
+  - country-flags
+  - ui-components
+  - country-code
+  - dial-code
+  - phone-input
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
