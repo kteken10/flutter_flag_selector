@@ -1,193 +1,498 @@
-# Flutter Flag Selector - Cursor Rules
+# .cursorrules for flutter_flag_selector
+# SEO-optimized development guidelines for maximum package discoverability
 
-## Project Overview
-This is a Flutter package for country selection with multiple display modes (modal bottom sheet, dialog, popup menu, draggable sheet). The package provides multilingual support, search functionality, and extensive customization options.
+# ============================================================================
+# CORE PRINCIPLES
+# ============================================================================
+# 1. Every commit should improve pub.dev score
+# 2. Documentation is marketing - write for humans AND search engines
+# 3. Code quality = SEO ranking on pub.dev
+# 4. Keywords must be natural, not stuffed
 
-## Package Structure
-- **Package Name**: flutter_flag_selector
-- **Main Widget**: FlagSelector
-- **Core Functionality**: Country selection with flags, names, dial codes, and translations
-- **Display Modes**: 
-  - modalBottomSheet (default)
-  - dialog
-  - popupMenu
-  - draggableSheet
+# ============================================================================
+# DOCUMENTATION STANDARDS
+# ============================================================================
 
-## Current Known Issues
-1. Not all display modes are fully implemented (dialog, popupMenu, draggableSheet may not work correctly)
-2. Some customization properties may not be properly passed through to the modal implementations
-3. Search functionality needs verification across all modes
+## README.md Requirements
+- Must contain these keywords naturally: "country picker", "flag selector", "phone number", "country code", "international", "multi-language"
+- First paragraph must be under 160 characters (meta description length)
+- Include comparison table with competing packages
+- Minimum 5 complete code examples
+- Add "Use Cases" section with real-world scenarios
+- Include troubleshooting section
+- Add badges: pub.dev score, likes, popularity, pub points
+- Structure: Why Choose > Demo > Installation > Quick Start > Examples > API Reference > Troubleshooting > Contributing
 
-## Development Guidelines
+## Code Comments
+- All public APIs must have dartdoc comments
+- Include @example tags in documentation
+- Use keywords naturally: "country selection", "flag display", "dial code"
+- Add @see tags linking related methods
 
-### Code Style
-- Use clear, descriptive variable names with the `flagSelector` prefix for all public properties
-- Follow Flutter/Dart naming conventions (camelCase for variables, PascalCase for classes)
-- Always add comprehensive documentation comments for public APIs
-- Group related properties with section comments (e.g., // MAIN SELECTOR PROPERTIES)
-
-### Widget Architecture
-- Main widget: FlagSelector (StatefulWidget)
-- Modal implementations: Separate files (dialog_picker.dart, modal_bottom_sheet_picker.dart, popup_menu_picker.dart)
-- Keep the main widget clean - delegate complex logic to helper methods or separate widgets
-
-### Property Naming Convention
-All properties must follow this pattern:
-- Main selector: `flagSelector[PropertyName]`
-- Modal-specific: `flagSelectorModal[PropertyName]`
-- Search-specific: `flagSelectorSearch[PropertyName]`
-- Country item-specific: `flagSelectorCountryItem[PropertyName]`
-
-### Implementation Priorities
-1. **Ensure all display modes work correctly**:
-   - Test modalBottomSheet thoroughly
-   - Implement missing functionality in dialog mode
-   - Fix popupMenu positioning and interaction
-   - Complete draggableSheet implementation
-
-2. **Verify property propagation**:
-   - Ensure ALL flagSelector properties are properly passed to their respective modal implementations
-   - Check that customization options actually affect the UI
-   - Validate that callbacks fire correctly
-
-3. **Search functionality**:
-   - Verify search works across all languages
-   - Ensure search filters by name, code, and dial code
-   - Check that search UI respects all customization properties
-
-4. **Flag assets**:
-   - Verify all flag SVGs load correctly
-   - Ensure proper fallback for missing flags
-   - Test custom flag builder functionality
-
-### Testing Requirements
-When implementing or fixing features:
-1. Test with different `flagSelectorOptionType` values
-2. Test with various language codes (en, fr, es, ar, cn, he, jp)
-3. Test with custom styling properties
-4. Test search functionality with different queries
-5. Test callback functions (onFlagSelectorCountryChanged)
-6. Test with RTL languages (Arabic, Hebrew)
-
-### Modal Implementation Guidelines
-Each modal type (dialog, bottom sheet, popup) should:
-1. Accept ALL relevant flagSelector properties
-2. Implement search if `flagSelectorShowSearch` is true
-3. Handle country selection and callback invocation
-4. Respect customization for title, items, and container
-5. Support initial country highlighting
-6. Handle edge cases (empty country list, no search results)
-
-### Common Patterns
+Example:
 ```dart
-// Pattern for showing a modal
-void _openCountryPicker(BuildContext context) {
-  if (widget.flagSelectorModalBuilder != null) {
-    // Use custom builder if provided
-  } else {
-    switch (widget.flagSelectorOptionType) {
-      case FlagSelectorOptionType.modalBottomSheet:
-        showModalBottomSheetPicker(/* pass all properties */);
-        break;
-      // ... other cases
-    }
-  }
-}
-
-// Pattern for handling country selection
-onSelected: (country) {
-  widget.onFlagSelectorCountryChanged?.call(country);
-  setState(() => _selectedCountry = country);
+/// Displays a customizable country picker for Flutter applications.
+///
+/// Perfect for international phone number inputs, country selection forms,
+/// and multi-language applications. Supports 20+ languages with SVG flags.
+///
+/// Example:
+/// ```dart
+/// FlagSelector(
+///   flagSelectorLanguageCode: 'en',
+///   onFlagSelectorCountryChanged: (country) {
+///     print(country.name);
+///   },
+/// )
+/// ```
+///
+/// See also:
+/// - [Country] for country data structure
+/// - [FlagSelectorMode] for display options
+class FlagSelector extends StatefulWidget {
+  // ...
 }
 ```
 
-### Property Pass-Through Checklist
-When working on modal implementations, ensure these properties are passed:
-- [ ] languageCode
-- [ ] countries list
-- [ ] initiallySelectedCountry
-- [ ] pickerStyle
-- [ ] showModalTitle
-- [ ] modalTitle
-- [ ] modalTitleStyle
-- [ ] modalTitlePadding
-- [ ] modalHeightFactor
-- [ ] countryItemBuilder
-- [ ] countryItemPadding
-- [ ] countryItemHeight
-- [ ] countryItemColor
-- [ ] selectedCountryItemColor
-- [ ] showSearchInput
-- [ ] searchDecoration
-- [ ] searchTextStyle
-- [ ] searchHintText
-- [ ] searchPadding
-- [ ] searchContainer* properties (all 10)
-- [ ] searchEnabled
+## CHANGELOG.md Rules
+- Each entry must be descriptive, not just "bug fixes"
+- Use keywords: "improved country search", "added language support", "enhanced flag display"
+- Link to issues/PRs
+- Format: ## [Version] - Date, ### Added/Changed/Fixed
 
-### Documentation Requirements
-- Every public property must have a doc comment
-- Include default values in comments
-- Provide usage examples for complex properties
-- Update README.md when adding new features
-- Keep language support table up to date
+Example:
+```markdown
+## [1.2.0] - 2025-01-15
 
-### Error Handling
-- Provide sensible defaults for all nullable properties
-- Handle missing or invalid initial country codes gracefully
-- Don't crash on empty country lists
-- Validate flag asset paths before loading
+### Added
+- Vietnamese language support for country names
+- Advanced search by country dial code
+- Favorite countries feature for quick access
 
-### Performance Considerations
-- Use `const` constructors where possible
-- Avoid rebuilding the entire list on search
-- Cache country lookups when appropriate
-- Optimize SVG rendering for large lists
+### Improved
+- Country picker performance by 40%
+- Flag rendering quality on high-DPI screens
 
-## When I Ask For Help
+### Fixed
+- Country search not working with accented characters (#23)
+```
 
-### For Bug Fixes
-1. Identify which display mode is affected
-2. Check if properties are properly passed through
-3. Verify the modal implementation file
-4. Test the fix across all display modes
-5. Provide a minimal reproduction example
+# ============================================================================
+# PUBSPEC.YAML OPTIMIZATION
+# ============================================================================
 
-### For New Features
-1. Follow existing naming conventions
-2. Add properties to all three sections if relevant
-3. Update modal implementations to support the feature
-4. Update README.md with the new property
-5. Provide usage examples
+## Required Fields (SEO Critical)
+- description: 60-160 chars, include "Flutter", "country picker", "customizable"
+- homepage: Must be set (GitHub repo)
+- repository: Must be set
+- issue_tracker: Must be set
+- documentation: Link to README or docs site
 
-### For Code Review
-1. Check property naming consistency
-2. Verify documentation completeness
-3. Ensure all display modes work
-4. Validate customization options
-5. Review for potential breaking changes
+## Topics (Maximum Impact)
+Must include these topics in exact order:
+1. country-picker (primary keyword)
+2. flag-selector
+3. country-selector
+4. phone-country-code
+5. language-selector
+6. internationalization
+7. localization
+8. country-flags
+9. ui-components
+10. country-code
 
-## Package Goals
-- ✅ Multilingual support (20+ languages)
-- ⚠️ All display modes working correctly (NEEDS FIX)
-- ✅ Comprehensive customization options
-- ⚠️ Search functionality (NEEDS VERIFICATION)
-- ✅ High-quality SVG flags
-- ✅ Responsive design
-- ✅ Cross-platform compatibility
+Additional optional topics:
+- dial-code
+- phone-input
+- country-list
+- flag-picker
+- multi-language
 
-## Priority Fixes Needed
-1. **CRITICAL**: Verify and fix dialog mode implementation
-2. **CRITICAL**: Verify and fix popupMenu mode implementation
-3. **CRITICAL**: Implement draggableSheet mode
-4. **HIGH**: Ensure all customization properties actually work
-5. **MEDIUM**: Add more comprehensive examples to README
-6. **MEDIUM**: Add unit and widget tests
+## Example pubspec.yaml structure:
+```yaml
+name: flutter_flag_selector
+description: A highly customizable Flutter country picker widget with 20+ languages, SVG flags, search functionality, and multiple display modes. Perfect for phone number inputs and international forms.
+version: x.x.x
+homepage: https://github.com/kteken10/flutter_flag_selector
+repository: https://github.com/kteken10/flutter_flag_selector
+issue_tracker: https://github.com/kteken10/flutter_flag_selector/issues
+documentation: https://github.com/kteken10/flutter_flag_selector#readme
 
-## Questions to Always Consider
-- Does this work in all display modes?
-- Are all properties properly passed through?
-- Is this properly documented?
-- Does this follow the naming convention?
-- Will this work with RTL languages?
-- Is there a sensible default?
+topics:
+  - country-picker
+  - flag-selector
+  - country-selector
+  - phone-country-code
+  - language-selector
+  - internationalization
+  - localization
+  - country-flags
+  - ui-components
+  - country-code
+  - dial-code
+  - phone-input
+```
+
+# ============================================================================
+# CODE QUALITY FOR PUB.DEV SCORE
+# ============================================================================
+
+## Must Have (affects pub.dev ranking)
+- All public APIs documented with ///
+- Example folder with working demo
+- Tests with >80% coverage
+- No analyzer warnings
+- Null safety enabled
+- Follow official Dart style guide
+- All files have license headers
+
+## File Structure Requirements
+```
+flutter_flag_selector/
+├── .cursorrules (this file)
+├── README.md (SEO optimized)
+├── CHANGELOG.md (detailed)
+├── LICENSE (MIT recommended)
+├── CONTRIBUTING.md
+├── pubspec.yaml (all fields filled)
+├── lib/
+│   ├── flutter_flag_selector.dart (main export)
+│   ├── src/
+│   │   ├── models/ (Country, etc.)
+│   │   ├── widgets/ (FlagSelector, etc.)
+│   │   └── utils/
+├── example/
+│   ├── lib/
+│   │   └── main.dart (5+ different examples)
+│   └── pubspec.yaml
+├── test/
+│   ├── widget_test.dart
+│   └── unit_test.dart
+└── doc/ (optional)
+```
+
+## Testing Standards
+- Every widget must have widget tests
+- Every utility function must have unit tests
+- Integration tests for main user flows
+- Test file naming: <file_name>_test.dart
+
+# ============================================================================
+# EXAMPLE APP REQUIREMENTS
+# ============================================================================
+
+The example/ folder is critical for SEO and user adoption.
+
+## Must Include These Examples
+1. Basic country picker
+2. Phone number input with country code
+3. Customized bottom sheet
+4. Dialog mode
+5. PopUp mode
+6. Multi-language switching
+7. Favorite countries feature
+8. Filtered country list
+9. Custom styling
+10. Form integration
+
+## Example main.dart Structure
+```dart
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Flag Selector Examples',
+      home: ExamplesPage(),
+    );
+  }
+}
+
+class ExamplesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Country Picker Examples')),
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text('Basic Country Picker'),
+            onTap: () => Navigator.push(context, 
+              MaterialPageRoute(builder: (_) => BasicExample())),
+          ),
+          // ... more examples
+        ],
+      ),
+    );
+  }
+}
+```
+
+# ============================================================================
+# COMMIT MESSAGE STANDARDS
+# ============================================================================
+
+Format: <type>(<scope>): <description>
+
+Types:
+- feat: New feature (bumps minor version)
+- fix: Bug fix (bumps patch version)
+- docs: Documentation changes
+- style: Code style changes (formatting)
+- refactor: Code refactoring
+- perf: Performance improvements
+- test: Test additions/changes
+- chore: Build/tooling changes
+
+SEO-Friendly Examples:
+✅ feat(search): add country search by dial code
+✅ docs: improve phone number input example
+✅ fix(flags): resolve SVG rendering on iOS
+✅ feat(i18n): add Vietnamese language support
+
+❌ fix: bug
+❌ update readme
+❌ changes
+
+# ============================================================================
+# ISSUE & PR TEMPLATES
+# ============================================================================
+
+## Issue Template (.github/ISSUE_TEMPLATE/bug_report.md)
+Must include:
+- Description of the issue
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Flutter version
+- Package version
+- Screenshots (if applicable)
+
+## PR Template (.github/pull_request_template.md)
+Must include:
+- Description of changes
+- Related issue number
+- Testing done
+- Checklist:
+  - [ ] Tests added/updated
+  - [ ] Documentation updated
+  - [ ] CHANGELOG.md updated
+  - [ ] No analyzer warnings
+
+# ============================================================================
+# GITHUB REPOSITORY SETTINGS
+# ============================================================================
+
+## Topics to Add (GitHub Repo Settings)
+flutter, dart, country-picker, flag-selector, flutter-package, flutter-widget, internationalization, localization, phone-input, country-code
+
+## Description (GitHub Repo)
+"🌍 A highly customizable Flutter country picker with 20+ languages, SVG flags, and multiple display modes. Perfect for phone number inputs and international forms."
+
+## About Section
+- Add relevant tags
+- Include pub.dev link
+- Star the repo yourself to start social proof
+
+# ============================================================================
+# CONTENT CREATION CHECKLIST
+# ============================================================================
+
+When creating documentation or content:
+
+- [ ] Primary keyword "country picker" appears in first paragraph
+- [ ] Secondary keywords used naturally: "flag selector", "phone number", "country code"
+- [ ] Code examples are complete and runnable
+- [ ] Screenshots/GIFs included where helpful
+- [ ] Links to pub.dev package included
+- [ ] Comparison with alternatives provided
+- [ ] Use cases clearly explained
+- [ ] Troubleshooting section included
+- [ ] Contributing guidelines clear
+
+# ============================================================================
+# VERSION RELEASE CHECKLIST
+# ============================================================================
+
+Before publishing to pub.dev:
+
+- [ ] Update CHANGELOG.md with detailed changes
+- [ ] Bump version in pubspec.yaml (follow semver)
+- [ ] Update version in README badges
+- [ ] Run `flutter analyze` (0 issues)
+- [ ] Run all tests (100% passing)
+- [ ] Update example app if needed
+- [ ] Verify all documentation is current
+- [ ] Create GitHub release with notes
+- [ ] Tag release in git: v1.x.x
+- [ ] Run `dart pub publish --dry-run`
+- [ ] Publish: `dart pub publish`
+- [ ] Announce on Twitter with hashtags: #FlutterDev #Flutter
+- [ ] Post in Reddit r/FlutterDev (if major release)
+- [ ] Update GitHub Discussions with release notes
+
+# ============================================================================
+# CONTINUOUS SEO IMPROVEMENTS
+# ============================================================================
+
+## Monthly Tasks
+- [ ] Check pub.dev score and improve weak areas
+- [ ] Respond to all GitHub issues
+- [ ] Update documentation based on common questions
+- [ ] Write a blog post about package updates or use cases
+- [ ] Answer Stack Overflow questions mentioning the package
+- [ ] Check competitor packages for new features to add
+
+## Quarterly Goals
+- [ ] Increase pub.dev score by 10 points
+- [ ] Add 2+ new features based on user feedback
+- [ ] Publish 3+ blog posts/tutorials
+- [ ] Get featured in 1+ "Awesome Flutter" list
+- [ ] Reach X downloads per month (set target)
+- [ ] Achieve X GitHub stars (set target)
+
+# ============================================================================
+# KEYWORD DENSITY TARGETS (Natural Usage)
+# ============================================================================
+
+In README.md, maintain these approximate keyword frequencies:
+- "country picker": 5-8 times
+- "flag selector": 3-5 times
+- "Flutter": 10-15 times
+- "phone number": 3-5 times
+- "country code": 3-5 times
+- "customizable": 2-3 times
+- "international": 2-3 times
+
+**NEVER use keyword stuffing** - all keywords must appear naturally in context.
+
+# ============================================================================
+# AUTOMATED QUALITY CHECKS
+# ============================================================================
+
+## Pre-commit Hooks (Recommended)
+Set up with husky or similar:
+1. Run `flutter analyze`
+2. Run `flutter test`
+3. Check dartdoc coverage
+4. Lint CHANGELOG.md format
+5. Verify version numbers match
+
+## CI/CD Recommendations
+- GitHub Actions for automated testing
+- Automated pub.dev score checking
+- Link checking in documentation
+- Screenshot generation for README
+
+# ============================================================================
+# COMPETITOR MONITORING
+# ============================================================================
+
+Monitor these packages and stay competitive:
+1. country_code_picker
+2. country_picker
+3. country_pickers
+4. intl_phone_number_input
+
+Check monthly:
+- Their pub.dev scores
+- New features added
+- Issues users are reporting
+- Documentation quality
+- Download trends
+
+# ============================================================================
+# COMMUNITY ENGAGEMENT GUIDELINES
+# ============================================================================
+
+## Stack Overflow Strategy
+- Search daily: "flutter country picker"
+- Answer within 24 hours when possible
+- Provide value first, mention package second
+- Link to specific documentation sections
+- Include runnable code examples
+
+## Reddit/Discord/Twitter
+- Share updates, not spam
+- Provide helpful responses
+- Credit contributors publicly
+- Show appreciation for feedback
+- Be humble about the package
+
+## GitHub Discussions
+- Welcome new users warmly
+- Create pinned "Getting Started" discussion
+- FAQ discussion for common questions
+- Showcase section for apps using the package
+- Feature request voting/discussion
+
+# ============================================================================
+# SUCCESS METRICS DASHBOARD
+# ============================================================================
+
+Track weekly in a spreadsheet:
+- pub.dev score (target: >130)
+- Likes on pub.dev (growth rate)
+- Downloads/month (growth rate)
+- GitHub stars (growth rate)
+- Open vs closed issues ratio (target: <20% open)
+- Average issue response time (target: <48h)
+- Documentation completeness (target: 100%)
+- Test coverage (target: >80%)
+
+# ============================================================================
+# CURSOR AI INSTRUCTIONS
+# ============================================================================
+
+When Cursor AI assists with this project:
+
+1. **Always prioritize pub.dev score improvements**
+   - Check if changes will improve or harm pub.dev metrics
+   - Add documentation for new public APIs immediately
+
+2. **Write SEO-friendly documentation**
+   - Include keywords naturally in comments and docs
+   - Create examples for every new feature
+   - Update README.md when adding features
+
+3. **Maintain code quality**
+   - No warnings allowed
+   - All tests must pass
+   - Follow Dart style guide strictly
+
+4. **Update all related files**
+   - CHANGELOG.md for every change
+   - Version bumping when appropriate
+   - Example app updates for new features
+
+5. **Think about discoverability**
+   - How will users find this feature?
+   - Is the naming intuitive?
+   - Is the documentation searchable?
+
+6. **Community-first approach**
+   - Write code comments as if teaching
+   - Make examples copy-paste ready
+   - Consider mobile AND web users
+
+# ============================================================================
+# FINAL REMINDERS
+# ============================================================================
+
+🎯 **Primary Goal**: Make flutter_flag_selector the #1 result when developers search for "flutter country picker"
+
+📈 **Key Metrics**: 
+- pub.dev score > 130
+- 1000+ downloads/month by Q2 2025
+- 250+ GitHub stars by Q2 2025
+
+🔑 **Success Formula**: 
+Quality Code + Great Documentation + Active Community = High Discoverability
+
+💡 **Remember**: Every line of code, every comment, every commit message is an opportunity to improve SEO and help developers find this package.
+
+---
+Last Updated: January 2026
+Maintainer: [Your Name]
+Package: flutter_flag_selector

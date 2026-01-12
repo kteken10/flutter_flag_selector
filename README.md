@@ -1,25 +1,330 @@
-
 # Flutter Flag Selector
 
 [![Pub Version](https://img.shields.io/pub/v/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
+[![Pub Likes](https://img.shields.io/pub/likes/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
+[![Pub Popularity](https://img.shields.io/pub/popularity/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
+[![Pub Points](https://img.shields.io/pub/points/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A highly customizable country selector for Flutter, allowing users to easily choose a country from a comprehensive list in an elegant modal interface. Includes support for SVG flags, multilingual search, and extensive customization.
+A highly customizable Flutter country picker with 20+ languages, SVG flags, and multiple display modes. Perfect for phone number inputs and international forms.
 
-![Flutter Flag Selector Demo](https://raw.githubusercontent.com/your-username/flutter_flag_selector/main/screenshots/demo.gif)
+![Flutter Flag Selector Demo](https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/demo.gif)
 
-## Features
+## Why Choose Flutter Flag Selector?
 
-- 🌍 **Multilingual** - Support for over 20 languages
-- 🔍 **Integrated Search** - Search by country name, code, or dial code
-- 🎨 **Highly Customizable** - Customize the complete appearance of the selector and modal
-- 🏳️ **SVG Flags** - High-quality rendering for all flags
-- 🔄 **Fluid Interface** - Intuitive user experience with smooth animations
-- 📱 **Responsive Design** - Automatically adapts to different screen sizes
-- 💻 **Cross-Platform** - Compatible with Web, Android, iOS, macOS, Linux, and Windows
-- 🎯 **4 Display Modes** - Choose between modal bottom sheet, dialog, popup menu, or draggable sheet
+Looking for the perfect **country picker** for your Flutter app? Here's why developers choose `flutter_flag_selector`:
 
-## 🎌 Supported Languages 🎌
+| Feature | flutter_flag_selector | country_code_picker | country_picker | intl_phone_number_input |
+|---------|----------------------|---------------------|----------------|-------------------------|
+| **SVG Flags** | ✅ High-quality | ❌ PNG only | ❌ PNG only | ✅ |
+| **Languages** | ✅ 20+ languages | ⚠️ Limited | ⚠️ Limited | ⚠️ Limited |
+| **Display Modes** | ✅ 4 modes | ⚠️ 1-2 modes | ⚠️ 1-2 modes | ⚠️ 1 mode |
+| **Customization** | ✅ 30+ properties | ⚠️ Basic | ⚠️ Basic | ⚠️ Basic |
+| **Search Functionality** | ✅ Advanced | ✅ Basic | ✅ Basic | ✅ |
+| **Phone Number Input** | ✅ Integrated | ✅ Integrated | ❌ | ✅ Full support |
+| **Country Code Support** | ✅ Complete | ✅ Complete | ✅ Complete | ✅ Complete |
+| **Cross-Platform** | ✅ All platforms | ✅ All platforms | ✅ All platforms | ✅ All platforms |
+| **Active Maintenance** | ✅ Active | ⚠️ Varies | ⚠️ Varies | ✅ Active |
+
+### Key Advantages
+
+- 🌍 **20+ Languages**: Multi-language support for country names, perfect for international apps
+- 🎨 **Highly Customizable**: 30+ properties to customize every aspect of the **flag selector**
+- 🏳️ **SVG Flags**: Crisp, scalable flags that look perfect on any screen
+- 🔍 **Advanced Search**: Search by country name, code, or **dial code**
+- 📱 **4 Display Modes**: Choose between bottom sheet, dialog, popup menu, or draggable sheet
+- 💻 **Cross-Platform**: Works seamlessly on Web, Android, iOS, macOS, Linux, and Windows
+- 🚀 **Easy Integration**: Simple API for quick implementation in your Flutter app
+
+## 🎥 Demo
+
+| BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option | Draggable Sheet Option |
+|:-------------------------------:|:--------------------:|:-------------------:|:---------------------:|
+| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) | *Coming soon* |
+
+## Installation
+
+Add `flutter_flag_selector` to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  flutter_flag_selector: ^latest_version
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
+
+## Quick Start
+
+### Basic Country Picker
+
+The simplest way to use the **country picker**:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_flag_selector/flutter_flag_selector.dart';
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: FlagSelector(
+          onFlagSelectorCountryChanged: (country) {
+            print('Selected country: ${country.name}');
+            print('Country code: ${country.code}');
+            print('Dial code: ${country.dialCode}');
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Examples
+
+### Example 1: Phone Number Input with Country Code
+
+Perfect for international **phone number** inputs:
+
+```dart
+FlagSelector(
+  flagSelectorLanguageCode: 'en',
+  flagSelectorInitialCountry: 'us',
+  flagSelectorOptionType: FlagSelectorOptionType.modalBottomSheet,
+  onFlagSelectorCountryChanged: (country) {
+    // Update phone number input with country dial code
+    phoneNumberController.text = country.dialCode;
+  },
+  flagSelectorTextStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  ),
+)
+```
+
+### Example 2: Customized Bottom Sheet
+
+Create a beautifully customized bottom sheet **flag selector**:
+
+```dart
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.modalBottomSheet,
+  flagSelectorModalTitle: 'Choose Your Country',
+  flagSelectorModalTitleStyle: TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Colors.blue,
+  ),
+  flagSelectorSelectedCountryItemColor: Colors.blue.shade100,
+  flagSelectorCountryItemHeight: 60.0,
+  onFlagSelectorCountryChanged: (country) {
+    print('Selected: ${country.name}');
+  },
+)
+```
+
+### Example 3: Dialog Mode
+
+Use a centered dialog for **country selection**:
+
+```dart
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.dialog,
+  flagSelectorModalTitle: 'Select Country',
+  flagSelectorModalHeightFactor: 0.8,
+  onFlagSelectorCountryChanged: (country) {
+    Navigator.pop(context);
+    // Handle country selection
+  },
+)
+```
+
+### Example 4: Popup Menu Mode
+
+Compact popup menu for space-constrained layouts:
+
+```dart
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.popupMenu,
+  flagSelectorWidth: 200,
+  flagSelectorHeight: 50,
+  onFlagSelectorCountryChanged: (country) {
+    print('Country: ${country.name}');
+  },
+)
+```
+
+### Example 5: Multi-Language Support
+
+Display country names in different languages:
+
+```dart
+FlagSelector(
+  flagSelectorLanguageCode: 'fr', // French
+  onFlagSelectorCountryChanged: (country) {
+    print(country.getName('fr')); // Get French name
+  },
+)
+
+// Or switch dynamically
+String currentLanguage = 'es'; // Spanish
+FlagSelector(
+  flagSelectorLanguageCode: currentLanguage,
+  onFlagSelectorCountryChanged: (country) {
+    print(country.getName(currentLanguage));
+  },
+)
+```
+
+### Example 6: Form Integration
+
+Integrate with Flutter forms:
+
+```dart
+class CountryForm extends StatefulWidget {
+  @override
+  _CountryFormState createState() => _CountryFormState();
+}
+
+class _CountryFormState extends State<CountryForm> {
+  Country? selectedCountry;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        children: [
+          FlagSelector(
+            flagSelectorInitialCountry: selectedCountry?.code,
+            onFlagSelectorCountryChanged: (country) {
+              setState(() {
+                selectedCountry = country;
+              });
+            },
+          ),
+          if (selectedCountry != null)
+            Text('Selected: ${selectedCountry!.name} (${selectedCountry!.dialCode})'),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### Example 7: Custom Styling
+
+Fully customize the appearance:
+
+```dart
+FlagSelector(
+  flagSelectorDecoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: Colors.blue, width: 2),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.blue.withOpacity(0.1),
+        blurRadius: 10,
+        spreadRadius: 2,
+      ),
+    ],
+  ),
+  flagSelectorTextStyle: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Colors.blue.shade900,
+  ),
+  flagSelectorFlagWidth: 40,
+  flagSelectorFlagHeight: 30,
+  flagSelectorGap: 12,
+  onFlagSelectorCountryChanged: (country) {
+    // Handle selection
+  },
+)
+```
+
+### Example 8: Filtered Country List
+
+Show only specific countries:
+
+```dart
+FlagSelector(
+  flagSelectorCountries: [
+    CountryService.byCode('us')!,
+    CountryService.byCode('ca')!,
+    CountryService.byCode('gb')!,
+    CountryService.byCode('fr')!,
+    CountryService.byCode('de')!,
+  ],
+  onFlagSelectorCountryChanged: (country) {
+    print('Selected: ${country.name}');
+  },
+)
+```
+
+### Example 9: Advanced Search Configuration
+
+Customize the search functionality:
+
+```dart
+FlagSelector(
+  flagSelectorShowSearch: true,
+  flagSelectorSearchHintText: 'Search by name or code...',
+  flagSelectorSearchDecoration: InputDecoration(
+    prefixIcon: Icon(Icons.search),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+  onFlagSelectorCountryChanged: (country) {
+    // Handle selection
+  },
+)
+```
+
+### Example 10: Draggable Sheet Mode
+
+Use the draggable sheet for a modern UX:
+
+```dart
+FlagSelector(
+  flagSelectorOptionType: FlagSelectorOptionType.draggableSheet,
+  flagSelectorModalTitle: 'Choose Country',
+  onFlagSelectorCountryChanged: (country) {
+    print('Selected: ${country.name}');
+  },
+)
+```
+
+## Use Cases
+
+### 1. Phone Number Input Forms
+Perfect for apps requiring international **phone number** input. The **country picker** automatically provides the correct **dial code** for each country.
+
+### 2. User Registration
+Allow users to select their country during registration. The **flag selector** provides an intuitive interface with visual country flags.
+
+### 3. Shipping Address Forms
+E-commerce apps can use the **country picker** in shipping address forms to help users quickly select their destination country.
+
+### 4. Language Selection
+Use the multi-language support to display country names in the user's preferred language, improving the international user experience.
+
+### 5. Analytics and Reporting
+Track user locations by country selection, useful for analytics and understanding your user base distribution.
+
+### 6. Currency Selection
+Since each country includes currency information, you can use the **country picker** to help users select their preferred currency.
+
+### 7. Timezone Selection
+Countries include timezone data, making it easy to implement timezone selection based on country choice.
+
+## 🎌 Supported Languages
 
 The Flutter Flag Selector package supports the following languages for country name translations:
 
@@ -55,7 +360,6 @@ FlagSelector(
 )
 ```
 
-
 ## 🎯 Display Modes
 
 The package supports 4 different display modes for selecting countries:
@@ -74,161 +378,7 @@ FlagSelector(
 )
 ```
 
-## 🎥 Demo
-
-| BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option | Draggable Sheet Option |
-|:-------------------------------:|:--------------------:|:-------------------:|:---------------------:|
-| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) | *Coming soon* |
-## Installation
-
-
-Add `flutter_flag_selector` to your `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  flutter_flag_selector: ^latest_version
-```
-
- Then run :
-
-```bash
-flutter pub get
-```
-
-## Basic Usage
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_flag_selector/flutter_flag_selector.dart';
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FlagSelector(
-          onFlagSelectorCountryChanged: (country) {
-            print('Selected country: ${country.name}');
-          },
-        ),
-      ),
-    );
-  }
-}
-```
-
-### Using Different Display Modes
-
-```dart
-// Modal Bottom Sheet (default)
-FlagSelector(
-  flagSelectorOptionType: FlagSelectorOptionType.modalBottomSheet,
-  onFlagSelectorCountryChanged: (country) => print(country.name),
-)
-
-// Dialog
-FlagSelector(
-  flagSelectorOptionType: FlagSelectorOptionType.dialog,
-  onFlagSelectorCountryChanged: (country) => print(country.name),
-)
-
-// Popup Menu
-FlagSelector(
-  flagSelectorOptionType: FlagSelectorOptionType.popupMenu,
-  onFlagSelectorCountryChanged: (country) => print(country.name),
-)
-
-// Draggable Sheet
-FlagSelector(
-  flagSelectorOptionType: FlagSelectorOptionType.draggableSheet,
-  onFlagSelectorCountryChanged: (country) => print(country.name),
-)
-```
-
-## Advanced Customization
-
-The `FlagSelector` widget offers numerous customization options divided into three main categories: the main selector, the modal, and the search.
-
-```dart
-FlagSelector(
-  // Main configuration
-  flagSelectorLanguageCode: 'en',
-  flagSelectorInitialCountry: 'us',
-  onFlagSelectorCountryChanged: (country) {
-    print('Selected country: ${country.name}');
-    print('Code: ${country.code}');
-    print('Dial code: ${country.dialCode}');
-  },
-  
-  // Selector customization
-  flagSelectorDecoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(10),
-    border: Border.all(color: Colors.grey),
-  ),
-  flagSelectorTextStyle: TextStyle(
-    fontSize: 16, 
-    fontWeight: FontWeight.bold
-  ),
-  
-  // Modal customization
-  flagSelectorModalTitle: 'Choose a country',
-  flagSelectorModalTitleStyle: TextStyle(
-    fontSize: 20, 
-    fontWeight: FontWeight.bold
-  ),
-  
-  // Search customization
-  flagSelectorShowSearch: true,
-  flagSelectorSearchHintText: 'Search countries...',
-)
-```
-
-## Flag Assets
-
-The package includes SVG flags for all countries in the following path:
-
-```dart
-'assets/flags/${countryCode.toLowerCase()}.svg'
-```
-
-These assets are bundled with the package and accessed using:
-
-```dart
-SvgPicture.asset(
-  'assets/flags/${country.code.toLowerCase()}.svg',
-  package: 'flutter_flag_selector',
-)
-```
-
-If you want to use custom flag images, you can provide your own implementation using the `flagSelectorFlagBuilder` property.
-
-## Using the Country Service
-
-The package also includes a service for working with country data:
-
-```dart
-// Initialize the service (do this at app startup)
-CountryService.initialize();
-
-// Get a country by code
-Country? usa = CountryService.byCode('us');
-
-// Search countries by currency
-List<Country> euroCountries = CountryService.byCurrency('EUR');
-
-// Search countries by region
-List<Country> europeanCountries = CountryService.byRegion('Europe');
-
-// Advanced search
-List<Country> results = CountryService.advancedSearch(
-  region: 'Europe',
-  currency: 'EUR',
-  query: 'fr'
-);
-```
-
-## Customization Options
+## API Reference
 
 ### Main Selector Properties
 
@@ -318,76 +468,103 @@ class Country {
 }
 ```
 
-## Complete Application Example
+## Using the Country Service
+
+The package also includes a service for working with country data:
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_flag_selector/flutter_flag_selector.dart';
+// Initialize the service (do this at app startup)
+CountryService.initialize();
 
-void main() {
-  runApp(MyApp());
-}
+// Get a country by code
+Country? usa = CountryService.byCode('us');
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Flag Selector Demo'),
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Select your country',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                FlagSelector(
-                  flagSelectorLanguageCode: 'en',
-                  flagSelectorInitialCountry: 'us',
-                  onFlagSelectorCountryChanged: (country) {
-                    print('Selected country: ${country.name}');
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+// Search countries by currency
+List<Country> euroCountries = CountryService.byCurrency('EUR');
+
+// Search countries by region
+List<Country> europeanCountries = CountryService.byRegion('Europe');
+
+// Advanced search
+List<Country> results = CountryService.advancedSearch(
+  region: 'Europe',
+  currency: 'EUR',
+  query: 'fr'
+);
 ```
 
-## Recent Updates
+## Flag Assets
 
-### Version 0.0.1+ (Latest)
+The package includes SVG flags for all countries. These assets are bundled with the package and accessed automatically. If you want to use custom flag images, you can provide your own implementation using the `flagSelectorFlagBuilder` property.
 
-✅ **All 4 display modes now fully functional**
-- Fixed dialog mode with complete property propagation
-- Fixed popup menu mode with correct positioning
-- Implemented draggable sheet mode with resize capability
-- All modes now support full customization (30+ properties)
-- Improved error handling and edge case management
-- Automatic modal closure after country selection
+## Troubleshooting
 
-**Breaking Changes**: None - fully backward compatible
+### Issue: Flags not displaying
 
-## License
+**Solution**: Ensure that `flutter_svg` is properly added to your dependencies. The flags are SVG files bundled with the package.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Issue: Country names not in the correct language
+
+**Solution**: Verify that you're using a supported language code. Check the [Supported Languages](#-supported-languages) section for available codes.
+
+### Issue: Modal not closing after selection
+
+**Solution**: This should happen automatically. If it doesn't, ensure you're using the latest version of the package. You can also manually close the modal in the `onFlagSelectorCountryChanged` callback.
+
+### Issue: Search not working
+
+**Solution**: Make sure `flagSelectorShowSearch` is set to `true` (default) and `flagSearchEnabled` is not set to `false`.
+
+### Issue: Initial country not selected
+
+**Solution**: Verify that the `flagSelectorInitialCountry` value is a valid ISO 2-letter country code (e.g., 'us', 'fr', 'jp'). The code is case-insensitive.
+
+### Issue: Custom styling not applying
+
+**Solution**: Ensure you're using the correct property names. All customization properties start with `flagSelector`. Check the [API Reference](#api-reference) for the complete list of properties.
+
+### Issue: Performance issues with large country lists
+
+**Solution**: The package is optimized for performance, but if you're using a very large custom country list, consider filtering the list to only include relevant countries.
 
 ## Contributing
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+Contributions are welcome! We love to see the community getting involved. Here's how you can help:
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork the repository**
+2. **Create your feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes** following our code style guidelines
+4. **Add tests** for new features
+5. **Update documentation** (README.md, CHANGELOG.md)
+6. **Commit your changes** (`git commit -m 'feat: add amazing feature'`)
+7. **Push to the branch** (`git push origin feature/amazing-feature`)
+8. **Open a Pull Request**
+
+### Development Setup
+
+1. Clone the repository
+2. Run `flutter pub get`
+3. Run `flutter analyze` to check for issues
+4. Run `flutter test` to run tests
+5. Check the example app in the `example/` folder
+
+### Code Style
+
+- Follow the [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style)
+- Use meaningful variable and function names
+- Add documentation comments for public APIs
+- Write tests for new features
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Links
+
+- [Pub.dev Package](https://pub.dev/packages/flutter_flag_selector)
+- [GitHub Repository](https://github.com/kteken10/flutter_flag_selector)
+- [Issue Tracker](https://github.com/kteken10/flutter_flag_selector/issues)
+
+---
+
+Made with ❤️ for the Flutter community

@@ -8,11 +8,12 @@ import 'modal_bottom_sheet_picker.dart';
 import 'popup_menu_picker.dart';
 import 'draggable_sheet_picker.dart';
 
-/// A highly customizable country selector widget for Flutter.
+/// Displays a customizable country picker for Flutter applications.
 ///
+/// Perfect for international phone number inputs, country selection forms,
+/// and multi-language applications. Supports 20+ languages with SVG flags.
 /// This widget allows users to select a country from a comprehensive list using
 /// different modal interfaces like bottom sheets, dialogs, or popup menus.
-/// It supports SVG flags, multilingual country names, and extensive customization options.
 ///
 /// Example:
 /// ```dart
@@ -21,9 +22,16 @@ import 'draggable_sheet_picker.dart';
 ///   flagSelectorInitialCountry: 'us',
 ///   onFlagSelectorCountryChanged: (country) {
 ///     print('Selected country: ${country.name}');
+///     print('Country code: ${country.code}');
+///     print('Dial code: ${country.dialCode}');
 ///   },
 /// )
 /// ```
+///
+/// See also:
+/// - [Country] for country data structure
+/// - [FlagSelectorOptionType] for display options
+/// - [CountryService] for country data operations
 class FlagSelector extends StatefulWidget {
   // ======================================================================= //
   // [1] MAIN SELECTOR PROPERTIES

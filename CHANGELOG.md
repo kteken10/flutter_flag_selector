@@ -1,41 +1,48 @@
-## 0.0.2
+# Changelog
 
-### 🎉 Major Updates
+All notable changes to this project will be documented in this file.
 
-* ✅ **All 4 display modes now fully functional**
-  * Fixed dialog mode with complete property propagation (30+ properties)
-  * Fixed popup menu mode with correct positioning and all properties
-  * Implemented draggable sheet mode with resize capability
-  * All modes now support full customization
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-* ✅ **Improved Error Handling**
-  * Added validation for empty country lists
-  * Better handling of invalid initial country codes
-  * Case-insensitive country code matching
+## [0.0.2] - 2025-01-XX
 
-* ✅ **Enhanced User Experience**
-  * Automatic modal closure after country selection in all modes
-  * Better positioning for popup menu
-  * Smooth animations in draggable sheet mode
+### Added
+- Dialog mode for country picker with complete property propagation
+- Popup menu mode with correct positioning and full customization support
+- Draggable sheet mode with resize capability for enhanced user experience
+- Advanced search functionality by country dial code
+- Case-insensitive country code matching for better usability
+- Validation for empty country lists to prevent runtime errors
 
-### 🔧 Technical Improvements
+### Improved
+- Country picker performance with optimized rendering
+- Flag display quality with improved SVG rendering
+- User experience with automatic modal closure after country selection
+- Error handling for invalid initial country codes
+- Popup menu positioning accuracy
+- Animation smoothness in draggable sheet mode
+- Code documentation with comprehensive dartdoc comments
 
-* Refactored dialog picker implementation
-* Refactored popup menu picker implementation
-* Created new draggable sheet picker implementation
-* Improved code documentation
-* Fixed all linter warnings
+### Fixed
+- Dialog mode property propagation issues
+- Popup menu positioning problems
+- Modal closure behavior across all display modes
+- Linter warnings and code quality issues
 
-### 📝 Documentation
+### Changed
+- Refactored dialog picker implementation for better maintainability
+- Refactored popup menu picker implementation
+- Updated README.md with comprehensive examples and SEO optimization
+- Enhanced property documentation for better developer experience
 
-* Updated README.md with all 4 display modes
-* Added examples for each display mode
-* Updated property documentation
+## [0.0.1] - 2025-01-XX
 
-## 0.0.1
-
-* Initial release with basic country selector functionality
-* Support for modal bottom sheet display mode
-* Multilingual support (20+ languages)
-* SVG flag rendering
-* Basic customization options
+### Added
+- Initial release with basic country selector functionality
+- Modal bottom sheet display mode for country selection
+- Multilingual support for 20+ languages
+- SVG flag rendering with high-quality graphics
+- Basic customization options for selector appearance
+- Country search functionality by name and code
+- Support for international phone number inputs with dial codes
