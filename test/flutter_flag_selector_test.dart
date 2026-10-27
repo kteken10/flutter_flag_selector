@@ -93,10 +93,36 @@ void main() {
     expect(find.textContaining('France'), findsNothing);
   });
 
+  testWidgets('the draggable sheet grows when its list is dragged up', (tester) async {
+    await tester.pumpWidget(_app(FlagSelector(
+      flagSelectorInitialCountry: 'fr',
+      flagSelectorOptionType: FlagSelectorOptionType.draggableSheet,
+    )));
+
+    await tester.tap(find.byType(FlagSelector));
+    await tester.pumpAndSettle();
+    final before = tester.getTopLeft(find.byType(ListView)).dy;
+
+    await tester.drag(find.byType(ListView), const Offset(0, -200));
+    await tester.pumpAndSettle();
+    expect(tester.getTopLeft(find.byType(ListView)).dy, lessThan(before));
+  });
+
   test('CountryService.search matches name, code and dial code', () {
     expect(CountryService.search('Germany').map((c) => c.code), contains('de'));
     expect(CountryService.search('DEU').map((c) => c.code), contains('de'));
     expect(CountryService.search('+49').map((c) => c.code), contains('de'));
+  });
+
+  test('CountryService.search ranks names starting with the query first', () {
+    final codes = CountryService.search('ger').map((c) => c.code).toList();
+    expect(codes.first, 'de'); // Germany avant Algeria et Niger
+    expect(codes, containsAll(['dz', 'ne', 'ng']));
+  });
+
+  test('CountryService.search puts an exact code or dial code first', () {
+    expect(CountryService.search('fr').first.code, 'fr');
+    expect(CountryService.search('33').first.code, 'fr');
   });
 
   test('Country.getName falls back to English for unknown languages', () {

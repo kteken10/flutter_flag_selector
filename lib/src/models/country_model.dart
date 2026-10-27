@@ -7254,9 +7254,32 @@ class CountryService {
 
   /// Searches [countries] (all countries by default) by name, ISO 2 / ISO 3
   /// code or dial code.
+  ///
+  /// Results are ranked: exact code or dial code first, then names starting
+  /// with the query, then names with a word starting with it, then the rest.
+  /// Ties keep the order of [countries].
   static List<Country> search(String query, {String? languageCode, List<Country>? countries}) {
-    final q = query.toLowerCase();
-    return (countries ?? defaultCountries).where((country) {
+    final q = query.toLowerCase().trim();
+    if (q.isEmpty) return List.of(countries ?? defaultCountries);
+
+    int rank(Country c) {
+      final name = (languageCode != null ? c.getName(languageCode) : c.name).toLowerCase();
+      if (c.code.toLowerCase() == q || c.iso3.toLowerCase() == q || c.dialCode == q || c.dialCode == '+$q') {
+        return 0;
+      }
+      if (name.startsWith(q)) return 1;
+      if (name.split(RegExp(r'[\s\-\(\)]+')).any((w) => w.startsWith(q))) return 2;
+      return 3;
+    }
+
+    final matches = _matching(q, languageCode, countries ?? defaultCountries);
+    final indexed = [for (var i = 0; i < matches.length; i++) (i, rank(matches[i]), matches[i])];
+    indexed.sort((a, b) => a.$2 != b.$2 ? a.$2.compareTo(b.$2) : a.$1.compareTo(b.$1));
+    return [for (final e in indexed) e.$3];
+  }
+
+  static List<Country> _matching(String q, String? languageCode, List<Country> countries) {
+    return countries.where((country) {
       final nameToSearch = languageCode != null
           ? country.getName(languageCode).toLowerCase()
           : country.name.toLowerCase();

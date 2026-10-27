@@ -40,7 +40,11 @@ void showModalBottomSheetPicker({
 }) {
   showModalBottomSheet(
     context: context,
-    builder: (ctx) => CountryPicker(
+    // Le panneau remonte au-dessus du clavier pendant la recherche.
+    isScrollControlled: true,
+    builder: (ctx) => Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+      child: CountryPicker(
       countryPickerCountryList: countries,
       countryPickerLanguageCode: languageCode,
       onCountryPickerSelected: onSelected,
@@ -79,6 +83,7 @@ void showModalBottomSheetPicker({
       countryPickerInitiallySelectedCountry: initiallySelectedCountry,
       countryPickerKey: key,
       searchEnabled: searchEnabled,
+      ),
     ),
   );
 }

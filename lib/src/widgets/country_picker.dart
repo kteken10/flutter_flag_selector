@@ -99,6 +99,10 @@ class CountryPicker extends StatefulWidget {
   final FocusNode? searchFocusNode;
   final Key? countryPickerKey;
 
+  /// Controller of the country list. Pass the one given by a
+  /// [DraggableScrollableSheet] so that scrolling the list also drags the sheet.
+  final ScrollController? countryPickerScrollController;
+
   const CountryPicker({
     super.key,
     required this.countryPickerCountryList,
@@ -131,6 +135,7 @@ class CountryPicker extends StatefulWidget {
     this.searchIconColor,
     this.countryPickerInitiallySelectedCountry,
     this.countryPickerKey,
+    this.countryPickerScrollController,
   });
 
   @override
@@ -196,7 +201,9 @@ class _CountryPickerState extends State<CountryPicker> {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height *
+        // Hauteur disponible hors clavier : le picker reste entier quand on tape.
+        maxHeight: (MediaQuery.of(context).size.height -
+                MediaQuery.of(context).viewInsets.bottom) *
             (widget.countryPickerStyle.countryPickerModalHeight ?? 0.7),
       ),
       decoration: BoxDecoration(
@@ -318,6 +325,7 @@ class _CountryPickerState extends State<CountryPicker> {
                     : Material(
                         type: MaterialType.transparency,
                         child: ListView.builder(
+                          controller: widget.countryPickerScrollController,
                           itemCount: filteredCountries.length,
                           itemBuilder: (context, index) {
                             final country = filteredCountries[index];

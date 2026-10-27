@@ -50,63 +50,90 @@ void showDraggableSheetPicker({
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (ctx) => DraggableScrollableSheet(
-      initialChildSize: initialChildSize,
-      minChildSize: minChildSize,
-      maxChildSize: maxChildSize,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: pickerStyle?.countryPickerBackgroundColor ??
-                Theme.of(context).canvasColor,
-            borderRadius: pickerStyle?.countryPickerBorderRadius ??
-                const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: CountryPicker(
-            countryPickerCountryList: countries,
-            countryPickerLanguageCode: languageCode,
-            onCountryPickerSelected: (country) {
-              onSelected(country);
-              // CountryPicker gère déjà la fermeture avec Navigator.pop(context)
-            },
-            countryPickerStyle: pickerStyle ??
-                CountryPickerStyle(
-                  countryPickerBackgroundColor: Theme.of(context).canvasColor,
-                  countryPickerBorderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20)),
-                  countryPickerTitleStyle: modalTitleStyle ??
-                      Theme.of(context).textTheme.titleMedium,
-                  countryPickerModalHeight: modalHeightFactor,
-                  searchContainerBackgroundColor: searchContainerColor,
-                  searchContainerBorderRadius: searchContainerBorderRadius,
-                  searchContainerBorder: searchContainerBorder,
-                  searchContainerShadow: searchContainerShadow,
-                  searchContainerMargin: searchContainerMargin,
-                  searchContainerPadding: searchContainerPadding,
-                  searchInputPadding: searchInputPadding,
-                  searchContainerWidth: searchContainerWidth,
-                  searchContainerHeight: searchContainerHeight,
-                  searchContainerConstraints: searchContainerConstraints,
+    // Le panneau remonte au-dessus du clavier pendant la recherche.
+    builder: (ctx) => Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+      child: DraggableScrollableSheet(
+        initialChildSize: initialChildSize,
+        minChildSize: minChildSize,
+        maxChildSize: maxChildSize,
+        builder: (context, scrollController) {
+          return Container(
+            decoration: BoxDecoration(
+              color: pickerStyle?.countryPickerBackgroundColor ??
+                  Theme.of(context).canvasColor,
+              borderRadius: pickerStyle?.countryPickerBorderRadius ??
+                  const BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            child: Column(
+              children: [
+                // Poignée : indique que le panneau se redimensionne.
+                Container(
+                  width: 36,
+                  height: 4,
+                  margin: const EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-            countryPickerShowTitle: showModalTitle,
-            countryPickerTitle: modalTitle,
-            countryPickerTitlePadding: modalTitlePadding,
-            countryPickerItemBuilder: countryItemBuilder,
-            countryPickerItemPadding: countryItemPadding,
-            countryPickerItemHeight: countryItemHeight,
-            countryPickerItemColor: countryItemColor,
-            countryPickerSelectedItemColor: selectedCountryItemColor,
-            searchInputDecoration: searchDecoration,
-            searchTextStyle: searchTextStyle,
-            searchHintText: searchHintText,
-            searchInputPadding: searchPadding,
-            showSearchInput: showSearchInput,
-            countryPickerInitiallySelectedCountry: initiallySelectedCountry,
-            countryPickerKey: key,
-            searchEnabled: searchEnabled,
-          ),
-        );
-      },
+                Expanded(
+                  child: CountryPicker(
+                    // Le défilement de la liste pilote aussi la taille du panneau.
+                    countryPickerScrollController: scrollController,
+                    countryPickerCountryList: countries,
+                    countryPickerLanguageCode: languageCode,
+                    onCountryPickerSelected: (country) {
+                      onSelected(country);
+                      // CountryPicker gère déjà la fermeture avec Navigator.pop(context)
+                    },
+                    countryPickerStyle: pickerStyle ??
+                        CountryPickerStyle(
+                          countryPickerBackgroundColor:
+                              Theme.of(context).canvasColor,
+                          countryPickerBorderRadius:
+                              const BorderRadius.vertical(
+                                  top: Radius.circular(20)),
+                          countryPickerTitleStyle: modalTitleStyle ??
+                              Theme.of(context).textTheme.titleMedium,
+                          countryPickerModalHeight: modalHeightFactor,
+                          searchContainerBackgroundColor: searchContainerColor,
+                          searchContainerBorderRadius:
+                              searchContainerBorderRadius,
+                          searchContainerBorder: searchContainerBorder,
+                          searchContainerShadow: searchContainerShadow,
+                          searchContainerMargin: searchContainerMargin,
+                          searchContainerPadding: searchContainerPadding,
+                          searchInputPadding: searchInputPadding,
+                          searchContainerWidth: searchContainerWidth,
+                          searchContainerHeight: searchContainerHeight,
+                          searchContainerConstraints:
+                              searchContainerConstraints,
+                        ),
+                    countryPickerShowTitle: showModalTitle,
+                    countryPickerTitle: modalTitle,
+                    countryPickerTitlePadding: modalTitlePadding,
+                    countryPickerItemBuilder: countryItemBuilder,
+                    countryPickerItemPadding: countryItemPadding,
+                    countryPickerItemHeight: countryItemHeight,
+                    countryPickerItemColor: countryItemColor,
+                    countryPickerSelectedItemColor: selectedCountryItemColor,
+                    searchInputDecoration: searchDecoration,
+                    searchTextStyle: searchTextStyle,
+                    searchHintText: searchHintText,
+                    searchInputPadding: searchPadding,
+                    showSearchInput: showSearchInput,
+                    countryPickerInitiallySelectedCountry:
+                        initiallySelectedCountry,
+                    countryPickerKey: key,
+                    searchEnabled: searchEnabled,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     ),
   );
 }
