@@ -1,8 +1,24 @@
-# Fichiers du dépôt inutiles dans le paquet publié sur pub.dev.
+# Fichiers exclus du paquet publié sur pub.dev.
+# Attention : un .pubignore remplace le .gitignore pour pub ; les sorties de
+# compilation doivent donc être listées ici aussi.
 # (screenshots/ reste publié : pub.dev en a besoin pour la galerie.)
+
+# Sorties de compilation et outils
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+**/build/
+**/.dart_tool/
+**/.gradle/
+**/ephemeral/
+**/Pods/
+*.iml
+.idea/
+
+# Fichiers du dépôt sans intérêt pour les utilisateurs du paquet
 .cursorrules
 .vscode/
 .github/
 PUBLICATION_GUIDE.md
-example/build/
-example/.dart_tool/
