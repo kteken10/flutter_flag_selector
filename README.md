@@ -1,20 +1,29 @@
 # Flutter Flag Selector
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/banner.png" alt="flutter_flag_selector: country picker for Flutter" width="100%">
+</p>
+
 [![Pub Version](https://img.shields.io/pub/v/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
+[![Pub Points](https://img.shields.io/pub/points/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector/score)
 [![Pub Likes](https://img.shields.io/pub/likes/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
-[![Pub Popularity](https://img.shields.io/pub/popularity/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
-[![Pub Points](https://img.shields.io/pub/points/flutter_flag_selector)](https://pub.dev/packages/flutter_flag_selector)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A highly customizable Flutter country picker with 20+ languages, SVG flags, and multiple display modes. Perfect for phone number inputs and international forms.
+A customizable country picker for Flutter: SVG flags, dial codes, country names in 20 languages and four display modes. Built for phone number inputs, sign-up flows and international forms.
 
-| Bottom sheet | Dialog | Popup menu |
-|:---:|:---:|:---:|
-| <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/bottom_sheet.gif" width="240" alt="Bottom sheet mode"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/dialog.gif" width="240" alt="Dialog mode"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/popup_menu.gif" width="240" alt="Popup menu mode"> |
+## Demo
 
-## Why Choose Flutter Flag Selector?
+| Bottom sheet | Dialog | Popup menu | Draggable sheet |
+|:---:|:---:|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/bottom_sheet.gif" width="200" alt="Bottom sheet mode: search for Germany and select it"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/dialog.gif" width="200" alt="Dialog mode: search for Cameroon and select it"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/popup_menu.gif" width="200" alt="Popup menu mode: scroll and select Belgium"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/draggable_sheet.gif" width="200" alt="Draggable sheet: drag the list up and select Australia"> |
+| Search ranks the best match first | Same picker, centered | Anchored to the selector | Drag the list to resize the sheet |
 
-Looking for a **country picker** for your Flutter app? Here is what `flutter_flag_selector` provides:
+<p align="center">
+  <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/languages.gif" width="200" alt="Country names switching from English to French and Japanese"><br>
+  <sub>Country names follow <code>flagSelectorLanguageCode</code>: English, French, Japanese and 17 more.</sub>
+</p>
+
+## Features
 
 | Feature | Details |
 |---------|---------|
@@ -22,26 +31,11 @@ Looking for a **country picker** for your Flutter app? Here is what `flutter_fla
 | **Flags** | SVG flags, sharp at any size |
 | **Languages** | Country names in 20 languages |
 | **Display modes** | Bottom sheet, dialog, popup menu, draggable sheet |
-| **Search** | By country name, ISO code or dial code |
+| **Search** | By country name, ISO code or dial code; exact codes and names starting with the query come first |
 | **Smart default** | Preselects the device's country when no initial country is set |
+| **Keyboard aware** | The bottom sheets stay above the keyboard while searching |
 | **Customization** | 30+ properties, plus builders for the flag, the items and the whole picker |
 | **Platforms** | Android, iOS, Web, macOS, Windows, Linux |
-
-### Key Advantages
-
-- 🌍 **20+ Languages**: Multi-language support for country names, perfect for international apps
-- 🎨 **Highly Customizable**: 30+ properties to customize every aspect of the **flag selector**
-- 🏳️ **SVG Flags**: Crisp, scalable flags that look perfect on any screen
-- 🔍 **Advanced Search**: Search by country name, code, or **dial code**
-- 📱 **4 Display Modes**: Choose between bottom sheet, dialog, popup menu, or draggable sheet
-- 💻 **Cross-Platform**: Works seamlessly on Web, Android, iOS, macOS, Linux, and Windows
-- 🚀 **Easy Integration**: Simple API for quick implementation in your Flutter app
-
-## 🎥 Demo
-
-| BottomSheet Country Modal Option | Dialog Country Option | PopUp Country Option | Draggable Sheet Option |
-|:-------------------------------:|:--------------------:|:-------------------:|:---------------------:|
-| ![Image](https://github.com/user-attachments/assets/d6009893-e961-469f-b83d-a962b1a2df6b) | ![Image](https://github.com/user-attachments/assets/2af10790-c1ac-436e-af42-e50fd2113d2b) | ![Image](https://github.com/user-attachments/assets/6795e06b-b5de-494f-aeee-d8a45539d159) | *Coming soon* |
 
 ## Installation
 
@@ -49,7 +43,7 @@ Add `flutter_flag_selector` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_flag_selector: ^1.0.0
+  flutter_flag_selector: ^1.0.1
 ```
 
 Then run:

@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   flutter_flag_selector:
     path: ../
-  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -20,5 +19,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/images/

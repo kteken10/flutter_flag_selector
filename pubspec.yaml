@@ -1,6 +1,6 @@
 name: flutter_flag_selector
-description: A highly customizable Flutter country picker widget with 20+ languages, SVG flags, search functionality, and multiple display modes. Perfect for phone number inputs and international forms.
-version: 1.0.0
+description: Country picker for Flutter with SVG flags, dial codes, search, country names in 20 languages and four display modes. Ideal for phone number inputs.
+version: 1.0.1
 homepage: https://github.com/kteken10/flutter_flag_selector
 repository: https://github.com/kteken10/flutter_flag_selector
 issue_tracker: https://github.com/kteken10/flutter_flag_selector/issues
@@ -15,12 +15,16 @@ topics:
   - phone
 
 screenshots:
-  - description: Country picker in bottom sheet mode, with search.
+  - description: 'Bottom sheet mode: searching "ger" puts Germany first.'
     path: screenshots/bottom_sheet.gif
   - description: Country picker in dialog mode.
     path: screenshots/dialog.gif
   - description: Country picker in popup menu mode.
     path: screenshots/popup_menu.gif
+  - description: Draggable sheet that resizes when the list is dragged.
+    path: screenshots/draggable_sheet.gif
+  - description: Country names in English, French and Japanese.
+    path: screenshots/languages.gif
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

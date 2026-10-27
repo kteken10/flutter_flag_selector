@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-10-27
+
+### Fixed
+- Draggable sheet: dragging the list now resizes the sheet. The sheet's scroll
+  controller was not passed to the list, so it stayed at its initial size. A
+  drag handle now shows that the sheet can be resized.
+- Bottom sheet and draggable sheet stay above the keyboard while searching,
+  instead of being partly hidden by it.
+
+### Changed
+- Search ranks results: exact ISO code, ISO 3 code or dial code first, then
+  names starting with the query, then names containing a word starting with
+  it, then the rest. Typing "ger" now shows Germany before Algeria and Niger.
+- New example app (a sign-up screen) and new demo GIFs for the four display
+  modes and the languages, also shown in the pub.dev gallery.
+- Shorter package description, within the pub.dev limit.
+
 ## [1.0.0] - 2026-10-27
 
 First stable release.
