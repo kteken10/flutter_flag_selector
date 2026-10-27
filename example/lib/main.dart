@@ -572,7 +572,7 @@ class CustomStylingExample extends StatelessWidget {
                   border: Border.all(color: Colors.purple, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.purple.withOpacity(0.2),
+                      color: Colors.purple.withValues(alpha: 0.2),
                       blurRadius: 10,
                       spreadRadius: 2,
                     ),

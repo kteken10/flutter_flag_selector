@@ -8,7 +8,9 @@
 
 A highly customizable Flutter country picker with 20+ languages, SVG flags, and multiple display modes. Perfect for phone number inputs and international forms.
 
-![Flutter Flag Selector Demo](https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/demo.gif)
+| Bottom sheet | Dialog | Popup menu |
+|:---:|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/bottom_sheet.gif" width="240" alt="Bottom sheet mode"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/dialog.gif" width="240" alt="Dialog mode"> | <img src="https://raw.githubusercontent.com/kteken10/flutter_flag_selector/main/screenshots/popup_menu.gif" width="240" alt="Popup menu mode"> |
 
 ## Why Choose Flutter Flag Selector?
 
@@ -48,7 +50,7 @@ Add `flutter_flag_selector` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_flag_selector: ^latest_version
+  flutter_flag_selector: ^1.0.0
 ```
 
 Then run:
@@ -84,6 +86,8 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+Without `flagSelectorInitialCountry`, the selector preselects the **device's country** (read from the platform locale), then falls back to the first country of the list. Set `flagSelectorUseDeviceCountry: false` to disable this.
 
 ## Examples
 
@@ -387,7 +391,8 @@ FlagSelector(
 | `flagSelectorLanguageCode` | String | Language code for country names | 'en' |
 | `flagSelectorOptionType` | FlagSelectorOptionType | Display mode (modalBottomSheet, dialog, popupMenu, draggableSheet) | modalBottomSheet |
 | `flagSelectorCountries` | List<Country> | Available countries list | defaultCountries |
-| `flagSelectorInitialCountry` | String? | Initially selected country code | null |
+| `flagSelectorInitialCountry` | String? | Initially selected country code (ISO 2 letters) | null |
+| `flagSelectorUseDeviceCountry` | bool | Preselect the device's country when no initial country is given | true |
 | `onFlagSelectorCountryChanged` | ValueChanged<Country>? | Function called when a country is selected | null |
 | `flagSelectorPadding` | EdgeInsetsGeometry? | Internal padding of the selector | null |
 | `flagSelectorDecoration` | BoxDecoration? | Decoration of the main container | Default decoration with border radius |

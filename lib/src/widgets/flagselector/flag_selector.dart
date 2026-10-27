@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../models/country_model.dart';
-import '../country_picker.dart';
+import 'package:flutter_flag_selector/src/models/country_model.dart';
+import 'package:flutter_flag_selector/src/widgets/country_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import './types/flag_selector_types.dart';
-import 'dialog_picker.dart';
-import 'modal_bottom_sheet_picker.dart';
-import 'popup_menu_picker.dart';
-import 'draggable_sheet_picker.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/types/flag_selector_types.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/dialog_picker.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/modal_bottom_sheet_picker.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/popup_menu_picker.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/draggable_sheet_picker.dart';
 
 /// Displays a customizable country picker for Flutter applications.
 ///
@@ -50,8 +50,16 @@ class FlagSelector extends StatefulWidget {
   /// The initial country code to be selected when the widget is first built.
   ///
   /// This should be a valid ISO 2-letter country code (e.g., 'us', 'fr', 'jp').
-  /// If not provided or invalid, the first country in the list will be selected.
+  /// If not provided or invalid, the device's region is used (see
+  /// [flagSelectorUseDeviceCountry]), then the first country in the list.
   final String? flagSelectorInitialCountry;
+
+  /// Whether to preselect the device's country when no valid
+  /// [flagSelectorInitialCountry] is given.
+  ///
+  /// The country is read from the platform locale (e.g. `fr_FR` gives `fr`).
+  /// Defaults to `true`; set to `false` to fall back to the first country.
+  final bool flagSelectorUseDeviceCountry;
 
   /// Callback function that is called when a country is selected.
   ///
@@ -263,6 +271,7 @@ class FlagSelector extends StatefulWidget {
     this.flagSelectorLanguageCode = 'en',
     this.flagSelectorCountries = defaultCountries,
     this.flagSelectorInitialCountry,
+    this.flagSelectorUseDeviceCountry = true,
     this.onFlagSelectorCountryChanged,
     this.flagSelectorPadding,
     this.flagSelectorDecoration,
@@ -351,22 +360,29 @@ class _FlagSelectorState extends State<FlagSelector> {
       );
     }
 
-    // Si un pays initial est spécifié, on essaie de le trouver
-    if (widget.flagSelectorInitialCountry != null) {
-      try {
-        return widget.flagSelectorCountries.firstWhere(
-          (c) =>
-              c.code.toLowerCase() ==
-              widget.flagSelectorInitialCountry!.toLowerCase(),
-        );
-      } catch (e) {
-        // Si le pays initial n'est pas trouvé, on retourne le premier de la liste
-        return widget.flagSelectorCountries.first;
-      }
+    // 1. Pays explicitement demandé.
+    final explicit = _countryByCode(widget.flagSelectorInitialCountry);
+    if (explicit != null) return explicit;
+
+    // 2. Pays de l'appareil, lu dans la locale de la plateforme.
+    if (widget.flagSelectorUseDeviceCountry) {
+      final device = _countryByCode(
+        WidgetsBinding.instance.platformDispatcher.locale.countryCode,
+      );
+      if (device != null) return device;
     }
 
-    // Par défaut, on retourne le premier pays de la liste
+    // 3. Premier pays de la liste.
     return widget.flagSelectorCountries.first;
+  }
+
+  Country? _countryByCode(String? code) {
+    if (code == null || code.isEmpty) return null;
+    final wanted = code.toLowerCase();
+    for (final country in widget.flagSelectorCountries) {
+      if (country.code.toLowerCase() == wanted) return country;
+    }
+    return null;
   }
 
   void _openCountryPicker(BuildContext context) {
@@ -611,7 +627,8 @@ class _FlagSelectorState extends State<FlagSelector> {
     if (widget.flagSelectorShowCountryName) ...[
       SizedBox(width: widget.flagSelectorGap),
       Text(
-        widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ?? _selectedCountry.name,
+        widget.flagSelectorCountryNameBuilder?.call(_selectedCountry) ??
+            _selectedCountry.getName(widget.flagSelectorLanguageCode),
         style: widget.flagSelectorTextStyle ?? Theme.of(context).textTheme.bodyMedium,
       ),
     ],

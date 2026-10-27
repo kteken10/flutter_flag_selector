@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-// import '../../flutter_flag_selector.dart';
-import '../models/country_model.dart';
-import 'search_input.dart';
+// import 'package:flutter_flag_selector/flutter_flag_selector.dart';
+import 'package:flutter_flag_selector/src/models/country_model.dart';
+import 'package:flutter_flag_selector/src/widgets/search_input.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets//flagselector//types/flag_selector_types.dart';
+import 'package:flutter_flag_selector/src/widgets/flagselector/types/flag_selector_types.dart';
 
 class CountryPickerStyle {
   final Color? countryPickerBackgroundColor;
@@ -311,20 +311,25 @@ class _CountryPickerState extends State<CountryPicker> {
                 final filteredCountries = _filterCountries(searchValue);
                 return filteredCountries.isEmpty
                     ? _buildEmptyState()
-                    : ListView.builder(
-                        itemCount: filteredCountries.length,
-                        itemBuilder: (context, index) {
-                          final country = filteredCountries[index];
-                          final isSelected = _selectedCountry != null &&
-                              _selectedCountry!.code == country.code;
-                          return widget.countryPickerItemBuilder
-                                  ?.call(context, country) ??
-                              _buildDefaultCountryItem(
-                                context,
-                                country,
-                                isSelected: isSelected,
-                              );
-                        },
+                    // Material transparent : les ListTile peignent leur fond et
+                    // leur effet d'appui au-dessus du conteneur coloré du picker.
+                    : Material(
+                        type: MaterialType.transparency,
+                        child: ListView.builder(
+                          itemCount: filteredCountries.length,
+                          itemBuilder: (context, index) {
+                            final country = filteredCountries[index];
+                            final isSelected = _selectedCountry != null &&
+                                _selectedCountry!.code == country.code;
+                            return widget.countryPickerItemBuilder
+                                    ?.call(context, country) ??
+                                _buildDefaultCountryItem(
+                                  context,
+                                  country,
+                                  isSelected: isSelected,
+                                );
+                          },
+                        ),
                       );
               },
             ),
@@ -360,13 +365,15 @@ class _CountryPickerState extends State<CountryPicker> {
     Country country, {
     bool isSelected = false,
   }) {
-    return Container(
+    // La couleur passe par tileColor (et non un Container coloré autour du
+    // ListTile), pour que l'effet d'appui reste visible.
+    return SizedBox(
       height: widget.countryPickerItemHeight,
-      color: isSelected
-          ? widget.countryPickerSelectedItemColor ??
-              Theme.of(context).highlightColor
-          : widget.countryPickerItemColor,
       child: ListTile(
+        tileColor: isSelected
+            ? widget.countryPickerSelectedItemColor ??
+                Theme.of(context).highlightColor
+            : widget.countryPickerItemColor,
         contentPadding: widget.countryPickerItemPadding ?? EdgeInsets.zero,
         leading: SvgPicture.asset(
           'packages/flutter_flag_selector/assets/images/${country.code.toUpperCase()}.svg',

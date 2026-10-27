@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/country_model.dart';
+import 'package:flutter_flag_selector/src/models/country_model.dart';
 
 Country findInitialCountry({
   required String? initialCountryCode,

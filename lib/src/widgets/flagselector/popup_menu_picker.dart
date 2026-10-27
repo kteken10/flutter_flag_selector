@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/country_model.dart';
-import '../country_picker.dart';
+import 'package:flutter_flag_selector/src/models/country_model.dart';
+import 'package:flutter_flag_selector/src/widgets/country_picker.dart';
 
 /// Shows a popup menu-based country picker with full customization support.
 ///

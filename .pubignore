@@ -1,0 +1,8 @@
+# Fichiers du dépôt inutiles dans le paquet publié sur pub.dev.
+# (screenshots/ reste publié : pub.dev en a besoin pour la galerie.)
+.cursorrules
+.vscode/
+.github/
+PUBLICATION_GUIDE.md
+example/build/
+example/.dart_tool/

@@ -5,7 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.2] - 2025-01-XX
+## [1.0.0] - 2026-10-27
+
+First stable release.
+
+### Added
+- `flagSelectorUseDeviceCountry` (default `true`): without a valid
+  `flagSelectorInitialCountry`, the selector preselects the device's country
+  (read from the platform locale) instead of the first country of the list.
+- 12 missing countries and territories: Germany, Greenland, Guadeloupe,
+  Hong Kong, Kosovo, Macao, Martinique, Mayotte, New Caledonia, Palestine,
+  Puerto Rico and Réunion, translated in all supported languages.
+- Screenshots declared for the pub.dev gallery.
+- Widget tests covering initial country, device country, custom lists,
+  localized names and selection.
+
+### Fixed
+- The selected country label now uses `flagSelectorLanguageCode` (it was
+  always shown in English).
+- `Country.getName()` now defaults to English (it defaulted to Spanish).
+- Country list items no longer trigger the "ListTile background color or ink
+  splashes may be invisible" assertion, and their tap effect is visible.
+- Internal imports use `package:` URIs; a malformed relative import broke
+  compilation in some setups (including the test suite).
+- Broken demo image in the README.
+
+### Changed
+- Removed the unused `font_awesome_flutter` dependency.
+- Reduced `topics` to 5, the maximum allowed by pub.dev.
+
+## [0.0.2] - 2026-01-05
 
 ### Added
 - Dialog mode for country picker with complete property propagation
