@@ -29,6 +29,13 @@ First stable release.
 - Internal imports use `package:` URIs; a malformed relative import broke
   compilation in some setups (including the test suite).
 - Broken demo image in the README.
+- Search now stays within `flagSelectorCountries` (it searched all countries,
+  so a restricted picker could list countries outside its list).
+  `CountryService.search()` accepts an optional `countries` list.
+
+### Documentation
+- The README feature table now describes this package only; the comparison
+  with other packages was removed.
 
 ### Changed
 - Removed the unused `font_awesome_flutter` dependency.

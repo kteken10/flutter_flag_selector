@@ -186,8 +186,10 @@ class _CountryPickerState extends State<CountryPicker> {
 
   List<Country> _filterCountries(String searchValue) {
     if (searchValue.isEmpty) return widget.countryPickerCountryList;
+    // On cherche dans la liste fournie au picker, pas dans tous les pays.
     return CountryService.search(searchValue,
-        languageCode: widget.countryPickerLanguageCode);
+        languageCode: widget.countryPickerLanguageCode,
+        countries: widget.countryPickerCountryList);
   }
 
   @override

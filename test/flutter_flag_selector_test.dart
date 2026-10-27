@@ -78,6 +78,27 @@ void main() {
     expect(find.text('Canada'), findsOneWidget);
   });
 
+  testWidgets('search stays within a custom country list', (tester) async {
+    final countries = defaultCountries.where((c) => ['ca', 'mx'].contains(c.code)).toList();
+    await tester.pumpWidget(_app(FlagSelector(
+      flagSelectorCountries: countries,
+      flagSelectorUseDeviceCountry: false,
+    )));
+
+    await tester.tap(find.byType(FlagSelector));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'Fr');
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('France'), findsNothing);
+  });
+
+  test('CountryService.search matches name, code and dial code', () {
+    expect(CountryService.search('Germany').map((c) => c.code), contains('de'));
+    expect(CountryService.search('DEU').map((c) => c.code), contains('de'));
+    expect(CountryService.search('+49').map((c) => c.code), contains('de'));
+  });
+
   test('Country.getName falls back to English for unknown languages', () {
     final france = defaultCountries.firstWhere((c) => c.code == 'fr');
     expect(france.getName('fr'), 'France');

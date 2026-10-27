@@ -7252,9 +7252,11 @@ class CountryService {
   static List<Country> byTimezone(String timezone) =>
       _byTimezone[timezone.toLowerCase()] ?? [];
 
-  static List<Country> search(String query, {String? languageCode}) {
+  /// Searches [countries] (all countries by default) by name, ISO 2 / ISO 3
+  /// code or dial code.
+  static List<Country> search(String query, {String? languageCode, List<Country>? countries}) {
     final q = query.toLowerCase();
-    return defaultCountries.where((country) {
+    return (countries ?? defaultCountries).where((country) {
       final nameToSearch = languageCode != null
           ? country.getName(languageCode).toLowerCase()
           : country.name.toLowerCase();

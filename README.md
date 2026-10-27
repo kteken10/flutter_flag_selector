@@ -14,19 +14,18 @@ A highly customizable Flutter country picker with 20+ languages, SVG flags, and 
 
 ## Why Choose Flutter Flag Selector?
 
-Looking for the perfect **country picker** for your Flutter app? Here's why developers choose `flutter_flag_selector`:
+Looking for a **country picker** for your Flutter app? Here is what `flutter_flag_selector` provides:
 
-| Feature | flutter_flag_selector | country_code_picker | country_picker | intl_phone_number_input |
-|---------|----------------------|---------------------|----------------|-------------------------|
-| **SVG Flags** | ✅ High-quality | ❌ PNG only | ❌ PNG only | ✅ |
-| **Languages** | ✅ 20+ languages | ⚠️ Limited | ⚠️ Limited | ⚠️ Limited |
-| **Display Modes** | ✅ 4 modes | ⚠️ 1-2 modes | ⚠️ 1-2 modes | ⚠️ 1 mode |
-| **Customization** | ✅ 30+ properties | ⚠️ Basic | ⚠️ Basic | ⚠️ Basic |
-| **Search Functionality** | ✅ Advanced | ✅ Basic | ✅ Basic | ✅ |
-| **Phone Number Input** | ✅ Integrated | ✅ Integrated | ❌ | ✅ Full support |
-| **Country Code Support** | ✅ Complete | ✅ Complete | ✅ Complete | ✅ Complete |
-| **Cross-Platform** | ✅ All platforms | ✅ All platforms | ✅ All platforms | ✅ All platforms |
-| **Active Maintenance** | ✅ Active | ⚠️ Varies | ⚠️ Varies | ✅ Active |
+| Feature | Details |
+|---------|---------|
+| **Countries** | 213 countries and territories, with ISO 2 and ISO 3 codes, dial codes, currencies and time zones |
+| **Flags** | SVG flags, sharp at any size |
+| **Languages** | Country names in 20 languages |
+| **Display modes** | Bottom sheet, dialog, popup menu, draggable sheet |
+| **Search** | By country name, ISO code or dial code |
+| **Smart default** | Preselects the device's country when no initial country is set |
+| **Customization** | 30+ properties, plus builders for the flag, the items and the whole picker |
+| **Platforms** | Android, iOS, Web, macOS, Windows, Linux |
 
 ### Key Advantages
 
