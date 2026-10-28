@@ -1,6 +1,6 @@
 name: flutter_flag_selector
 description: Country picker for Flutter with SVG flags, dial codes, search, country names in 20 languages and four display modes. Ideal for phone number inputs.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/kteken10/flutter_flag_selector
 repository: https://github.com/kteken10/flutter_flag_selector
 issue_tracker: https://github.com/kteken10/flutter_flag_selector/issues

@@ -43,7 +43,7 @@ Add `flutter_flag_selector` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_flag_selector: ^1.0.1
+  flutter_flag_selector: ^1.0.2
 ```
 
 Then run:
