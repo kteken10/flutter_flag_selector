@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>flutter_flag_selector · Country picker for Flutter</title>
+  <meta name="description" content="Country picker for Flutter: SVG flags, dial codes, ranked search, country names in 20 languages and four display modes. Try the live demo.">
+  <meta property="og:title" content="flutter_flag_selector · Country picker for Flutter">
+  <meta property="og:description" content="SVG flags, dial codes, ranked search, 20 languages and four display modes. Try the live demo.">
+  <meta property="og:image" content="https://kteken10.github.io/flutter_flag_selector/screenshots/banner.png">
+  <meta property="og:url" content="https://kteken10.github.io/flutter_flag_selector/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="demo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F8FB; --surface: #FFFFFF; --ink: #0A2540; --muted: #5B6B82;
+      --border: #E3E8EE; --primary: #1B4DFF; --primary-soft: #EBF0FF; --code: #0A2540;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    header { position: sticky; top: 0; z-index: 10; background: rgba(246,248,251,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--ink); }
+    .brand:hover { text-decoration: none; }
+    .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--primary); display: grid; place-items: center; }
+    nav { display: flex; gap: 22px; font-size: 15px; }
+    nav a { color: var(--muted); font-weight: 500; }
+    nav a:hover { color: var(--ink); text-decoration: none; }
+
+    .hero > *, .quick > *, .gallery > *, .features > * { min-width: 0; }
+    .hero { display: grid; grid-template-columns: 1fr 400px; gap: 56px; align-items: center; padding: 72px 0 56px; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .badges img { height: 20px; }
+    h1 { font-size: 56px; line-height: 1.05; letter-spacing: -.03em; margin: 0 0 20px; }
+    .lead { font-size: 19px; color: var(--muted); margin: 0 0 28px; max-width: 540px; }
+    .install span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .install { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 460px; background: var(--code); color: #E6EDF7; border-radius: 12px; padding: 14px 14px 14px 18px; font: 15px "JetBrains Mono", ui-monospace, monospace; }
+    .install button { flex: none; border: 0; border-radius: 8px; padding: 7px 12px; background: rgba(255,255,255,.12); color: #fff; font: 500 13px Inter, sans-serif; cursor: pointer; }
+    .install button:hover { background: rgba(255,255,255,.2); }
+    .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); }
+    .btn:hover { text-decoration: none; border-color: #C9D3DF; }
+    .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn.primary:hover { background: #1640D6; }
+    .btn.demo-link { display: none; }
+
+    .phone { position: relative; width: 400px; height: 820px; border-radius: 52px; background: var(--ink); padding: 12px; box-shadow: 0 30px 60px -20px rgba(10,37,64,.35); }
+    .phone iframe { width: 100%; height: 100%; border: 0; border-radius: 40px; background: #fff; display: block; }
+    .phone-caption { text-align: center; color: var(--muted); font-size: 14px; margin-top: 14px; }
+
+    section { padding: 64px 0; }
+    h2 { font-size: 34px; letter-spacing: -.02em; margin: 0 0 8px; }
+    .section-lead { color: var(--muted); margin: 0 0 32px; font-size: 17px; }
+
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .gallery figure { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 14px; }
+    .gallery img { width: 100%; display: block; border-radius: 10px; }
+    .gallery figcaption { padding: 12px 4px 2px; font-size: 14px; color: var(--muted); }
+    .gallery figcaption strong { display: block; color: var(--ink); font-size: 15px; }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+    .feature .num { font-size: 30px; font-weight: 700; color: var(--primary); letter-spacing: -.02em; }
+    .feature h3 { margin: 4px 0 6px; font-size: 17px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    pre { margin: 0; background: var(--code); color: #E6EDF7; border-radius: 16px; padding: 24px; overflow-x: auto; font: 14px/1.7 "JetBrains Mono", ui-monospace, monospace; }
+    .k { color: #8FB4FF; } .s { color: #9BE3B8; } .c { color: #7D8DA6; }
+    .quick { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .quick ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .quick li { margin-bottom: 10px; }
+    .quick code { font: 14px "JetBrains Mono", monospace; color: var(--ink); background: var(--primary-soft); padding: 1px 6px; border-radius: 5px; }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; padding-top: 48px; }
+      .hero-demo { display: none; }
+      .btn.demo-link { display: inline-flex; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .features { grid-template-columns: 1fr 1fr; }
+      .quick { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px; }
+      nav a.hide-sm { display: none; }
+      h1 { font-size: 40px; }
+      .lead { font-size: 17px; }
+      .install { font-size: 13px; }
+      .features { grid-template-columns: 1fr; }
+      .gallery { gap: 12px; }
+      section { padding: 48px 0; }
+      h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="#">
+        <span class="logo"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><path d="M3 1h2v14H3zM5 2h8l-2 3 2 3H5z"/></svg></span>
+        flutter_flag_selector
+      </a>
+      <nav>
+        <a class="hide-sm" href="#demo">Demo</a>
+        <a class="hide-sm" href="#start">Get started</a>
+        <a href="https://pub.dev/packages/flutter_flag_selector">pub.dev</a>
+        <a href="https://github.com/kteken10/flutter_flag_selector">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <div>
+        <div class="badges">
+          <img src="https://img.shields.io/pub/v/flutter_flag_selector?color=1B4DFF" alt="pub version">
+          <img src="https://img.shields.io/badge/license-MIT-0A2540" alt="MIT license">
+        </div>
+        <h1>The country picker for Flutter.</h1>
+        <p class="lead">SVG flags, dial codes, ranked search and country names in 20 languages. Open it as a bottom sheet, a dialog, a popup menu or a draggable sheet. It preselects the user's country.</p>
+        <div class="install">
+          <span id="cmd">flutter pub add flutter_flag_selector</span>
+          <button type="button" id="copy">Copy</button>
+        </div>
+        <div class="actions">
+          <a class="btn primary demo-link" href="demo/">Open the live demo</a>
+          <a class="btn primary" href="#start">Get started</a>
+          <a class="btn" href="https://github.com/kteken10/flutter_flag_selector">View on GitHub</a>
+        </div>
+      </div>
+      <div class="hero-demo">
+        <div class="phone"><iframe src="demo/" title="Live demo of flutter_flag_selector" loading="lazy"></iframe></div>
+        <p class="phone-caption">Live demo, built with Flutter web. Try it.</p>
+      </div>
+    </div>
+
+    <section id="demo">
+      <h2>Four display modes</h2>
+      <p class="section-lead">Same picker, same search, presented the way that fits your screen.</p>
+      <div class="gallery">
+        <figure><img src="screenshots/bottom_sheet.gif" alt="Bottom sheet: searching ger shows Germany first" loading="lazy"><figcaption><strong>Bottom sheet</strong>Stays above the keyboard while you search.</figcaption></figure>
+        <figure><img src="screenshots/dialog.gif" alt="Dialog: search Cameroon and select it" loading="lazy"><figcaption><strong>Dialog</strong>Centered, for tablets and the web.</figcaption></figure>
+        <figure><img src="screenshots/popup_menu.gif" alt="Popup menu: scroll and select Belgium" loading="lazy"><figcaption><strong>Popup menu</strong>Anchored to the selector.</figcaption></figure>
+        <figure><img src="screenshots/draggable_sheet.gif" alt="Draggable sheet: drag the list up and select Australia" loading="lazy"><figcaption><strong>Draggable sheet</strong>Drag the list to resize it.</figcaption></figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>Everything a country field needs</h2>
+      <p class="section-lead">Built for phone number inputs, sign-up flows and shipping forms.</p>
+      <div class="features">
+        <div class="feature"><div class="num">213</div><h3>Countries and territories</h3><p>ISO 2 and ISO 3 codes, dial codes, currencies and time zones.</p></div>
+        <div class="feature"><div class="num">20</div><h3>Languages</h3><p>Country names in English, French, Spanish, German, Japanese, Arabic and more.</p></div>
+        <div class="feature"><div class="num">4</div><h3>Display modes</h3><p>Bottom sheet, dialog, popup menu and draggable sheet.</p></div>
+        <div class="feature"><h3>Ranked search</h3><p>By name, ISO code or dial code. “ger” finds Germany first, “+33” finds France.</p></div>
+        <div class="feature"><h3>Device country</h3><p>Preselects the user's country from the platform locale.</p></div>
+        <div class="feature"><h3>Fully customizable</h3><p>30+ properties, plus builders for the flag, the items and the whole picker.</p></div>
+      </div>
+    </section>
+
+    <section id="start">
+      <h2>Get started</h2>
+      <p class="section-lead">Add the package, drop the widget in, read the selected country.</p>
+      <div class="quick">
+<pre><span class="k">import</span> <span class="s">'package:flutter_flag_selector/flutter_flag_selector.dart'</span>;
+
+FlagSelector(
+  <span class="c">// Optional: defaults to the device's country.</span>
+  flagSelectorInitialCountry: <span class="s">'fr'</span>,
+  flagSelectorLanguageCode: <span class="s">'fr'</span>,
+  flagSelectorOptionType: FlagSelectorOptionType.modalBottomSheet,
+  onFlagSelectorCountryChanged: (country) {
+    print(<span class="s">'${country.name} ${country.dialCode}'</span>);
+  },
+)</pre>
+        <ul>
+          <li>Pick a mode with <code>flagSelectorOptionType</code>: <code>modalBottomSheet</code>, <code>dialog</code>, <code>popupMenu</code> or <code>draggableSheet</code>.</li>
+          <li>Change the language of country names with <code>flagSelectorLanguageCode</code>.</li>
+          <li>Limit the list with <code>flagSelectorCountries</code>; search stays within it.</li>
+          <li>Query the data directly with <code>CountryService</code>: by code, currency, region or free text.</li>
+          <li>Full API reference in the <a href="https://github.com/kteken10/flutter_flag_selector#readme">README</a> and on <a href="https://pub.dev/documentation/flutter_flag_selector/latest/">pub.dev</a>.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>MIT License · Made by <a href="https://dissangkevin.work">Dissang Kevin</a></span>
+      <span><a href="https://pub.dev/packages/flutter_flag_selector">pub.dev</a> · <a href="https://github.com/kteken10/flutter_flag_selector">GitHub</a> · <a href="https://github.com/kteken10/flutter_flag_selector/issues">Issues</a></span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('copy').addEventListener('click', async (e) => {
+      try {
+        await navigator.clipboard.writeText(document.getElementById('cmd').textContent);
+        e.target.textContent = 'Copied';
+        setTimeout(() => (e.target.textContent = 'Copy'), 1500);
+      } catch (_) {}
+    });
+  </script>
+</body>
+</html>

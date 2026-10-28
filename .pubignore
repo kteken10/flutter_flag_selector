@@ -22,3 +22,6 @@ pubspec.lock
 .vscode/
 .github/
 PUBLICATION_GUIDE.md
+
+# Site GitHub Pages (déployé par .github/workflows/pages.yml)
+site/
